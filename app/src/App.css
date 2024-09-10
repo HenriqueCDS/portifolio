@@ -1,0 +1,209 @@
+
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "PP Neue Montreal";
+  background-color: var(--color-bg);
+  overflow-x: hidden;
+}
+
+h1,
+p,
+a,
+span {
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+  text-decoration: none;
+  line-height: 100%;
+  color: var(--color-accent);
+}
+
+h1 {
+  font-size: var(--font-large);
+  font-weight: 400;
+}
+
+h1 span {
+  position: relative;
+  display: inline-block;
+  transform: translateX(100%);
+  font-size: var(--font-large);
+  font-weight: 400;
+}
+
+p,
+a {
+  font-size: var(--font-regular);
+  font-weight: 500;
+}
+
+span {
+  font-size: var(--font-small);
+  font-weight: 500;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 2em;
+}
+
+.letter {
+  display: inline-block;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+footer {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+footer p {
+  color: var(--color-bg);
+}
+
+footer.light p {
+  color: var(--color-accent);
+}
+
+footer .container {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-row:nth-child(2) {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-row:nth-child(2) p {
+  font-size: var(--font-small);
+}
+
+.footer-row:nth-child(1) {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 8em;
+}
+
+.footer-col:nth-child(1) p {
+  font-size: var(--font-tiny);
+}
+
+.footer-col:nth-child(2) a {
+  color: var(--color-bg);
+  padding: 1em 1.5em;
+  border: 1px dashed var(--color-bg);
+  border-radius: 100%;
+}
+
+.footer-col:nth-child(3) a,
+.footer-col:nth-child(4) a {
+  color: var(--color-bg);
+  font-size: var(--font-small);
+}
+
+.footer-col .magnetic-area {
+  margin-top: -20px;
+  margin-left: -20px;
+  padding: 20px;
+  background-color: none;
+}
+
+.footer-col .btn {
+  width: 150px;
+  height: 150px;
+  background-color: var(--color-accent);
+  border: 1px dashed var(--color-bg);
+}
+
+.footer-col .btn p {
+  font-size: var(--font-tiny);
+  color: var(--color-bg);
+}
+
+footer.light {
+  background: none;
+  padding: 4em 0;
+}
+
+footer.light {
+  color: var(--color-accent);
+}
+
+footer.light .footer-col:nth-child(2) a {
+  color: var(--color-accent);
+  border: 1px dashed var(--color-accent);
+}
+
+footer.light .footer-col:nth-child(3) a,
+footer.light .footer-col:nth-child(4) a {
+  color: var(--color-accent);
+}
+
+footer.light .footer-col .btn {
+  background: none;
+  border: 1px dashed var(--color-accent);
+}
+
+footer.light .footer-col .btn p {
+  color: var(--color-accent);
+}
+
+.card {
+  position: absolute;
+  width: 300px;
+  transform-origin: center center;
+  z-index: 0;
+}
+
+.card-1 {
+  top: 60%;
+  left: 10%;
+}
+
+.card-2 {
+  top: 40%;
+  left: 35%;
+}
+
+.card-3 {
+  top: 65%;
+  left: 65%;
+  z-index: 2;
+}
+
+@media (max-width: 900px) {
+  h1 {
+    font-size: 40px;
+  }
+
+  h1 span {
+    font-size: 40px;
+  }
+
+  .footer-row:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    gap: 4em;
+  }
+
+  .card {
+    width: 200px;
+  }
+
+  .card-3 {
+    left: 50%;
+  }
+}
