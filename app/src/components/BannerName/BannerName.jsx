@@ -1,18 +1,19 @@
+
+import './BannerName.css'
+
 export default function BannerName() {
 
     return(
         <section className="banner">
-            <div>
-                <h1>Henrique</h1>
-                <h1>Cordeiroツ</h1>
+            <div className="container">
+                <div className='text-image'>
+                    <h1>Henrique</h1>
+                    <h1>Cordeiroツ</h1>
+                </div>
+                <div className="image-banner">
+                    <img src="https://github.com/HenriqueCDS.png" />               
+                </div>
             </div>
-            <div>
-                <img src="https://github.com/HenriqueCDS.png" />               
-            </div>
-
-
-
-
         </section>
     )
 

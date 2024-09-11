@@ -4,7 +4,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-  font-family: "PP Neue Montreal";
+  font-family: "Satoshi";
   background-color: var(--color-bg);
   overflow-x: hidden;
 }
@@ -18,12 +18,15 @@ span {
   text-transform: uppercase;
   text-decoration: none;
   line-height: 100%;
+
   color: var(--color-accent);
 }
 
 h1 {
   font-size: var(--font-large);
   font-weight: 400;
+  color: var(--color-accent);
+
 }
 
 h1 span {

@@ -1,4 +1,6 @@
 :root {
+  --color-azul: #a2fffa;
+  --color-bg: #d8f7ff;
   --color-accent: #ffffff;
   --color-bg: #0a0a0a;
 
@@ -6,6 +8,10 @@
   --font-regular: 14px;
   --font-small: 12px;
   --font-tiny: 10px;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: local('Satoshi'), url('./assets/Fonts/WEB/fonts/Satoshi-Regular.woff') format('woff');
 }
 
 html.lenis,
