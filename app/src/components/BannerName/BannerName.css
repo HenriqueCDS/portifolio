@@ -1,34 +1,36 @@
 .banner{
     background-color: black;
     width: 100%;
-
     margin-top: 2%;
-
-
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .container{
     max-width: 67.5rem;
     width: 100%;
-    display: flex;
-    
+    display: flex;  
+    align-items: center;
+    justify-content: space-between;
+
+  
 }
 
 .image-banner{
-    max-width: 70rem;
-    width: 100%;
-    max-height: 70rem;
+    max-width: 20rem;
+    max-height: 10rem;
     height: 50%;
     
 
 }
 .image-banner img{
-    
     border-radius: 100%;
-    
+
+}
+
+.text-image ul{
+    justify-self: end;
+    display: flex;
 
 }

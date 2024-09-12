@@ -4,10 +4,11 @@
   --color-accent: #ffffff;
   --color-bg: #0a0a0a;
 
-  --font-large: 140px;
-  --font-regular: 14px;
-  --font-small: 12px;
-  --font-tiny: 10px;
+  --font-max-large: 6.25rem;
+  --font-large: 4rem;
+  --font-regular: .875rem;
+  --font-small: 1.5em;
+  --font-tiny: .625rem;
 }
 @font-face {
   font-family: 'Satoshi';

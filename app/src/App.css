@@ -28,6 +28,12 @@ h1 {
   color: var(--color-accent);
 
 }
+h2 {
+  font-size: var(--font-regular);
+  font-weight: 400;
+  color: var(--color-accent);
+
+}
 
 h1 span {
   position: relative;
@@ -164,36 +170,15 @@ footer.light .footer-col .btn p {
   color: var(--color-accent);
 }
 
-.card {
-  position: absolute;
-  width: 300px;
-  transform-origin: center center;
-  z-index: 0;
-}
 
-.card-1 {
-  top: 60%;
-  left: 10%;
-}
-
-.card-2 {
-  top: 40%;
-  left: 35%;
-}
-
-.card-3 {
-  top: 65%;
-  left: 65%;
-  z-index: 2;
-}
 
 @media (max-width: 900px) {
   h1 {
-    font-size: 40px;
+    font-size: 2rem;
   }
 
   h1 span {
-    font-size: 40px;
+    font-size: 1.5rem;
   }
 
   .footer-row:nth-child(1) {
