@@ -12,7 +12,7 @@ nav {
   .nav-item {
     flex: 1;
     padding: 0.25em 1em;
-    text-align: right;
+    text-align: center;
   }
   
   .nav-item a {

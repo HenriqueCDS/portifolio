@@ -1,0 +1,29 @@
+
+.text-banner {
+    position: relative;
+    width: 100vw;
+    max-width: 100%;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    font-size: 140px;
+    text-transform: uppercase;
+    overflow-x: hidden;
+    color: var(--color-accent);
+  }
+  
+  .track {
+    position: absolute;
+    white-space: nowrap;
+    will-change: transform;
+    animation: marquee 100s linear infinite;
+  }
+  
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
