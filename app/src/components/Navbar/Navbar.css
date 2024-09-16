@@ -13,6 +13,7 @@ nav {
     flex: 1;
     padding: 0.25em 1em;
     text-align: center;
+  
   }
   
   .nav-item a {
@@ -20,6 +21,9 @@ nav {
     font-size: 16px;
     text-transform: none;
     color: var(--color-accent);
+    border-bottom: solid .0625rem var(--color-accent);
+
+
   }
   
  
@@ -32,6 +36,7 @@ nav {
     font-size: 12px;
     padding: 0.5em 1em;
     cursor: pointer;
+    
   }
   
   nav button.active {
