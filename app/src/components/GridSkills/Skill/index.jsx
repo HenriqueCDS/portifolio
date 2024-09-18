@@ -1,10 +1,11 @@
+import './skill.css'
 export default function Skill(prop) {
     return(
         <>
-            <div className="CardSkil">
-                <div className="CardTitle">
-                    <h3>{prop.title}</h3>
-                </div>
+            <div className="skill"> 
+                <p>{prop.title}</p>
+                <p>{prop.descris}</p>
+                <p>&mdash;</p>     
             </div>
         </>
     )

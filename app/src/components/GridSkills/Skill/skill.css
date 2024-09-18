@@ -1,6 +1,45 @@
-.CardSkil{
-    border: 1px solid var(--color-accent);
-    border-style: dashed;
-    width: 100%;
-    
-}
+
+.skill {
+    position: relative;
+    flex: 1;
+    aspect-ratio: 8 /3;
+    background-color: var(--color-accent);
+    padding: 1em;
+    overflow: hidden;
+    transition: all 0.5s;
+  }
+  
+  .skill::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 125%;
+    height: 125%;
+    background: var(--color-accent);
+    mix-blend-mode: difference;
+    clip-path: circle(0% at 50% 50%);
+    transition: all 1s;
+  }
+  
+  .skill:hover::after {
+    clip-path: circle(80% at 50% 50%);
+    border: solid 100px var(--color-bg);
+  }
+  
+  .skill p {
+    color: var(--color-bg);
+  }
+  
+  .skill p:nth-child(2) {
+    font-size: var(--font-tiny);
+    padding-top: 1em;
+    line-height: 120%;
+  }
+  
+  .skill p:nth-child(3) {
+    position: absolute;
+    left: 1em;
+    bottom: 1em;
+  }
