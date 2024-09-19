@@ -1,7 +1,7 @@
 .Projects {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: space-around;
+    display: grid;
+    margin: 2rem;
+    grid-template-columns: auto auto;
+    gap: 5rem;
 }
   

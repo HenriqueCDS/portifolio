@@ -12,14 +12,15 @@ export default function Home() {
             
             <BannerName />
             
-            <TexBanner  text={"Showcasing My  Developer Portfolio Showcasing My  Developer Portfolio  Showcasing My  Developer Portfolio"}/>
+            <TexBanner  text={"Showcasing My  Developer #Skills  Portfolio Showcasing My  Developer Portfolio  Showcasing My Developer Skills Portfolio"}/>
 
             <GridSkills />
             
-            <TexBanner  text={"Showcasing My  Developer Portfolio Showcasing My Developer Portfolio Showcasing My  Developer Portfolio"}/>
-
-
+            <TexBanner  text={"Showcasing My  Developer #Projects Portfolio Showcasing My Developer Portfolio Showcasing My  Developer Projects Portfolio"}/>
+            
             <GridProjects />
+
+            <TexBanner  text={"Showcasing My  Developer Portfolio Showcasing My Developer Portfolio Showcasing My  Developer Portfolio"}/>
 
         </section>
     )
