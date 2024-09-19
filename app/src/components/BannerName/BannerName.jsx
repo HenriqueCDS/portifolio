@@ -7,8 +7,6 @@ export default function BannerName() {
         <section className="banner">
             <div className="container"> 
                 <div className='container-banner'>
-
-              
                     <div className='text-image'>
                         <h1>Henrique Devsツ</h1>
                         <h2>&nbsp;Ei sou desenvolvedor Fullstack, Bem vindo ao meu portifolio!!</h2>
@@ -19,7 +17,7 @@ export default function BannerName() {
 
                     </div>
                     <div className="image-banner">
-                    <img src="https://github.com/HenriqueCDS.png"/>    
+                        <img src="https://github.com/HenriqueCDS.png"/>    
                     </div>
                 </div>
             </div>

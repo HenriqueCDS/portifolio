@@ -16,7 +16,7 @@
     position: absolute;
     white-space: nowrap;
     will-change: transform;
-    animation: marquee 100s linear infinite;
+    animation: marquee 30s linear infinite;
   }
   
   @keyframes marquee {
