@@ -6,7 +6,7 @@ nav {
     width: 100%;
     justify-content: space-around;
     z-index: 100000;
-    background-color: black;
+    background-color:var(--color-accent);
   }
   
   .nav-item {
@@ -20,8 +20,8 @@ nav {
     position: relative;
     font-size: 16px;
     text-transform: none;
-    color: var(--color-accent);
-    border-bottom: solid .0625rem var(--color-accent);
+    color: var(--color-bg);
+    border-bottom: solid .0625rem var(--color-bg);
 
 
   }
@@ -31,7 +31,7 @@ nav {
     background: none;
     border: none;
     outline: none;
-    color: var(--color-accent);
+    color: var(--color-bg);
     text-transform: uppercase;
     font-size: 12px;
     padding: 0.5em 1em;

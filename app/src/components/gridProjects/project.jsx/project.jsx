@@ -1,11 +1,32 @@
 import './project.css'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {  GithubLogo } from 'phosphor-react';
+import {  GithubLogo,LinkSimple } from 'phosphor-react';
 
+import { useState, useEffect } from 'react';
 import 'swiper/css';
-export default function Project(prop){
-    return(
-            <section class="projetct-item">
+
+
+
+export default function ImageGallery(prop) {
+  const [imgPaths, setImgPaths] = useState([]);
+  const images = import.meta.glob('../../../assets/img/cottom_films/*.png');
+
+  useEffect(() => {
+    async function loadImages() {
+      const loadedImages = await Promise.all(
+        Object.keys(images).map(async (path) => {
+          const module = await images[path]();
+          return module.default; 
+        })
+      );
+      setImgPaths(loadedImages);
+    }
+
+    loadImages();
+  }, []);
+
+return(
+            <section class="project-item">
               <div><p>{prop.date}</p></div>
               <div class="work-item-name">
                 <p>{prop.tilte}</p>
@@ -14,19 +35,13 @@ export default function Project(prop){
               <div class="work-item-img">
                 <Swiper
                   spaceBetween={10}
-                  slidesPerView={1.1}
+                  slidesPerView={1.5}
                 >
-
-                  <SwiperSlide><img src="https://cdn.prod.website-files.com/6475df10614983200b234b6b/64b05b3f02f569b0aceef0db_1.1%20PT%20Thumb%207%20Tips%20API%20Rest.webp" alt="" /></SwiperSlide>
-                  <SwiperSlide><img src="https://cdn.prod.website-files.com/6475df10614983200b234b6b/64b05b3f02f569b0aceef0db_1.1%20PT%20Thumb%207%20Tips%20API%20Rest.webp" alt="" /></SwiperSlide>
-                  <SwiperSlide><img src="https://cdn.prod.website-files.com/6475df10614983200b234b6b/64b05b3f02f569b0aceef0db_1.1%20PT%20Thumb%207%20Tips%20API%20Rest.webp" alt="" /></SwiperSlide>
-                  <SwiperSlide><img src="https://cdn.prod.website-files.com/6475df10614983200b234b6b/64b05b3f02f569b0aceef0db_1.1%20PT%20Thumb%207%20Tips%20API%20Rest.webp" alt="" /></SwiperSlide>
-                  <SwiperSlide><img src="https://cdn.prod.website-files.com/6475df10614983200b234b6b/64b05b3f02f569b0aceef0db_1.1%20PT%20Thumb%207%20Tips%20API%20Rest.webp" alt="" /></SwiperSlide>
-                  <SwiperSlide><img src="https://cdn.prod.website-files.com/6475df10614983200b234b6b/64b05b3f02f569b0aceef0db_1.1%20PT%20Thumb%207%20Tips%20API%20Rest.webp" alt="" /></SwiperSlide>
-                  
-                </Swiper>
-                
-                
+                  {imgPaths.map((imgSrc, index) => (
+                     <SwiperSlide><img key={index} src={imgSrc} alt={`Image ${index + 1}`} /></SwiperSlide>
+                  ))}
+                         
+                </Swiper>           
               </div>
               <div class="work-item-nav">
                 <div class="work-item-desc">
@@ -36,8 +51,9 @@ export default function Project(prop){
                   </p>
                 </div>
                 <div class="work-item-link">
-                  <a href="#"><GithubLogo /></a>
-                </div>
+                  <a href={prop.link_git} target="_blank"><GithubLogo /></a>
+                  <a href={prop.link_web} target="_blank"><LinkSimple  /> </a>        
+                  </div>
                 </div>
               </section>
     )
