@@ -5,11 +5,15 @@ import {  GithubLogo,LinkSimple } from 'phosphor-react';
 import { useState, useEffect } from 'react';
 import 'swiper/css';
 
-
-
 export default function ImageGallery(prop) {
   const [imgPaths, setImgPaths] = useState([]);
-  const images = import.meta.glob('../../../assets/img/cottom_films/*.png');
+  let images = []
+  if(prop.paste == "cottom_films"){
+    images = import.meta.glob('../../../assets/img/cottom_films/*.png');
+  }
+  if(prop.paste == "rest_api"){
+    images = import.meta.glob('../../../assets/img/rest_api/*.png');
+  }
 
   useEffect(() => {
     async function loadImages() {
@@ -21,7 +25,7 @@ export default function ImageGallery(prop) {
       );
       setImgPaths(loadedImages);
     }
-
+    console.log(imgPaths)
     loadImages();
   }, []);
 

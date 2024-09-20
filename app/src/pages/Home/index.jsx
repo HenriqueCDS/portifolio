@@ -20,7 +20,7 @@ export default function Home() {
             
             <GridProjects />
 
-            <TexBanner  text={"Showcasing My  Developer Portfolio Showcasing My Developer Portfolio Showcasing My  Developer Portfolio"}/>
+            <TexBanner  text={"Showcasing My #Contact Portfolio Showcasing My #Contact Portfolio Showcasing My  Developer Portfolio"}/>
 
         </section>
     )
