@@ -1,12 +1,17 @@
 
 import './BannerName.css'
 import {  GithubLogo, LinkedinLogo, } from 'phosphor-react';
+import Spline from "@splinetool/react-spline";
+
 export default function BannerName() {
 
     return(
         <section className="banner">
-            <div className="container"> 
+            <div className="container">
+                <Spline className='container-scene' scene="https://prod.spline.design/h3Vn4gTWwdZajTfH/scene.splinecode" />
+ 
                 <div className='container-banner'>
+
                     <div className='text-image'>
                         <h1>Henrique Devsツ</h1>
                         <h2>&nbsp;Ei sou desenvolvedor Fullstack, Bem vindo ao meu portifolio!!</h2>
