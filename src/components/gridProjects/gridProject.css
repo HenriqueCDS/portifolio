@@ -1,7 +1,7 @@
 .Projects {
     display: grid;
     margin: 2rem;
-    grid-template-columns: auto auto;
+    grid-template-columns: 45% 45%;
     justify-content: space-around;
     gap: 5rem;
 }
