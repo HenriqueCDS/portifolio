@@ -15,6 +15,10 @@ export default function ImageGallery(prop) {
     images = import.meta.glob('../../../assets/img/rest_api/*.png');
   }
 
+  if(prop.paste == "lest_see"){
+    images = import.meta.glob('../../../assets/img/lest_see/*.png');
+  }
+
   useEffect(() => {
     async function loadImages() {
       const loadedImages = await Promise.all(
