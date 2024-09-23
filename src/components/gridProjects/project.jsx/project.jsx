@@ -5,7 +5,7 @@ import {  GithubLogo,LinkSimple } from 'phosphor-react';
 import { useState, useEffect } from 'react';
 import 'swiper/css';
 
-export default function ImageGallery(prop) {
+export default function Project(prop) {
   const [imgPaths, setImgPaths] = useState([]);
   let images = []
   if(prop.paste == "cottom_films"){
@@ -29,36 +29,35 @@ export default function ImageGallery(prop) {
       );
       setImgPaths(loadedImages);
     }
-    console.log(imgPaths)
     loadImages();
   }, []);
 
 return(
-            <section class="project-item">
+            <section className="project-item">
               <div><p>{prop.date}</p></div>
-              <div class="work-item-name">
+              <div className="work-item-name">
                 <p>{prop.tilte}</p>
                 <p>{prop.type}</p>
               </div>
-              <div class="work-item-img">
-                <Swiper
+              <div className="work-item-img">
+                <Swiper key={prop.paste}
                   spaceBetween={10}
                   slidesPerView={1.5}
                 >
                   {imgPaths.map((imgSrc, index) => (
-                     <SwiperSlide><img key={index} src={imgSrc} alt={`Image ${index + 1}`} /></SwiperSlide>
+                     <SwiperSlide  key={index}><img key={index} src={imgSrc} alt={`Image ${index + 1}`} /></SwiperSlide>
                   ))}
                          
                 </Swiper>           
               </div>
-              <div class="work-item-nav">
-                <div class="work-item-desc">
+              <div className="work-item-nav">
+                <div className="work-item-desc">
                   <p>
                     {prop.descris}
                 
                   </p>
                 </div>
-                <div class="work-item-link">
+                <div className="work-item-link">
                   <a href={prop.link_git} target="_blank"><GithubLogo /></a>
                   <a href={prop.link_web} target="_blank"><LinkSimple  /> </a>        
                   </div>
