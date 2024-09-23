@@ -4,6 +4,7 @@ import GridSkills from "../../components/GridSkills";
 import Navbar from "../../components/Navbar/Navbar";
 import TexBanner from "../../components/TextBanner";
 
+
 export default function Home() {
 
     return(
