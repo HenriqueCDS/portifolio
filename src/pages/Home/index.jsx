@@ -1,5 +1,5 @@
 import BannerName from "../../components/BannerName/BannerName";
-import GridProjects from "../../components/gridProjects/gridProjects";
+import GridProjects from "../../components/GridProjects";
 import GridSkills from "../../components/GridSkills";
 import Navbar from "../../components/Navbar/Navbar";
 import TexBanner from "../../components/TextBanner";
