@@ -1,5 +1,5 @@
 import Project from "./Project";
-import "./gridProject.css";
+import "./GridProject.css";
 
 export default function GridProjects(prop) {
     return(
