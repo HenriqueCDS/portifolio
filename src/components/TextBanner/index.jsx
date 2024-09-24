@@ -9,6 +9,7 @@ export default function TexBanner(prop) {
               <h1>&nbsp;{prop.text}</h1>
             </div>
           </div>
+          
         </div>
       </section>
     )
