@@ -14,8 +14,7 @@ export default function Project(prop) {
   if(prop.paste == "rest_api"){
     images = import.meta.glob('../../../assets/img/rest_api/*.png');
   }
-
-  if(prop.paste == "lest_see"){
+  if(prop.paste == "lets_see"){
     images = import.meta.glob('../../../assets/img/lest_see/*.png');
   }
 
