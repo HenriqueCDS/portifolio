@@ -1,8 +1,6 @@
-import Project from "./project.jsx/project";
+import Project from "./Project";
 import "./gridProject.css"
-import { DotsThreeCircle } from "phosphor-react";
-export default function GridProjects() {
-
+export default function GridProjects(prop) {
     return(
         <section className="gridProjects">
             <div className="container">
@@ -16,8 +14,6 @@ export default function GridProjects() {
 
                     <Project key="lets_see" date='07/10' tilte = "Rest Api questoes" type = "REST API"   link_git="https://github.com/HenriqueCDS/Cotton_Films_Website" link_web="https://cotton-films-website-usbq.vercel.app/" paste="lest_see"
                     descris= "Developed a powerful financial dashboard that provides users with real-time insights into their financial health and performance"/>
-                    
-
                 </div>
             </div>
         </section>

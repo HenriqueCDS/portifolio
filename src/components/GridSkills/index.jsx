@@ -6,7 +6,7 @@ export default function GridSkills(prop){
         <section className="grid-skils">
                 <div className="container">
                     <div className="container-skils">
-                        <Skill key="1" title = "test" descris ="Teste test testtetste" />
+                        <Skill key="1" title = "Javascript" descris ="Teste test testtetste" />
                         <Skill key="2" title = "test" descris ="Teste test testtetste" />
                         <Skill key="3" title = "test" descris="Teste test testtetste"/>
                         <Skill key="4" title = "test" descris ="Teste test testtetste" />
