@@ -38,8 +38,11 @@
     line-height: 120%;
   }
   
-  .skill p:nth-child(3) {
-    position: absolute;
-    left: 1em;
-    bottom: 1em;
+ 
+ .skill-icon {
+      position: absolute;
+      right: 1em;
+      max-width: 2rem;
+      max-height: 2rem;
   }
+

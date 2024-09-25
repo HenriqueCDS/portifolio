@@ -6,7 +6,11 @@ export default function Skill(prop) {
             <div className="skill"> 
                 <p>{prop.title}</p>
                 <p>{prop.descris}</p>
-                <p>&mdash;</p> 
+                <div className='skill-icon'>
+                    <p>&mdash;</p> 
+                    <img src={ prop.icon} /> 
+                </div>
+              
             </div>
         </>
     )
