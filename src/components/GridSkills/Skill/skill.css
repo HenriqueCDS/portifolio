@@ -21,15 +21,16 @@
     mix-blend-mode: difference;
     clip-path: circle(0% at 50% 50%);
     transition: all 1s;
+
   }
   
   .skill:hover::after {
     clip-path: circle(80% at 50% 50%);
-    border: solid 100px var(--color-bg);
   }
   
   .skill p {
     color: var(--color-bg);
+    font-size: large;
   }
   
   .skill p:nth-child(2) {
@@ -42,7 +43,7 @@
  .skill-icon {
       position: absolute;
       right: 1em;
-      max-width: 2rem;
-      max-height: 2rem;
+      max-width: 3rem;
+      max-height: 3rem;
   }
 
