@@ -44,7 +44,7 @@
     
 }
 .footerLinks ul li a:hover{
-    transform: scale(20%);
+   color: red;
 }
   
  
@@ -59,6 +59,8 @@
     text-decoration: none;
 }
 .footerBottom {
+    border-top: 1px var(--color-accent);
+
     margin-top: 2%;
     display: flex;
     justify-content: center;
