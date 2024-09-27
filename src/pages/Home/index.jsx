@@ -1,4 +1,5 @@
 import BannerName from "../../components/BannerName/BannerName";
+import FootContacts from "../../components/FootContacts";
 import GridSkills from "../../components/GridSkills";
 import Navbar from "../../components/Navbar/Navbar";
 import GridProjects from "../../components/ProjectsGrid";
@@ -24,6 +25,8 @@ export default function Home() {
             
             <TexBanner  text={"Showcasing My #Contact Portfolio Showcasing My #Contact Portfolio Showcasing My #Contact Developer Portfolio"}/>
 
+            <FootContacts />
+            
         </section>
     )
     
