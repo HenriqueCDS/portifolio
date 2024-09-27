@@ -43,3 +43,22 @@ html.lenis body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+::-webkit-scrollbar{
+  width: .125rem;
+  background-color: var(--color-bg);
+  transition: 1s ease;
+ 
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: var(--color-accent);
+  transition: 10s;
+}
+::-webkit-scrollbar-track{
+  background-color: var(--color-bg);
+  border: .3125rem solid var(--color-accent);
+  border-style: dashed;
+
+}

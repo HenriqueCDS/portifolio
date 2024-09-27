@@ -24,13 +24,21 @@
     
 
 }
-.image-banner img{
+.image-banner img {
     border-radius: 100%;
-
+    display: block;
+    border: solid 10px var(--color-accent);
+    border-style: dashed;
 }
 
-.text-image ul{
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.text-image ul {
     justify-self: end;
     display: flex;
-
 }

@@ -17,6 +17,16 @@ export default function GridProjects(prop) {
                         description="Developed a powerful financial dashboard that provides users with real-time insights into their financial health and performance"
                     />
                     <Project 
+                        key="ecommerce_custom" 
+                        date='07/10/2024' 
+                        title="Ecommerce Custom" 
+                        type="WEB"   
+                        link_git="https://github.com/HenriqueCDS/Cotton_Films_Website" 
+                        link_web="https://cotton-films-website-usbq.vercel.app/" 
+                        paste="ecommerce_custom"
+                        description="Developed a powerful financial dashboard that provides users with real-time insights into their financial health and performance"
+                    />
+                    <Project 
                         key="lets_see" 
                         date='07/10/2024' 
                         title="Lets See" 
@@ -29,7 +39,7 @@ export default function GridProjects(prop) {
                     <Project  
                         key="rest_api" 
                         date='07/10/2024' 
-                        title="Rest Api questoes" 
+                        title="Rest Api Questoes" 
                         type="REST API"   
                         link_git="https://github.com/HenriqueCDS/Cotton_Films_Website" 
                         link_web="https://cotton-films-website-usbq.vercel.app/" 

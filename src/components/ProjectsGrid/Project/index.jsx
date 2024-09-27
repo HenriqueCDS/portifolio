@@ -11,12 +11,16 @@ export default function Project(prop) {
   if(prop.paste == "cottom_films"){
     images = import.meta.glob('../../../assets/img/cottom_films/*.png');
   }
+  if(prop.paste == "ecommerce_custom"){
+    images = import.meta.glob('../../../assets/img/ecommerce_custom/*.jpeg');
+  }
   if(prop.paste == "rest_api"){
     images = import.meta.glob('../../../assets/img/rest_api/*.png');
   }
   if(prop.paste == "lets_see"){
     images = import.meta.glob('../../../assets/img/lest_see/*.png');
   }
+ 
 
   useEffect(() => {
     async function loadImages() {
@@ -35,7 +39,7 @@ return(
             <section className="project-item">
               <div><p>{prop.date}</p></div>
               <div className="work-item-name">
-                <p>{prop.tilte}</p>
+                <p> {prop.title} ------------------------------------------</p>
                 <p>{prop.type}</p>
               </div>
               <div className="work-item-img">
@@ -52,7 +56,7 @@ return(
               <div className="work-item-nav">
                 <div className="work-item-desc">
                   <p>
-                    {prop.descris}
+                    {prop.title}
                 
                   </p>
                 </div>

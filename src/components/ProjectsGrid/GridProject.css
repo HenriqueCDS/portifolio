@@ -5,4 +5,11 @@
     justify-content: space-around;
     gap: 5rem;
 }
-  
+
+@media(max-width: 991px) {   
+.Projects {
+
+    grid-template-columns: 90%;
+ 
+}
+}
