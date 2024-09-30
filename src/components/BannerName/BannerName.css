@@ -29,14 +29,12 @@
     display: block;
     border: solid 10px var(--color-accent);
     border-style: dashed;
+  
 }
 
 
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+
 
 .text-image ul {
     justify-self: end;
