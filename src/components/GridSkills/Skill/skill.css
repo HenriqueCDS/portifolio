@@ -2,7 +2,7 @@
 .skill {
     position: relative;
     flex: 1;
-    aspect-ratio: 8 /3;
+    height: 9.375rem;
     background-color: var(--color-accent);
     padding: 1em;
     overflow: hidden;
