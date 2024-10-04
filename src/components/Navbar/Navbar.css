@@ -1,4 +1,4 @@
-.desktop {
+nav {
     padding: 1em;
     display: flex;
     width: 100%;
@@ -23,7 +23,7 @@
 }
   
  
-.desktop  button {
+nav button {
     background: none;
     border: none;
     outline: none;
@@ -35,7 +35,7 @@
     
 }
   
-.desktop  button.active {
+nav button.active {
     opacity: 0.35;
 }
   
@@ -53,40 +53,5 @@
   scale: 2;
 }
  
-@media (max-width: 600px) {
-    .mobile{
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .desktop{
-      display: none;
-    }
-    nav .nav-items {
-      display: flex;
-      gap: 1em;
-      justify-content: space-between;
-    }
-  
-    .list-link-mobile{
-      display: none;
-      list-style-type: none;
-      justify-content: flex-end; 
-    }
-    .list-link-mobile ul{
-      list-style-type: none;
-    }
-    .menu button {
 
-      outline: none;
-      border: none;
-      cursor: pointer;
-
-      border-radius: 50%;
-      padding: .625rem;
-      background-color: transparent;
-    }
-    
-   
-}
   

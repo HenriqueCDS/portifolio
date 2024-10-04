@@ -40,14 +40,3 @@
     justify-self: end;
     display: flex;
 }
-
-@media (max-width: 600px) {
-    .image-banner{
-        max-width:  10rem;
-        max-height: 10rem;
-        height: 60%;
-        
-    
-    }   
-}
-  
