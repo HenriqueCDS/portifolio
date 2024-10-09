@@ -27,7 +27,7 @@
 .image-banner img {
     border-radius: 100%;
     display: block;
-    border: solid 10px var(--color-accent);
+    border: solid .125rem var(--color-accent);
     border-style: dashed;
   
 }
