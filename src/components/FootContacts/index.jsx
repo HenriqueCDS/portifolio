@@ -9,15 +9,7 @@ export default function FootContacts(){
                         
                         <h1> Devツ</h1>
                     </div>
-                    <div className="footerLinks">
-                        <h3>Navbar</h3>
-                        <ul>
-                            
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Project</a></li>
-                        </ul>
-                    </div>
+                    
                    
                     <div className="footerLinks">
                         <h3>Contatos</h3>

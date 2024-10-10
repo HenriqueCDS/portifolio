@@ -44,7 +44,7 @@
     
 }
 .footerLinks ul li a:hover{
-   color: red;
+   filter: brightness(80%);
 }
   
  
