@@ -1,0 +1,180 @@
+
+.container-loader {
+    width: 100%;
+    max-width: 120rem;
+    height: 100%;
+    border: solid 1px red;
+
+}
+
+.line{
+    opacity: 0.2;
+    top: 24rem;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    margin: 0 auto;
+}
+
+
+.overlay {
+
+    width: 100%;
+    max-width: 120rem;
+    height: 100vh;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.overlay-content {
+    width: 100%;
+    max-width: 53.125rem;
+   
+}
+
+.images {
+    height: 34.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+   
+}
+
+.img-holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 80%;
+    height: 100%;
+    margin: 0 auto;
+    z-index: 2;
+    border: solid 1px blue;
+    clip-path: inset(0 0 0 0);
+    
+}
+
+.img-holder img {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    height: 550px;
+    left: -110%;
+    object-fit: contain;
+}
+
+.text {
+    position: relative;
+    margin: 1em 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    color: black;
+}
+
+
+
+.counter,
+.logo p {
+    font-size: 200px;
+    text-align: center;
+    text-transform: uppercase;
+    color: black;
+}
+
+.counter p {
+    line-height: 100%;
+}
+
+.counter p span,
+.logo p span {
+    position: relative;
+    z-index: -2;
+    color: black;
+}
+
+
+
+
+
+.logo p {
+    line-height: 100%;
+}
+
+.logo p span {
+    position: relative;
+    top: 200px;
+}
+
+.hero-copy {
+    position: absolute;
+    top: 73%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    text-transform: uppercase;
+    clip-path: inset(0 0 0 0);
+    overflow: hidden;
+    max-height: 600px;
+    mix-blend-mode: difference;
+}
+
+
+
+
+@media (max-width:1440px) {
+  
+    .img-holder {
+        width: 80%;
+      
+        
+    }
+  
+
+    .right_section button {
+        width: 100%;
+        max-width: 120px;
+        height: 31px;
+        border-radius: 24.58px;
+        font-size: 15px;
+        padding:0px;
+    }
+    
+    
+
+}
+
+@media (max-width:480px) {
+    .overlay {
+        width: 100%;
+        height: 100%;
+    }
+
+    .overlay-content {
+        width: 80%;
+    }
+
+    .img-holder img {
+        width: 100%;
+        left: -110%;
+        padding-left: 10px;
+    }
+
+    .counter,
+    .logo p {
+        font-size: 100px;
+        text-align: center;
+        text-transform: uppercase;
+        color: black;
+    }
+    .menuu{
+        position: relative;
+        z-index: 10;
+    }
+    .mid_section{
+        display: none;
+    }
+
+
+}
