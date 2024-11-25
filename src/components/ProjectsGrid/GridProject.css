@@ -8,8 +8,7 @@
 
 @media(max-width: 991px) {   
 .Projects {
-
     grid-template-columns: 90%;
- 
+    margin: 0rem;
 }
 }

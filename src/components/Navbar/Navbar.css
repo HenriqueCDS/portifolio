@@ -1,4 +1,4 @@
-nav {
+ .desktop {
     padding: 1em;
     display: flex;
     width: 100%;
@@ -6,7 +6,14 @@ nav {
     z-index: 100000;
     background-color:var(--color-accent);
 }
-  
+.mobile {
+    display: none;
+    width: 100%;
+    padding: 1em;
+    justify-content: left;
+    z-index: 100000;
+
+}  
 .nav-item {
     flex: 1;
     padding: 0.25em 1em;
@@ -54,4 +61,10 @@ nav button.active {
 }
  
 
-  
+@media(max-width: 480px) {   
+    .desktop {
+        padding: 0.5em;
+        
+    }
+   
+}

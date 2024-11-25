@@ -70,7 +70,11 @@ img {
   display: inline-block;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
-
+@media(max-width: 480px) {   
+  .container {
+    padding: 0em;
+  }
+}
 
 @media (max-width: 900px) {
   h1 {
