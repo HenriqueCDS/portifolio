@@ -2,8 +2,8 @@
 .container-loader {
     width: 100%;
     max-width: 120rem;
-    height: 100%;
-    border: solid 1px red;
+    height: 100vh;
+    
 
 }
 

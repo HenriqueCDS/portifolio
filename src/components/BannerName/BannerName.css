@@ -39,8 +39,12 @@
 .text-image ul {
     justify-self: end;
     display: flex;
+    
 }
 
+.text-image li{
+    list-style-type: none;
+}
 @media(max-width: 991px) {   
     .image-banner{
         max-width: 10rem;
