@@ -22,7 +22,7 @@ export default function FootContacts(){
                    
                 </div>
                 <div className="footerBottom"><a href="#"><i className="icon ion-social-facebook"></i></a><a href="#"><i className="icon ion-social-twitter"></i></a><a href="#"><i className="icon ion-social-snapchat"></i></a><a href="#"><i className="icon ion-social-instagram"></i></a>
-                    <p className="copyright">copyright© 2023 </p>
+                    <p className="copyright">copyright © 2024 </p>
                     <div className="footerContact">
                     <ul>
                       <li><a href="#"><i className="fab fa-facebook-f"><FacebookLogo size={24} /></i></a></li>

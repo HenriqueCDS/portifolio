@@ -59,8 +59,6 @@
     text-decoration: none;
 }
 .footerBottom {
-    border-top: 1px var(--color-accent);
-
     margin-top: 2%;
     display: flex;
     justify-content: center;
@@ -71,4 +69,15 @@
     margin: 0rem;
 }
 
+@media(max-width: 480px) {   
+    .footerContainer {
+        gap: 0rem;
+        
+    }
+    .footerLinks ul {
+        list-style-type: none;
+        font-size: 0.5rem;
+    }
+ 
+}
   
