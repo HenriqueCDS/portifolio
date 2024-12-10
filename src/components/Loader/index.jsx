@@ -1,7 +1,7 @@
 import './loader.css'
 
 
-import load from './imgLouder.jpg'
+import load from './imgLouder.png'
 import { gsap } from "gsap";
 import { useEffect, useRef, useState } from 'react'
 import { useGSAP } from '@gsap/react';
