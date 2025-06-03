@@ -4,7 +4,7 @@ export default function FootContacts(){
     return(
         <footer >
        
-        <div className="footerContainer">
+        <div id="footerContainer" className="footerContainer">
                     <div className="footerLogo">
                         
                         <h1> Devツ</h1>

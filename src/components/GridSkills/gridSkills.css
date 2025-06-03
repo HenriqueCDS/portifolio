@@ -1,25 +1,12 @@
 .container-skils{
     margin: 1rem;
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-    gap:2rem;
+    display: flex;
+    gap: 1rem;
+   
 
 }
 
-@media(max-width: 1400px) {
-    .container-skils{
-        grid-template-columns:auto auto auto
-    }
-}
 
-@media(max-width: 991px) {
-    .container-skils{
-        grid-template-columns:auto auto 
-    }
-}
 
-@media(max-width: 480px) {
-    .container-skils{
-        grid-template-columns:auto  
-    }
-}
+
+

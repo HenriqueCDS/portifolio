@@ -14,6 +14,7 @@
   src: local('Satoshi'), url('./assets/Fonts/WEB/fonts/Satoshi-Regular.woff') format('woff');
 }
 
+
 html.lenis,
 html.lenis body {
   height: auto;

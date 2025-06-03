@@ -1,0 +1,71 @@
+
+.skill {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8rem;
+    width: 12rem;
+    background-color: var(--color-accent);
+    border: dashed 2px black ;
+    transition: 1s ease-in-out;
+  }
+
+  .skill-icon img{
+    object-fit:scale-down;
+    height: 6rem;
+    width: 6rem;
+  }
+@media(max-width: 991px) {
+    .skill{
+            height: 6rem;
+            width: 10rem; 
+    }
+    .skill-icon img{
+       height: 4rem;
+       width: 4rem;
+    }
+}
+
+@media(max-width: 480px) {
+     .skill{
+            height: 4rem;
+            width: 8rem; 
+    }
+    .skill-icon img{
+       height: 2.5rem;
+       width:  2.5rem;
+    }
+}
+
+
+ 
+ .skill:hover{
+    transform: scale(110%) ;
+
+  }
+ 
+  
+  /* .skill::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 125%;
+    height: 125%;
+    background: var(--color-accent);
+    mix-blend-mode: difference;
+    clip-path: circle(0% at 50% 50%);
+    transition: all 1s;
+
+  } */
+/*   
+  .skill:hover::after {
+    clip-path: circle(80% at 50% 50%);
+  } */
+  
+  
+  
+ 
+ 

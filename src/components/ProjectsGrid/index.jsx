@@ -3,7 +3,7 @@ import "./GridProject.css";
 
 export default function GridProjects(prop) {
     return(
-        <section className="gridProjects">
+        <section id="gridProjects" className="gridProjects">
             <div className="container">
                 <div className="Projects">
                     <Project 

@@ -12,7 +12,7 @@ export default function Home() {
 
     return(
         <section>
-
+            <Navbar />
             <BannerName />
             
             <TexBanner  text={"Showcasing My  Developer #Projects Portfolio Showcasing My Developer Portfolio Showcasing My  Developer #Projects  Portfolio"}/>
@@ -22,9 +22,7 @@ export default function Home() {
             <TexBanner  text={"Showcasing My  Developer #Skills  Portfolio Showcasing My  Developer Portfolio  Showcasing My Developer  #Skills Portfolio"}/>
             
             <GridSkills />    
-
-            
-             
+        
             <TexBanner  text={"Showcasing My #Contact Portfolio Showcasing My #Contact Portfolio Showcasing My #Contact Developer Portfolio"}/>
 
             <FootContacts />

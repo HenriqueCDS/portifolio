@@ -6,7 +6,7 @@ import Spline from "@splinetool/react-spline";
 export default function BannerName() {
 
     return(
-        <section className="banner">
+        <section id="banner" className="banner">
             <div className="container">
                 <Spline className='container-scene' scene="https://prod.spline.design/h3Vn4gTWwdZajTfH/scene.splinecode" />
  

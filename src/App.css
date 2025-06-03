@@ -7,6 +7,8 @@ body {
   font-family: "Satoshi";
   background-color: var(--color-bg);
   overflow-x: hidden;
+  scroll-behavior: smooth;
+
 }
 
 h1,
@@ -15,7 +17,6 @@ a,
 span {
   margin: 0;
   padding: 0;
-  text-transform: uppercase;
   text-decoration: none;
   line-height: 100%;
 
