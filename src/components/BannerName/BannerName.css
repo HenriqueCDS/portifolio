@@ -33,6 +33,10 @@
 
 
 
+.text-image h1 {   
+ text-shadow: 2px 3px;
+    
+}
 
 
 .text-image ul {

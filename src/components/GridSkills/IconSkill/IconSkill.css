@@ -8,7 +8,7 @@
     width: 12rem;
     background-color: var(--color-accent);
     border: dashed 2px black ;
-    transition: 1s ease-in-out;
+    transition: 0.5s ease-in-out;
   }
 
   .skill-icon img{
@@ -41,7 +41,7 @@
 
  
  .skill:hover{
-    border: dashed 2px rgb(218, 0, 0) ;
+  box-shadow: 1px 4px 8px 1px var(--color-accent), 1px 6px 50px 1px var(--color-accent);
 
   }
  

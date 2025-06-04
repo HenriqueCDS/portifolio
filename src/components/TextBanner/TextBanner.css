@@ -10,6 +10,8 @@
     text-transform: uppercase;
     overflow-x: hidden;
     color: var(--color-accent);
+    text-shadow: 2px 2px;
+
   }
   
   .track {
