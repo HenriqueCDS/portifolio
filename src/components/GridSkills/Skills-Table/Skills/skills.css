@@ -1,0 +1,24 @@
+.skill-card{
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    border: dashed var(--color-accent) 0.5px;
+    width: 20rem;
+    padding: 1.25rem;
+    transition: 1s ease-in-out;
+}
+.skill-card:hover{
+    transform: translateY(10px) scale(110%) ;
+}
+.skill-title{
+    width: 100%;
+    text-align: center;
+    color: var(--color-accent);
+    border-bottom: dashed var(--color-accent) 0.5px;
+    
+
+}
+
+.skill-conteudo {
+    margin-top: 10px;
+}

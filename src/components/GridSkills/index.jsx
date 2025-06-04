@@ -13,6 +13,7 @@ import java from "../../assets/icon/java.png"
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
+import SkillsTable from "./Skills-Table";
 
 
 export default function GridIconSkills(prop){
@@ -21,20 +22,13 @@ export default function GridIconSkills(prop){
                 <div className="container">
                     <div className="container-skils">
                         <Swiper key={prop.paste}
-                                  spaceBetween={10}
+                                  spaceBetween={1}
                                   slidesPerView={8}
                                   loop={true}
-                                  Autoplay={{
-                                    delay: 1000,
-                                    disableOnInteraction: false,
-                                    }}
                                   breakpoints={{
-
-                                   
-                                    290:{
+                                    300:{
                                         slidesPerView:4
                                     }
-                                    
                                   }}
                                   >
 
@@ -92,6 +86,11 @@ export default function GridIconSkills(prop){
                         </SwiperSlide>   
 
                         </Swiper>
+
+                       
+                    </div>
+                    <div className="skill-tables">
+                         <SkillsTable />
                     </div>
                 </div>
 

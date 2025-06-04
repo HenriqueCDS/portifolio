@@ -1,12 +1,14 @@
-.container-skils{
+
+.container{
     margin: 1rem;
-    display: flex;
     gap: 1rem;
-   
 
 }
-
-
+.skill-tables{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 
 
 

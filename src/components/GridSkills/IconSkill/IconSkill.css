@@ -41,30 +41,12 @@
 
  
  .skill:hover{
-    transform: scale(110%) ;
+    border: dashed 2px rgb(218, 0, 0) ;
 
   }
  
   
-  /* .skill::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 125%;
-    height: 125%;
-    background: var(--color-accent);
-    mix-blend-mode: difference;
-    clip-path: circle(0% at 50% 50%);
-    transition: all 1s;
 
-  } */
-/*   
-  .skill:hover::after {
-    clip-path: circle(80% at 50% 50%);
-  } */
-  
   
   
  
