@@ -35,7 +35,7 @@
 
 .text-image h1 {   
  text-shadow: 2px 3px;
-    
+  animation: textShadow ease-in-out 1s infinite;  
 }
 
 

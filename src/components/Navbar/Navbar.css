@@ -29,7 +29,6 @@
     text-shadow: 2px 2px;
     transition: 0.5s ease-in-out ;
 
-
 }
 .nav-item a:hover {
      text-shadow: 0.1px 0px;
@@ -71,7 +70,11 @@ nav button.active {
 }
  
 
-@media(max-width: 480px) {   
+@media(max-width: 480px) { 
+    .nav-item a {
+        font-size: 1.125rem;
+    }
+    
     .desktop {
         padding: 0.5em;
         
