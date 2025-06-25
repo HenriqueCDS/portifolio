@@ -7,7 +7,7 @@ export default function Skill({title, texts}) {
             </div>
             <div className="skill-conteudo">
                 {texts.map((text, index) => (
-                    <p key={index}>---\ {text} </p>
+                    <p key={index}><span>---\</span> {text} </p>
                 ))}
             </div>
         </div>

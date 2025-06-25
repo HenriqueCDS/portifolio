@@ -1,7 +1,8 @@
 .skills-grade{
-    max-width: 1080px;
+    max-width: 1920px;
     width: 100%;
     justify-content: center;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 1rem;
 }

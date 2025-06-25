@@ -4,22 +4,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 8rem;
-    width: 12rem;
-    background-color: var(--color-accent);
-    border: dashed 2px black ;
+    width: 8rem;
     transition: 0.5s ease-in-out;
   }
 
   .skill-icon img{
-    object-fit:scale-down;
+    object-fit:contain;
     height: 6rem;
     width: 6rem;
   }
 @media(max-width: 991px) {
     .skill{
-            height: 6rem;
-            width: 10rem; 
+        height: 6rem;
+        width: 10rem; 
     }
     .skill-icon img{
        height: 4rem;

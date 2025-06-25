@@ -5,9 +5,9 @@ export default function SkillsTable(){
         <section className="skills-grade">
             <Skill title = "Linguagens" texts ={["TypeScript","Javascript","Java","Pyhton", ]} />
             <Skill title = "Databases" texts ={["MySql","Microsoft SQL Server","Mongodb" ]}  />
-            <Skill title = "FrameWorks" texts ={["React","Express js","Next js","SpringBoot" ]} />
-            <Skill title = "Ferramentas" texts ={["Linux","Docker","Figma","Git","vscode","Eclipse" ]} />
-            <Skill title = "Outros" texts ={["Scrum","Java","Pyhton" ]} />
+            <Skill title = "Frameworks" texts ={["React","Express js","Next js","SpringBoot" ]} />
+            <Skill title = "Ferramenta" texts ={["Linux","Docker","Figma","Git","VScode","Eclipse" ]} />
+            <Skill title = "Outros" texts ={["Scrum","Solid","MVC" ]} />
 
         </section>
     )
