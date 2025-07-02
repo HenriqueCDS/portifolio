@@ -10,5 +10,10 @@
 .Projects {
     grid-template-columns: 90%;
     margin: 0rem;
+    gap: 2rem;
+   
+}
+.container{
+    margin: 0rem;
 }
 }
