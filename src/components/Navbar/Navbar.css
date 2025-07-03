@@ -71,6 +71,9 @@ nav button.active {
  
 
 @media(max-width: 480px) { 
+    .nav-item {
+        padding:0em;
+    }
     .nav-item a {
         font-size: 1.125rem;
     }

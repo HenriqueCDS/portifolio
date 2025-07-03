@@ -1,9 +1,18 @@
 
+.grid-skils{
+    background-image: url("https://64.media.tumblr.com/c2fca77d8fd87567e4595f9c14ec924d/325afa28ed8a41bb-72/s1280x1920/78e62251f8818340af152e8f63b94ead56850372.gif");
+    background-size: cover;
+    text-shadow:
+        -2px -2px 0 black,
+        2px -1px 0 black,
+        -1px  2px 0 black,
+        2px  3px 0 black;
+}
 .container{
     margin: 1rem;
     gap: 1rem;
-
-}
+    
+}   
 .skill-tables{
     width: 100%;
     display: flex;
