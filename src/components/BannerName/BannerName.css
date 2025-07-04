@@ -2,6 +2,14 @@
     width: 100%;
     margin-top: 2%;
     position: relative;
+    margin: 0rem;
+    background-image: url("..\..\assets\GIF\tumblr_c2fca77d8fd87567e4595f9c14ec924d_78e62251_1280.webp");
+    background-size: cover;
+    text-shadow:
+        -2px -2px 0 black,
+        2px -1px 0 black,
+        -1px  2px 0 black,
+        2px  3px 0 black;
 }
 
 .container-banner{
@@ -11,6 +19,9 @@
     display: flex;  
     align-items: center;
     justify-content: space-around;
+
+
+  
 }
 .container-scene{
     height: 100dvh;

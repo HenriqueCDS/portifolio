@@ -67,7 +67,7 @@ export default function Loader() {
         }
 
 
-        var delay = Math.floor(Math.random() * 300) + 100;
+        var delay = Math.floor(Math.random() * 400) + 100;
         setTimeout(updateCounter, delay);
 
 
