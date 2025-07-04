@@ -1,0 +1,13 @@
+.page-content.hidden {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.page-content.visible {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+  border: solid .625rem red;
+}
