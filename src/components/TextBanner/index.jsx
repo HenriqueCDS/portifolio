@@ -2,7 +2,7 @@ import './TextBanner.css'
 export default function TexBanner(prop) {
 
     return(
-      <section className="text-banner" id>
+      <section className="text-banner">
         <div className="text-banner">
           <div className="track">
             <div className="content">
