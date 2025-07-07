@@ -59,7 +59,6 @@ export default function GridIconSkills(prop){
 
                         <SwiperSlide>
                         <IconSkill key="5" title = "React" 
-                            descris ="O React é uma biblioteca front-end JavaScript de código aberto com foco em criar interfaces de usuário em páginas web."
                             icon={react} />
                         </SwiperSlide>
 
