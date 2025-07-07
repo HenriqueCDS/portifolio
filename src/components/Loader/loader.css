@@ -21,7 +21,7 @@
     width: 100%;
     max-width: 120rem;
     height: 100vh;
-    background: white;
+    background: rgb(0, 0, 0);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,7 +71,7 @@
     position: relative;
     margin: 1em 0;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 
@@ -81,7 +81,7 @@
     font-size: 200px;
     text-align: center;
     text-transform: uppercase;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 .counter p {
@@ -92,7 +92,7 @@
 .logo p span {
     position: relative;
     z-index: -2;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 
@@ -105,7 +105,7 @@
 
 .logo p span {
     position: relative;
-    top: 200px;
+    top: 12.5rem;
 }
 
 .hero-copy {
@@ -165,7 +165,6 @@
         font-size: 100px;
         text-align: center;
         text-transform: uppercase;
-        color: black;
     }
     .menuu{
         position: relative;
