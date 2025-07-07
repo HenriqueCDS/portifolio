@@ -30,6 +30,10 @@ export default function GridIconSkills(prop){
                                         slidesPerView:4
                                     }
                                   }}
+                                  autoplay={{
+                                        delay: 2500,
+                                        disableOnInteraction: false,
+                                  }}
                                   >
 
                         <SwiperSlide > 
