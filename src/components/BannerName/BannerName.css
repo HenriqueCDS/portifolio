@@ -3,7 +3,7 @@
     margin-top: 2%;
     position: relative;
     margin: 0rem;
-    background-image: url("..\..\..\public\gif\windows.jpg");
+    background-image: url("../../../public/gif/windows.jpg");
     background-size: cover;
     text-shadow:
         -2px -2px 0 black,
