@@ -25,19 +25,16 @@
   display: inline-block;
 }
 .skill-conteudo {
-    margin-top: 10px;
+    margin-top: .625rem;
+}
+
+.skill-conteudo  .arrow-paste{
     transition: ease 1s all;
-}
-.skill-conteudo  span:hover{
-    animation: slide-in 0.5s alternate-reverse infinite;
+
 }
 
-@keyframes slide-in {
-  from {
-    transform: translateX(0%);
-  }
 
-  to {
-    transform: translateX(-2%);
-  }
+.skill-conteudo .text-line:hover  .arrow-paste{
+    transform: rotateZ(45deg);
 }
+
