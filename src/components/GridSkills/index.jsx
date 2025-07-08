@@ -14,7 +14,8 @@ import java from "../../assets/icon/java.png"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import SkillsTable from "./Skills-Table";
-
+import 'swiper/css';
+import 'swiper/css/autoplay';
 
 export default function GridIconSkills(prop){
     return(
@@ -25,15 +26,18 @@ export default function GridIconSkills(prop){
                                   spaceBetween={1}
                                   slidesPerView={8}
                                   loop={true}
+                                  speed={800}
                                   breakpoints={{
                                     300:{
                                         slidesPerView:4
                                     }
                                   }}
                                   autoplay={{
-                                        delay: 2500,
+                                        delay: 500,
                                         disableOnInteraction: false,
                                   }}
+                                  modules={[Autoplay]}
+
                                   >
 
                         <SwiperSlide > 

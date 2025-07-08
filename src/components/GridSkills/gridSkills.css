@@ -23,6 +23,7 @@
     border-bottom: dashed var(--color-accent) 5px;
     padding: 1rem 0rem 1rem 0rem;
     margin-bottom:4rem;
+    cursor: grab;
 
 }
 
