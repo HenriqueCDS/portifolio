@@ -12,6 +12,8 @@
         2px  3px 0 black;
 }
 canvas {
+  border: dashed 0.5px  white ;
+  transform: scale(0.8);
   image-rendering: initial;
 }
 .container-banner{
@@ -80,4 +82,9 @@ canvas {
         image-rendering: pixelated;
     }
     
+}
+@keyframes flutuar {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
