@@ -74,8 +74,9 @@ canvas {
 }
 
 
-@media(min-width: 1920px) {   
+@media(min-width: 1950px) {   
     canvas {
+        transform: scale(0.5);
         image-rendering: pixelated;
     }
     
