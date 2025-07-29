@@ -1,19 +1,13 @@
-import './loader.css'
-
-
-import load from './imgLouder.png'
+import './loader.css';
+import load from './imgLouder.png';
 import { gsap } from "gsap";
-import { useEffect, useRef, useState } from 'react'
-import { useGSAP } from '@gsap/react';
-
-
+import { useEffect, useRef } from 'react';
 
 export default function Loader() {
+  const counterElement = useRef(null);
+  let valorRef = useRef(0); // Referência persistente, não causa re-render
 
-  gsap.registerPlugin(useGSAP);
-
-  useGSAP(() => {
-
+  useEffect(() => {
     gsap.to(".img-holder img", {
       left: 0,
       stagger: 0.1,
@@ -21,7 +15,7 @@ export default function Loader() {
       duration: 1.5,
       delay: 3,
     });
-  
+
     gsap.to(".img-holder img", {
       left: "120%",
       stagger: -0.1,
@@ -29,55 +23,31 @@ export default function Loader() {
       duration: 1.5,
       delay: 5,
     });
-    
 
-   
-
-  })
-
-
-
-  var counterElement = useRef(null);
-
-  var valor = 0
-
-
-  function startLoader() {
-
-    useEffect(() => {
-      function updateCounter() {
-        if (valor === 100) {
-          animateText()
-          return;
-        }
-
-        valor += Math.floor(Math.random() * 10) + 1
-        valor = valor > 100 ? 100 : valor
-
-
-        const htmlContent = valor
-          .toString()
-          .split("")
-          .map((char) => `<span>${char}</span>`)
-          .join("") + "<span>%</span>";
-
-        if (counterElement.current) {
-          counterElement.current.innerHTML = htmlContent;
-
-        }
-
-
-        var delay = Math.floor(Math.random() * 400) + 100;
-        setTimeout(updateCounter, delay);
-
-
+    const updateCounter = () => {
+      if (valorRef.current >= 100) {
+        animateText();
+        return;
       }
-      updateCounter()
 
-    }, [])
+      valorRef.current += Math.floor(Math.random() * 10) + 1;
+      if (valorRef.current > 100) valorRef.current = 100;
 
+      const htmlContent = valorRef.current
+        .toString()
+        .split("")
+        .map((char) => `<span>${char}</span>`)
+        .join("") + "<span>%</span>";
 
-    function animateText() {
+      if (counterElement.current) {
+        counterElement.current.innerHTML = htmlContent;
+      }
+
+      const delay = Math.floor(Math.random() * 100) + 100;
+      setTimeout(updateCounter, delay);
+    };
+
+    const animateText = () => {
       setTimeout(() => {
         gsap.to(".counter p span", {
           top: "-400px",
@@ -87,55 +57,38 @@ export default function Loader() {
         });
 
         gsap.to(".overlay", {
-          opacity: 0,
+          opacity: 1,
           ease: "power3.inOut",
-          duration: 1,
-          delay: 4,
-          zIndex: -1
+          duration: 2,
+          delay: 1,
+          zIndex: -1,
         });
+      }, 75);
+    };
 
-     
-      }, 100);
-    }
+    updateCounter(); // inicia a contagem
 
-  }
-  startLoader();
-
-
+  }, []);
 
   return (
-    <>
-      
-        <div className='container-loader'>
-            <div className="overlay">
-            <div className="overlay-content">
-            <div className="images">
-                <div className="img-holder">
-                <img src={load} alt="" />
-                <img src={load} alt="" />
-                <img src={load} alt="" />
-                <img src={load} alt="" />
-                <img src={load} alt="" />
-                <img src={load} alt="" />
-                <img src={load} alt="" />
-                <img src={load} alt="" />
-                <img src={load} alt="" />
-                <img src={load} alt="" />
-                
-                </div>
+    <div className='container-loader'>
+      <div className="overlay">
+        <div className="overlay-content">
+          <div className="images">
+            <div className="img-holder">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <img key={i} src={load} alt="" />
+              ))}
             </div>
-            <div className="text">
-                <div className="counter" >
-                <p ref={counterElement}></p>
-                </div>
+          </div>
+          <div className="text">
+            <div className="counter">
+              <p ref={counterElement}></p>
             </div>
-                <div className='line'/>
-                </div>
-            </div>
-
+          </div>
+          <div className='line' />
         </div>
-     
-    </>
-  )
+      </div>
+    </div>
+  );
 }
-

@@ -11,11 +11,17 @@
         -1px  2px 0 black,
         2px  3px 0 black;
 }
-canvas {
-  border: dashed 0.5px  white ;
-  transform: scale(0.8);
-  image-rendering: initial;
+canvas{
+  transform: scale(0.9);  
+  transition: 1s ease-in-out all ;
+  border:none
 }
+canvas:hover{
+  border: dashed 0.5px white;
+
+}
+
+
 .container-banner{
     width: 100%;
     top:10%;
@@ -26,9 +32,6 @@ canvas {
 
 
   
-}
-.container-scene{
-    height: 100dvh;
 }
 
 .image-banner{
@@ -75,16 +78,3 @@ canvas {
     
 }
 
-
-@media(min-width: 1950px) {   
-    canvas {
-        transform: scale(0.5);
-        image-rendering: pixelated;
-    }
-    
-}
-@keyframes flutuar {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
