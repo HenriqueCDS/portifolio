@@ -1,13 +1,22 @@
 :root {
-  --color-add: #ff0000;
-  --color-accent: #ffffff;
-  --color-bg: #000000;
+  --color-add: #3b82f6;
+  --color-accent: #e2e8f0;
+  --color-bg: #0d1117;
+  --color-surface: #161b22;
+  --color-border: #30363d;
+  --color-muted: #8b949e;
 
   --font-max-large: 6.25rem;
   --font-large: 4rem;
-  --font-regular: .875rem;
+  --font-regular: 1rem;
   --font-small: 1.5em;
   --font-tiny: .625rem;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-accent);
+  font-family: 'Satoshi', sans-serif;
 }
 @font-face {
   font-family: 'Satoshi';

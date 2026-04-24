@@ -6,60 +6,50 @@ import Navbar from "../../components/Navbar/Navbar";
 import GridProjects from "../../components/ProjectsGrid";
 import TexBanner from "../../components/TextBanner";
 import Loader from '../../components/Loader';
-import { useEffect,useState } from 'react';
-
-
+import About from '../../components/About';
+import Experience from '../../components/Experience';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+    const [loading, setLoading] = useState(true);
 
-    const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
-    
-      useEffect(() => {
+    useEffect(() => {
         const timer = setTimeout(() => {
-          setLoading(false); 
-        }, 8500); 
-    
+            setLoading(false);
+        }, 1500);
+
         return () => clearTimeout(timer);
-      }, []);
+    }, []);
 
-
-      useEffect(() => {
-        if (loading) {
-            document.body.style.overflow = 'hidden'; // Impede scroll
-            
-        } else {
-            document.body.style.overflow = 'visible'; // Restaura scroll
-        }
-
+    useEffect(() => {
+        document.body.style.overflow = loading ? 'hidden' : 'visible';
         return () => {
-            document.body.style.overflow = 'visible'; // Precaução para desmontar
+            document.body.style.overflow = 'visible';
         };
-      }, [loading]);
-            
-            
+    }, [loading]);
 
-
-    return(
+    return (
         <section>
-        {loading && <Loader />}
-            
-        <div className={`page-content ${loading ? 'hidden' : 'visible'}`}>
+            {loading && <Loader />}
+
+            <div className={`page-content ${loading ? 'hidden' : 'visible'}`}>
                 <Navbar />
                 <BannerName />
-                
-                <TexBanner  text={"Showcasing My  Developer #Projects Portfolio Showcasing My Developer Portfolio Showcasing My  Developer #Projects  Portfolio"}/>
-                
+                <About />
+                <Experience />
+
+                <TexBanner text="REST API · ETL · Integração de Sistemas · Python · Java · Backend · Dados · Automação · REST API · ETL · Integração de Sistemas · Python · Java · Backend · Dados · Automação" />
+
                 <GridProjects />
 
-                <TexBanner  text={"Showcasing My  Developer #Skills  Portfolio Showcasing My  Developer Portfolio  Showcasing My Developer  #Skills Portfolio"}/>
-                
-                <GridSkills />    
-            
-                <TexBanner  text={"Showcasing My #Contact Portfolio Showcasing My #Contact Portfolio Showcasing My #Contact Developer Portfolio"}/>
+                <TexBanner text="Node.js · Express · Spring Boot · MySQL · SQL Server · MongoDB · Docker · Git · Sequelize · JWT · Node.js · Express · Spring Boot · MySQL · SQL Server · MongoDB" />
+
+                <GridSkills />
+
+                <TexBanner text="Aberto a oportunidades · Backend · Engenharia de Dados · SP / Campinas · Remoto · Aberto a oportunidades · Backend · Engenharia de Dados · SP / Campinas" />
 
                 <FootContacts />
             </div>
         </section>
-    )
-    
+    );
 }

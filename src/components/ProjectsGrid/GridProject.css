@@ -1,19 +1,93 @@
-.Projects {
-    display: grid;
-    margin: 2rem;
-    grid-template-columns: 50% 50%;
-    justify-content: space-around;
-    gap: 5rem;
+.gridProjects {
+    padding: 5rem 2rem;
+    background: var(--color-bg);
 }
 
-@media(max-width: 991px) {   
+.projects-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.projects-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.section-tag {
+    display: block;
+    font-size: 0.85rem;
+    font-family: monospace;
+    color: var(--color-add);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.03em;
+}
+
+.projects-header h2,
+.about-header h2,
+.experience-header h2,
+.skills-header h2 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: -0.02em;
+}
+
+.projects-count {
+    font-size: 0.8rem;
+    font-family: monospace;
+    color: var(--color-muted);
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    align-self: flex-end;
+}
+
 .Projects {
-    grid-template-columns: 90%;
-    margin: 0rem;
-    gap: 2rem;
-   
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
 }
-.container{
-    margin: 0rem;
+
+/* "Ver mais" button */
+.projects-toggle {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
 }
+
+.btn-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-accent);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: 'Satoshi', sans-serif;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.btn-toggle:hover {
+    border-color: var(--color-add);
+    color: var(--color-add);
+    background: rgba(59, 130, 246, 0.05);
+}
+
+@media (max-width: 900px) {
+    .Projects {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .gridProjects {
+        padding: 4rem 1.25rem;
+    }
 }

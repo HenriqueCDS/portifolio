@@ -10,18 +10,18 @@ export default function Loader() {
   useEffect(() => {
     gsap.to(".img-holder img", {
       left: 0,
-      stagger: 0.1,
+      stagger: 0.03,
       ease: "power4.out",
-      duration: 1.5,
-      delay: 3,
+      duration: 0.3,
+      delay: 0.1,
     });
 
     gsap.to(".img-holder img", {
       left: "120%",
-      stagger: -0.1,
+      stagger: -0.03,
       ease: "power4.out",
-      duration: 1.5,
-      delay: 5,
+      duration: 0.3,
+      delay: 0.5,
     });
 
     const updateCounter = () => {
@@ -30,7 +30,7 @@ export default function Loader() {
         return;
       }
 
-      valorRef.current += Math.floor(Math.random() * 10) + 1;
+      valorRef.current += Math.floor(Math.random() * 15) + 8;
       if (valorRef.current > 100) valorRef.current = 100;
 
       const htmlContent = valorRef.current
@@ -43,7 +43,7 @@ export default function Loader() {
         counterElement.current.innerHTML = htmlContent;
       }
 
-      const delay = Math.floor(Math.random() * 100) + 100;
+      const delay = Math.floor(Math.random() * 30) + 20;
       setTimeout(updateCounter, delay);
     };
 
@@ -51,22 +51,22 @@ export default function Loader() {
       setTimeout(() => {
         gsap.to(".counter p span", {
           top: "-400px",
-          stagger: 0.1,
+          stagger: 0.03,
           ease: "power3.inOut",
-          duration: 1,
+          duration: 0.3,
         });
 
         gsap.to(".overlay", {
-          opacity: 1,
+          opacity: 0,
           ease: "power3.inOut",
-          duration: 2,
-          delay: 1,
+          duration: 0.4,
+          delay: 0.2,
           zIndex: -1,
         });
-      }, 75);
+      }, 50);
     };
 
-    updateCounter(); // inicia a contagem
+    updateCounter();
 
   }, []);
 
