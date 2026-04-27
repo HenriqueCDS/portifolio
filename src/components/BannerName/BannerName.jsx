@@ -10,9 +10,7 @@ export default function BannerName() {
                     <span className="banner-tag">// desenvolvedor backend &amp; dados</span>
                     <h1 className="banner-name">Henrique<br />Cordeiro</h1>
                     <p className="banner-pitch">
-                        Construo sistemas que movem dados com precisão —
-                        APIs robustas, pipelines ETL e integrações entre
-                        sistemas educacionais em escala.
+                        Desenvolvedor de software focado em APIs, integração de sistemas e pipelines de dados, criando soluções escaláveis para ambientes educacionais..
                     </p>
                     <div className="banner-actions">
                         <a

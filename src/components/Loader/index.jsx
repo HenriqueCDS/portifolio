@@ -2,9 +2,9 @@ import './loader.css';
 import { gsap } from 'gsap';
 import { useEffect, useRef } from 'react';
 
-const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%*?><';
+const CHARS = '1234567890ABCDEFSOUBOMNOLOLGHIJKLMNOPQRSTUVWXYZ!@#$%*?><';
 const NAME_TOP = 'HENRIQUE';
-const NAME_BOTTOM = 'CORDEIRO';
+const NAME_BOTTOM = 'CORDEIROツ';
 
 export default function Loader({ onComplete }) {
   const topPanelRef = useRef(null);

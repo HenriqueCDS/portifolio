@@ -7,9 +7,10 @@ const experiences = [
         company: 'PUC-Campinas',
         location: 'Campinas, SP',
         bullets: [
-            'Desenvolve integrações entre sistemas acadêmicos (Canvas LMS e Lyceum) utilizando APIs REST, automatizando a verificação sincronização de usuários, matrículas',
+            'Garanto a disponibilidade, estabilidade e o correto funcionamento da plataforma Canvas LMS para alunos e docentes.',
+            'Presto suporte a docentes e alunos na utilização da plataforma educacional, esclarecendo dúvidas e auxiliando na aplicação de suas funcionalidades no ambiente acadêmico.',
+            'Desenvolve integrações em  sistemas acadêmicos (Canvas LMS) utilizando APIs REST, automatizando a verificação sincronização de usuários, matrículas',
             'Cria scripts em Python para automação de processos e validação de dados, reduzindo tarefas manuais e aumentando a confiabilidade das informações',
-            'Implementa processos de ETL para tratamento, transformação e análise de dados acadêmicos em larga escala',
             'Identifica e corrige inconsistências em bases de dados, garantindo integridade e qualidade das informações',
             'Atua com abordagem orientada a dados, indo além do suporte tradicional e propondo soluções sistêmicas',
         ],
