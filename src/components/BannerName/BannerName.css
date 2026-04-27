@@ -155,15 +155,49 @@
 .banner-photo-wrapper {
     width: 20rem;
     height: 20rem;
+    position: relative;
+    border-radius: 50%;
+    padding: 3px;
+    background: rgba(59, 130, 246, 0.12);
+    isolation: isolate;
+}
+
+/* pulso de energia orbitando a foto */
+.banner-photo-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent        0deg,
+        transparent        220deg,
+        rgba(59, 130, 246, 0.20) 255deg,
+        rgba(59, 130, 246, 0.65) 290deg,
+        rgba(147, 197, 253, 1)   310deg,
+        rgba(59, 130, 246, 0.65) 330deg,
+        rgba(59, 130, 246, 0.20) 355deg,
+        transparent        360deg
+    );
+    animation: energy-orbit 2.4s linear infinite;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .banner-photo {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 2px dashed var(--color-border);
+    border: none;
     object-fit: cover;
     display: block;
+}
+
+@keyframes energy-orbit {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
 }
 
 /* terminal snippet */
