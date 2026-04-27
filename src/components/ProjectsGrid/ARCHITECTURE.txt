@@ -1,0 +1,154 @@
+================================================================================
+ PROJETOS SELECIONADOS — ARQUITETURA DO SERVIÇO
+ Portfólio de Henrique Cordeiro
+================================================================================
+
+VISÃO GERAL
+-----------
+Os projetos são carregados dinamicamente via GitHub API e enriquecidos com
+metadados locais. Isso garante que novos repositórios apareçam automaticamente
+no portfólio sem alterar código, enquanto descrições e detalhes ficam sob
+controle total do desenvolvedor.
+
+FLUXO DE DADOS
+--------------
+
+  GitHub REST API                   Arquivo local
+  /users/HenriqueCDS/repos          src/data/projectsMeta.js
+         │                                   │
+         │  name, language, homepage,        │  title, type, description,
+         │  updated_at, html_url             │  stack, paste, link_web,
+         │                                   │  featured
+         └─────────────┬─────────────────────┘
+                       │  merge por repo.name
+                       ▼
+             src/hooks/useGithubProjects.js
+                       │
+                       │  { projects, loading, error }
+                       ▼
+         src/components/ProjectsGrid/index.jsx
+                       │
+                       ▼
+             Grid com filtros e "Ver mais"
+
+
+ARQUIVOS DO SISTEMA
+-------------------
+
+  src/services/githubService.js
+  └─ Responsável: buscar repos na API do GitHub
+     - URL: https://api.github.com/users/HenriqueCDS/repos?per_page=100&sort=updated
+     - Cache: sessionStorage por 5 minutos (chave: "gh_repos_v1")
+     - Limite da API sem token: 60 requisições/hora por IP
+     - Em caso de limite atingido (status 403): lança erro "rate_limit"
+
+  src/data/projectsMeta.js
+  └─ Responsável: enriquecer dados brutos da API com informações customizadas
+     - Campos:
+         title       string   nome exibido no card
+         type        string   'REST API' | 'BACKEND' | 'DADOS' | 'WEB'
+         description string   descrição exibida no card
+         stack       string[] tecnologias exibidas como pills
+         paste       string   pasta em src/assets/img/ para screenshots locais
+         link_web    string   URL de demo/deploy (complementa homepage do repo)
+         featured    boolean  true = aparece sem precisar clicar "Ver mais"
+     - SKIP_REPOS: Set de nomes de repos a ignorar completamente
+     - inferType(): tenta adivinhar o tipo de repos sem entrada no meta
+     - formatRepoName(): formata "meu-repo" → "Meu Repo" para repos sem meta
+
+  src/hooks/useGithubProjects.js
+  └─ Responsável: orquestrar API + meta e retornar estado React
+     - Retorna: { projects, loading, error }
+     - Fallback: se API falhar, usa apenas os dados de projectsMeta.js
+     - Ordenação: featured primeiro → depois por ano de atualização
+
+  src/components/ProjectsGrid/index.jsx
+  └─ Responsável: renderizar grid com filtros e paginação
+     - Projetos featured aparecem por padrão
+     - Projetos não-featured ficam atrás do botão "Ver mais"
+     - Filtros por tipo (REST API, Backend, Dados, Web) mostram TODOS do tipo
+     - Skeleton loading (4 cards) durante busca na API
+
+
+LÓGICA DE EXIBIÇÃO
+------------------
+
+  Filtro = "Todos" + showAll = false  →  Mostra apenas projetos FEATURED
+  Filtro = "Todos" + showAll = true   →  Mostra TODOS os projetos
+  Filtro = tipo qualquer              →  Mostra TODOS daquele tipo (ignora showAll)
+  Loading                             →  Mostra 4 skeleton cards animados
+  Erro de rate limit                  →  Banner laranja + usa fallback local
+
+
+COMO DESTACAR UM PROJETO (FEATURED)
+------------------------------------
+Abra src/data/projectsMeta.js e defina featured: true na entrada do repositório.
+
+  Exemplo:
+    'meu-novo-repo': {
+        title: 'Meu Novo Projeto',
+        type: 'REST API',
+        description: 'Descrição profissional do projeto...',
+        stack: ['Node.js', 'Express', 'PostgreSQL'],
+        featured: true,   ← isso faz aparecer por padrão
+    },
+
+Os 4 primeiros repositórios com featured: true atualmente são:
+  1. Rest_Api_Questoes    — REST API — Banco de Questões
+  2. api_ecommerce        — API E-commerce (Backend)
+  3. Projeto-Websocket    — Projeto WebSocket
+  4. pyhton-sql-server-bd — Python + SQL Server — ETL & Dados
+
+
+COMO ADICIONAR UM NOVO REPOSITÓRIO
+------------------------------------
+1. Crie o repositório no GitHub normalmente.
+2. (Opcional) Adicione entry em projectsMeta.js com a chave = nome exato do repo:
+
+   'nome-exato-do-repo': {
+       title: 'Título para exibição',
+       type: 'REST API',          // tipo do projeto
+       description: 'Descrição...', // texto do card
+       stack: ['Python', 'FastAPI'],
+       featured: false,
+   },
+
+3. Se não adicionar entry, o repo aparece automaticamente com:
+   - title  = nome formatado automaticamente
+   - type   = inferido pela linguagem e nome do repo
+   - stack  = [linguagem primária]
+   - description = repo.description do GitHub (ou mensagem padrão)
+   - featured = false (fica atrás do "Ver mais")
+
+
+COMO ADICIONAR SCREENSHOTS LOCAIS
+------------------------------------
+1. Crie pasta em src/assets/img/<nome_da_pasta>/
+2. Coloque as imagens (.png ou .jpeg)
+3. Adicione o campo paste na entry do projectsMeta.js:
+   paste: 'nome_da_pasta'
+4. Atualize o mapa IMAGE_GLOBS em:
+   src/components/ProjectsGrid/Project/index.jsx
+
+
+RATE LIMITING DA API DO GITHUB
+--------------------------------
+- Sem autenticação: 60 requisições/hora por IP (mais que suficiente para um portfólio)
+- Cache de 5 minutos em sessionStorage evita chamadas repetidas por visita
+- Em caso de limite atingido: fallback automático para dados locais (projectsMeta.js)
+- Para aumentar o limite para 5.000 req/hora: adicione um Personal Access Token
+  (somente leitura) como variável de ambiente no Vercel:
+    VITE_GITHUB_TOKEN=ghp_xxxxxxxxxxxx
+  E no githubService.js, adicione o header:
+    Authorization: `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`
+
+
+REPOSITÓRIOS IGNORADOS (SKIP_REPOS)
+--------------------------------------
+Os seguintes repos são filtrados e nunca aparecem no portfólio:
+  HenriqueCDS, portifolio, portfolio_web, wireframe, cinetag,
+  CalculadoraSwing, ExercJava-Carpintaria
+
+Para adicionar/remover da lista, edite o Set SKIP_REPOS em projectsMeta.js.
+
+================================================================================

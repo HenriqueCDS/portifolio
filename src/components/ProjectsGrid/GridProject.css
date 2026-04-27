@@ -132,6 +132,54 @@
     background: rgba(167, 139, 250, 0.2);
 }
 
+/* ── Status badges ───────────────────────── */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.loading-badge {
+    font-size: 0.72rem;
+    font-family: monospace;
+    color: var(--color-muted);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.error-badge {
+    font-size: 0.72rem;
+    font-family: monospace;
+    color: #fb923c;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid rgba(251, 146, 60, 0.3);
+    border-radius: 4px;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+}
+
+/* ── Skeleton ────────────────────────────── */
+.skeleton-card {
+    height: 420px;
+    border-radius: 12px;
+    background: linear-gradient(
+        90deg,
+        var(--color-surface) 25%,
+        #1c2128 50%,
+        var(--color-surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+    border: 1px solid var(--color-border);
+}
+
+@keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
 /* ── Grid ────────────────────────────────── */
 .Projects {
     display: grid;
