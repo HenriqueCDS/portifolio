@@ -15,14 +15,6 @@ export default function Home() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 1500);
-
-        return () => clearTimeout(timer);
-    }, []);
-
-    useEffect(() => {
         document.body.style.overflow = loading ? 'hidden' : 'visible';
         return () => {
             document.body.style.overflow = 'visible';
@@ -31,7 +23,7 @@ export default function Home() {
 
     return (
         <section>
-            {loading && <Loader />}
+            {loading && <Loader onComplete={() => setLoading(false)} />}
 
             <div className={`page-content ${loading ? 'hidden' : 'visible'}`}>
                 <Navbar />

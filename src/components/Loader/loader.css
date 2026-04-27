@@ -1,180 +1,87 @@
-
 .container-loader {
-    width: 100%;
-    height: 100%;
-    
-
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
 }
 
-.line{
-    opacity: 0.2;
-    top: 24rem;
-    width: 100%;
-    position: absolute;
-    z-index: 2;
-    margin: 0 auto;
+/* ——— Panels ——— */
+.gl-panel {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 50vh;
+  background-color: #0d1117;
+  display: flex;
+  flex-direction: column;
+  pointer-events: all;
+  will-change: transform;
 }
 
-
-.overlay {
-
-    width: 100%;
-    max-width: 100vw;
-    height: 100vh;
-    background: rgb(0, 0, 0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    transition: ease 1s;
+.gl-panel-top {
+  top: 0;
+  justify-content: flex-end;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.3);
 }
 
-.overlay-content {
-    width: 100%;
-    max-width: 53.125rem;
-   
+.gl-panel-bottom {
+  top: 50vh;
+  justify-content: flex-start;
 }
 
-.images {
-    height: 34.375rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-   
+/* ——— Content ——— */
+.gl-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 4vw;
 }
 
-.img-holder {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 80%;
-    height: 100%;
-    margin: 0 auto;
-    z-index: 2;
-    clip-path: inset(0 0 0 0);
-    
+.gl-content-top {
+  align-items: flex-start;
+  padding-bottom: 2vh;
+  gap: 0.6em;
 }
 
-.img-holder img {
-    position: absolute;
-    width: 100%;
-    top: 0;
-    height: 550px;
-    left: -110%;
-    object-fit: contain;
-    
-  
+.gl-content-bottom {
+  align-items: flex-start;
+  padding-top: 2vh;
+  gap: 0.6em;
 }
 
-.text {
-    position: relative;
-    margin: 1em 0;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-    color: rgb(255, 255, 255);
+/* ——— Text ——— */
+.gl-name {
+  font-family: 'Satoshi', sans-serif;
+  font-size: clamp(3rem, 9vw, 8.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #e2e8f0;
 }
 
-
-
-.counter,
-.logo p {
-    font-size: 12.5rem;
-    text-align: center;
-    text-transform: uppercase;
-    color: rgb(255, 255, 255);
+.gl-label {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.8rem;
+  color: #8b949e;
+  letter-spacing: 0.12em;
 }
 
-.counter p {
-    line-height: 100%;
+/* ——— Glitch chars ——— */
+.gl-locked {
+  color: #e2e8f0;
 }
 
-.counter p span,
-.logo p span {
-    position: relative;
-    z-index: -2;
-    color: rgb(255, 255, 255);
+.gl-scramble {
+  color: #3b82f6;
 }
 
+/* ——— Mobile ——— */
+@media (max-width: 480px) {
+  .gl-name {
+    font-size: clamp(2.2rem, 11vw, 4rem);
+  }
 
-
-
-
-.logo p {
-    line-height: 100%;
+  .gl-content {
+    padding: 0 6vw;
+  }
 }
-
-.logo p span {
-    position: relative;
-    top: 12.5rem;
-}
-
-.hero-copy {
-    position: absolute;
-    top: 73%;
-    left: 50%;
-    transform: translate(-50%, -60%);
-    text-transform: uppercase;
-    clip-path: inset(0 0 0 0);
-    overflow: hidden;
-    max-height: 600px;
-    mix-blend-mode: difference;
-}
-
-
-
-
-@media (max-width:1440px) {
-  
-    .img-holder {
-        width: 80%;
-      
-        
-    }
-  
-
-    .right_section button {
-        width: 100%;
-        max-width: 120px;
-        height: 31px;
-        border-radius: 24.58px;
-        font-size: 15px;
-        padding:0px;
-    }
-    
-    
-
-}
-
-@media (max-width:480px) {
-    .overlay {
-        width: 100%;
-    }
-
-    .overlay-content {
-        width: 80%;
-    }
-
-    .img-holder img {
-        width: 100%;
-        left: -110%;
-        padding-left: 10px;
-    }
-
-    .counter,
-    .logo p {
-        font-size: 100px;
-        text-align: center;
-        text-transform: uppercase;
-    }
-    .menuu{
-        position: relative;
-        z-index: 10;
-    }
-    .mid_section{
-        display: none;
-    }
-
-
-}
-

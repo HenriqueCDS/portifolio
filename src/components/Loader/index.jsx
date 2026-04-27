@@ -1,92 +1,91 @@
 import './loader.css';
-import load from './imgLouder.png';
-import { gsap } from "gsap";
+import { gsap } from 'gsap';
 import { useEffect, useRef } from 'react';
 
-export default function Loader() {
-  const counterElement = useRef(null);
-  let valorRef = useRef(0); // Referência persistente, não causa re-render
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%*?><';
+const NAME_TOP = 'HENRIQUE';
+const NAME_BOTTOM = 'CORDEIRO';
+
+export default function Loader({ onComplete }) {
+  const topPanelRef = useRef(null);
+  const bottomPanelRef = useRef(null);
+  const nameTopRef = useRef(null);
+  const nameBottomRef = useRef(null);
 
   useEffect(() => {
-    gsap.to(".img-holder img", {
-      left: 0,
-      stagger: 0.03,
-      ease: "power4.out",
-      duration: 0.3,
-      delay: 0.1,
-    });
+    let frameId;
+    let resolvedTop = 0;
+    let resolvedBottom = 0;
+    let frame = 0;
+    let phase = 'top';
 
-    gsap.to(".img-holder img", {
-      left: "120%",
-      stagger: -0.03,
-      ease: "power4.out",
-      duration: 0.3,
-      delay: 0.5,
-    });
-
-    const updateCounter = () => {
-      if (valorRef.current >= 100) {
-        animateText();
-        return;
-      }
-
-      valorRef.current += Math.floor(Math.random() * 15) + 8;
-      if (valorRef.current > 100) valorRef.current = 100;
-
-      const htmlContent = valorRef.current
-        .toString()
-        .split("")
-        .map((char) => `<span>${char}</span>`)
-        .join("") + "<span>%</span>";
-
-      if (counterElement.current) {
-        counterElement.current.innerHTML = htmlContent;
-      }
-
-      const delay = Math.floor(Math.random() * 30) + 20;
-      setTimeout(updateCounter, delay);
+    const render = (name, resolved, ref) => {
+      if (!ref.current) return;
+      ref.current.innerHTML = name
+        .split('')
+        .map((char, i) =>
+          i < resolved
+            ? `<span class="gl-locked">${char}</span>`
+            : `<span class="gl-scramble">${CHARS[Math.floor(Math.random() * CHARS.length)]}</span>`
+        )
+        .join('');
     };
 
-    const animateText = () => {
-      setTimeout(() => {
-        gsap.to(".counter p span", {
-          top: "-400px",
-          stagger: 0.03,
-          ease: "power3.inOut",
-          duration: 0.3,
-        });
+    const tick = () => {
+      frame++;
 
-        gsap.to(".overlay", {
-          opacity: 0,
-          ease: "power3.inOut",
-          duration: 0.4,
-          delay: 0.2,
-          zIndex: -1,
-        });
-      }, 50);
+      if (phase === 'top') {
+        if (frame % 4 === 0 && resolvedTop < NAME_TOP.length) resolvedTop++;
+        render(NAME_TOP, resolvedTop, nameTopRef);
+        if (resolvedTop >= NAME_TOP.length) {
+          phase = 'bottom';
+          frame = 0;
+        }
+      } else if (phase === 'bottom') {
+        if (frame % 4 === 0 && resolvedBottom < NAME_BOTTOM.length) resolvedBottom++;
+        render(NAME_BOTTOM, resolvedBottom, nameBottomRef);
+        if (resolvedBottom >= NAME_BOTTOM.length) {
+          setTimeout(exit, 700);
+          return;
+        }
+      }
+
+      frameId = requestAnimationFrame(tick);
     };
 
-    updateCounter();
+    const exit = () => {
+      gsap.to(topPanelRef.current, {
+        y: '-100%',
+        duration: 1.1,
+        ease: 'power4.inOut',
+      });
+      gsap.to(bottomPanelRef.current, {
+        y: '100%',
+        duration: 1.1,
+        ease: 'power4.inOut',
+        onComplete: () => onComplete?.(),
+      });
+    };
 
+    setTimeout(() => {
+      frameId = requestAnimationFrame(tick);
+    }, 300);
+
+    return () => cancelAnimationFrame(frameId);
   }, []);
 
   return (
-    <div className='container-loader'>
-      <div className="overlay">
-        <div className="overlay-content">
-          <div className="images">
-            <div className="img-holder">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <img key={i} src={load} alt="" />
-              ))}
-            </div>
-          </div>
-          <div className="text">
-            <div className="counter">
-              <p ref={counterElement}></p>
-            </div>
-          </div>
-          <div className='line' />
+    <div className="container-loader">
+      <div className="gl-panel gl-panel-top" ref={topPanelRef}>
+        <div className="gl-content gl-content-top">
+          <span className="gl-label">// carregando portfolio</span>
+          <div className="gl-name" ref={nameTopRef}>HENRIQUE</div>
+        </div>
+      </div>
+      <div className="gl-panel gl-panel-bottom" ref={bottomPanelRef}>
+        <div className="gl-content gl-content-bottom">
+          <div className="gl-name" ref={nameBottomRef}>CORDEIRO ツ</div>
+          <span className="gl-label">frontEnd &amp; backend &amp; dados</span>
         </div>
       </div>
     </div>
