@@ -4,24 +4,51 @@
     display: flex;
     align-items: center;
     background-color: var(--color-bg);
-    background-image: url("../../../public/gif/windows.jpg");
-    background-size: cover;
-    background-position: center;
     padding: 6rem 2rem 4rem;
     position: relative;
+    overflow: hidden;
 }
 
+/* Ken Burns — imagem de fundo com zoom + pan suave via transform (GPU) */
 .banner::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: rgba(13, 17, 23, 0.82);
+    inset: -10%;
+    background-image: url("../../../public/gif/windows.jpg");
+    background-size: cover;
+    background-position: center;
     z-index: 0;
+    will-change: transform;
+    animation: kenBurns 24s ease-in-out infinite alternate;
+}
+
+/* Overlay escuro + toque de aurora pulsante */
+.banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 70% 50% at 18% 65%, rgba(37, 99, 235, 0.14) 0%, transparent 65%),
+        rgba(13, 17, 23, 0.82);
+    z-index: 1;
+    animation: auroraGlow 10s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurns {
+    0%   { transform: scale(1)    translate(0%,    0%);   }
+    33%  { transform: scale(1.07) translate(-1.5%, 1%);   }
+    66%  { transform: scale(1.04) translate(1%,   -0.8%); }
+    100% { transform: scale(1.09) translate(-0.5%, 1.5%); }
+}
+
+@keyframes auroraGlow {
+    from { opacity: 1;    }
+    to   { opacity: 0.86; }
 }
 
 .banner-grid {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
