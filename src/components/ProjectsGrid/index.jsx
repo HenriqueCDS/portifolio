@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Project from "./Project";
 import "./GridProject.css";
 
 const ALL_PROJECTS = [
-    // ── Primeiros 4: aparecem por padrão ──────────────────────────────────
     {
         id: "rest_api",
         date: "2024",
@@ -37,7 +36,7 @@ const ALL_PROJECTS = [
         description: "API backend completa para plataforma de e-commerce com arquitetura MVC. Controllers, middlewares de autenticação, migrations e seeders com Sequelize, camada de serviços separada e configuração de rotas modulares.",
         stack: ["Node.js", "Express", "Sequelize", "MySQL", "MVC"],
     },
-     {
+    {
         id: "python_sql",
         date: "2024",
         title: "Python + SQL Server — ETL & Dados",
@@ -48,7 +47,6 @@ const ALL_PROJECTS = [
         description: "Notebook Python para geração, manipulação e carga de dados em SQL Server. Utiliza Faker para criação de datasets realistas e integração direta com banco relacional via scripts SQL organizados por domínio.",
         stack: ["Python", "SQL Server", "Pandas", "Jupyter Notebook", "Faker"],
     },
-    // ── Restantes: aparecem ao clicar "Ver mais" ──────────────────────────
     {
         id: "websocket",
         date: "2024",
@@ -128,53 +126,115 @@ const ALL_PROJECTS = [
     },
 ];
 
+const FILTERS = [
+    { label: 'Todos',    value: null,        cls: 'f-all'     },
+    { label: 'REST API', value: 'REST API',  cls: 'f-api'     },
+    { label: 'Backend',  value: 'BACKEND',   cls: 'f-backend' },
+    { label: 'Dados',    value: 'DADOS',     cls: 'f-data'    },
+    { label: 'Web',      value: 'WEB',       cls: 'f-web'     },
+];
+
 const INITIAL_COUNT = 4;
 
 export default function GridProjects() {
-    const [showAll, setShowAll] = useState(false);
+    const [activeFilter, setActiveFilter] = useState(null);
+    const [showAll, setShowAll]           = useState(false);
 
-    const visible = showAll ? ALL_PROJECTS : ALL_PROJECTS.slice(0, INITIAL_COUNT);
+    const filtered = useMemo(() =>
+        activeFilter
+            ? ALL_PROJECTS.filter((p) => p.type === activeFilter)
+            : ALL_PROJECTS,
+        [activeFilter]
+    );
+
+    const counts = useMemo(() =>
+        Object.fromEntries(
+            FILTERS.map(({ value }) => [
+                value ?? 'all',
+                value ? ALL_PROJECTS.filter((p) => p.type === value).length : ALL_PROJECTS.length,
+            ])
+        ),
+        []
+    );
+
+    const isFiltered   = activeFilter !== null;
+    const needsToggle  = !isFiltered && filtered.length > INITIAL_COUNT;
+    const visible      = isFiltered || showAll ? filtered : filtered.slice(0, INITIAL_COUNT);
+
+    function handleFilter(value) {
+        setActiveFilter(value);
+        setShowAll(false);
+    }
 
     return (
         <section id="gridProjects" className="gridProjects">
             <div className="projects-wrapper">
+
+                {/* Header */}
                 <div className="projects-header">
                     <div>
                         <span className="section-tag">// projetos</span>
                         <h2>Projetos Selecionados</h2>
                     </div>
                     <span className="projects-count">
-                        {showAll ? ALL_PROJECTS.length : INITIAL_COUNT}/{ALL_PROJECTS.length}
+                        {visible.length}/{ALL_PROJECTS.length}
                     </span>
                 </div>
 
-                <div className="Projects">
-                    {visible.map((p, i) => (
-                        <Project
-                            key={p.id}
-                            index={i}
-                            date={p.date}
-                            title={p.title}
-                            type={p.type}
-                            link_git={p.link_git}
-                            link_web={p.link_web}
-                            paste={p.paste}
-                            description={p.description}
-                            stack={p.stack}
-                        />
+                {/* Filter bar */}
+                <div className="filter-bar">
+                    {FILTERS.map(({ label, value, cls }) => (
+                        <button
+                            key={cls}
+                            className={`filter-btn ${cls} ${activeFilter === value ? 'filter-btn--active' : ''}`}
+                            onClick={() => handleFilter(value)}
+                        >
+                            {label}
+                            <span className="filter-count">
+                                {counts[value ?? 'all']}
+                            </span>
+                        </button>
                     ))}
                 </div>
 
-                <div className="projects-toggle">
-                    <button
-                        className="btn-toggle"
-                        onClick={() => setShowAll((prev) => !prev)}
-                    >
-                        {showAll
-                            ? `↑ Mostrar menos`
-                            : `Ver todos os projetos (${ALL_PROJECTS.length - INITIAL_COUNT} restantes)`}
-                    </button>
-                </div>
+                {/* Grid */}
+                {visible.length > 0 ? (
+                    <div className="Projects">
+                        {visible.map((p, i) => (
+                            <Project
+                                key={p.id}
+                                index={i}
+                                date={p.date}
+                                title={p.title}
+                                type={p.type}
+                                link_git={p.link_git}
+                                link_web={p.link_web}
+                                paste={p.paste}
+                                description={p.description}
+                                stack={p.stack}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="projects-empty">
+                        <p>Nenhum projeto encontrado para este filtro.</p>
+                    </div>
+                )}
+
+                {/* Ver mais — só aparece no modo "Todos" */}
+                {needsToggle && (
+                    <div className="projects-toggle">
+                        <button
+                            className="btn-toggle"
+                            onClick={() => setShowAll((prev) => !prev)}
+                        >
+                            {showAll
+                                ? '↑ Mostrar menos'
+                                : `Ver todos os projetos (${filtered.length - INITIAL_COUNT} restantes)`}
+                        </button>
+                    </div>
+                )}
+
             </div>
         </section>
     );
