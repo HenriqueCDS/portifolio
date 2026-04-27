@@ -2,17 +2,32 @@ import './Experience.css';
 
 const experiences = [
     {
-        period: '2023 — atual',
-        role: 'Desenvolvedor Backend',
-        company: 'Sociedade Campineira de Educação e Instrução',
+        period: '2024 — atual',
+        role: 'Analista de Suporte Júnior',
+        company: 'PUC-Campinas',
         location: 'Campinas, SP',
         bullets: [
-            'Desenvolveu e manteve APIs REST para integração entre Canvas LMS e sistema Lyceum, automatizando sincronização de usuários, matrículas e dados acadêmicos',
-            'Implementou pipelines ETL em Python para consolidação de dados de múltiplas fontes, eliminando processos manuais recorrentes e reduzindo incidência de erros',
-            'Trabalhou com manipulação e transformação de dados em larga escala utilizando Python, MySQL e SQL Server',
-            'Automatizou fluxos de processos educacionais, reduzindo carga operacional das equipes de TI e pedagógica',
+            'Desenvolve integrações entre sistemas acadêmicos (Canvas LMS e Lyceum) utilizando APIs REST, automatizando a verificação sincronização de usuários, matrículas',
+            'Cria scripts em Python para automação de processos e validação de dados, reduzindo tarefas manuais e aumentando a confiabilidade das informações',
+            'Implementa processos de ETL para tratamento, transformação e análise de dados acadêmicos em larga escala',
+            'Identifica e corrige inconsistências em bases de dados, garantindo integridade e qualidade das informações',
+            'Atua com abordagem orientada a dados, indo além do suporte tradicional e propondo soluções sistêmicas',
         ],
-        stack: ['Python', 'Java', 'APIs REST', 'MySQL', 'SQL Server', 'Canvas LMS', 'Lyceum', 'ETL'],
+        stack: ['Python', 'APIs REST', 'ETL', 'MySQL', 'Canvas LMS', 'Lyceum', 'Automação', 'Integração de Sistemas'],
+    },
+    {
+        period: '2022 — 2024',
+        role: 'Estagiário em Desenvolvimento de Software',
+        company: 'FUNCAMP',
+        location: 'Campinas, SP',
+        bullets: [
+            'Desenvolveu aplicações web e funcionalidades backend com foco em lógica de negócio',
+            'Trabalhou com manipulação e modelagem de banco de dados relacionais (MySQL)',
+            'Participou do desenvolvimento de sistemas utilizando boas práticas de programação',
+            'Atuou em equipe com metodologias ágeis (Scrum), contribuindo para entregas contínuas',
+            'Ganhou experiência prática no ciclo de desenvolvimento de software, da implementação à manutenção',
+        ],
+        stack: ['Java', 'Python', 'MySQL', 'HTML', 'CSS', 'JavaScript', 'Scrum'],
     },
 ];
 

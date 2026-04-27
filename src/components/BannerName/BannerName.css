@@ -126,8 +126,8 @@
 }
 
 .banner-photo-wrapper {
-    width: 160px;
-    height: 160px;
+    width: 20rem;
+    height: 20rem;
 }
 
 .banner-photo {
@@ -190,21 +190,21 @@
 }
 
 @media (max-width: 900px) {
+    .banner-photo-wrapper {
+        width: 15rem;
+        height: 15rem;
+    }
     .banner-grid {
         grid-template-columns: 1fr;
         gap: 2.5rem;
     }
-
-    .banner-visual {
-        order: -1;
-    }
-
     .banner-name {
         font-size: clamp(2.5rem, 8vw, 3.5rem);
     }
 }
 
 @media (max-width: 480px) {
+
     .banner {
         padding: 5rem 1.25rem 3rem;
     }

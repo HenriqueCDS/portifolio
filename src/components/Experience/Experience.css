@@ -24,14 +24,14 @@
 .timeline {
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 0;
 }
 
 .timeline-item {
     display: grid;
     grid-template-columns: 160px 32px 1fr;
     gap: 1.5rem;
-    align-items: start;
+    align-items: stretch; /* todos os filhos esticam até a altura máxima da row */
 }
 
 .timeline-left {
@@ -59,26 +59,79 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    align-self: stretch; /* ocupa 100% da altura da row do grid */
     gap: 0;
 }
 
 .timeline-dot {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: var(--color-add);
     border: 2px solid var(--color-bg);
     box-shadow: 0 0 0 2px var(--color-add);
     flex-shrink: 0;
-    margin-top: 4px;
+    margin-top: 3px;
+    position: relative;
+    z-index: 1;
 }
 
+/* pulsação no dot do cargo atual */
+.timeline-item:first-child .timeline-dot {
+    box-shadow: 0 0 0 2px var(--color-add), 0 0 14px rgba(59, 130, 246, 0.5);
+    animation: dot-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 2px var(--color-add), 0 0 6px rgba(59, 130, 246, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 0 3px var(--color-add), 0 0 22px rgba(59, 130, 246, 0.65);
+    }
+}
+
+/* linha contínua com efeito de energia subindo */
 .timeline-line {
     width: 2px;
     flex: 1;
-    min-height: 100px;
-    background: var(--color-border);
+    background: rgba(59, 130, 246, 0.15);
     margin-top: 6px;
+    border-radius: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* pulso de energia que sobe da experiência antiga para a atual */
+.timeline-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: linear-gradient(
+        to top,
+        transparent 0%,
+        rgba(59, 130, 246, 0.35) 25%,
+        rgba(147, 197, 253, 1) 50%,
+        rgba(59, 130, 246, 0.35) 75%,
+        transparent 100%
+    );
+    bottom: -70px;
+    opacity: 0;
+    animation: energy-up 2.4s ease-in-out infinite;
+}
+
+@keyframes energy-up {
+    0%   { bottom: -70px; opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    100% { bottom: 100%; opacity: 0; }
+}
+
+/* remove a linha após o último item */
+.timeline-item:last-child .timeline-line {
+    display: none;
 }
 
 /* content */
@@ -86,7 +139,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 3rem;
 }
 
 .timeline-role h3 {
@@ -146,6 +199,7 @@
 @media (max-width: 720px) {
     .timeline-item {
         grid-template-columns: 1fr;
+        align-items: start;
         gap: 0.75rem;
     }
 
@@ -160,6 +214,7 @@
     .timeline-right {
         border-left: 2px solid var(--color-add);
         padding-left: 1rem;
+        padding-bottom: 2rem;
     }
 }
 
