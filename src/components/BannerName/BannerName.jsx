@@ -50,14 +50,14 @@ export default function BannerName() {
                             <span></span><span></span><span></span>
                         </div>
                         <pre className="terminal-code">
-                            <span className="t-comment">// stack principal</span>{'\n'}
+                            <span className="t-comment">// stack principal ツ</span>{'\n'}
                             <span className="t-key">const</span> <span className="t-var">dev</span> = {'{'}{'\n'}
                             {'  '}<span className="t-prop">languages</span>: [<span className="t-str">"Python"</span>, <span className="t-str">"Java"</span>],{'\n'}
                             {'  '}<span className="t-prop">focus</span>: [<span className="t-str">"API REST"</span>, <span className="t-str">"ETL"</span>],{'\n'}
                             {'  '}<span className="t-prop">integrations</span>: [<span className="t-str">"Canvas LMS"</span>,{'\n'}
                             {'               '}<span className="t-str">"Lyceum"</span>],{'\n'}
                             {'  '}<span className="t-prop">db</span>: [<span className="t-str">"MySQL"</span>, <span className="t-str">"SQL Server"</span>],{'\n'}
-                            {'}'}<span className="t-cursor">▋</span>
+                            {'}'}<span className="t-cursor">|</span>
                         </pre>
                     </div>
                 </div>

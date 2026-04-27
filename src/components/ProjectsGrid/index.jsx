@@ -16,9 +16,20 @@ const ALL_PROJECTS = [
         stack: ["Node.js", "Express", "MySQL", "Sequelize", "JWT", "AWS S3", "Jest"],
     },
     {
+        id: "cottom_films",
+        date: "2024",
+        title: "Cotton Films Website",
+        type: "WEB",
+        link_git: "https://github.com/HenriqueCDS/Cotton_Films_Website",
+        link_web: "https://cotton-films-website-usbq.vercel.app/",
+        paste: "cottom_films",
+        description: "Site institucional para produtora audiovisual. Layout responsivo, carrossel de portfólio, animações CSS e deploy automatizado via Vercel.",
+        stack: ["JavaScript", "HTML", "CSS", "Vercel"],
+    },
+    {
         id: "api_ecommerce",
         date: "2024",
-        title: "API E-commerce (Backend)",
+        title: "E-commerce Custom",
         type: "REST API",
         link_git: "https://github.com/HenriqueCDS/api_ecommerce",
         link_web: "https://github.com/HenriqueCDS/ecommerce-custom",
@@ -26,18 +37,7 @@ const ALL_PROJECTS = [
         description: "API backend completa para plataforma de e-commerce com arquitetura MVC. Controllers, middlewares de autenticação, migrations e seeders com Sequelize, camada de serviços separada e configuração de rotas modulares.",
         stack: ["Node.js", "Express", "Sequelize", "MySQL", "MVC"],
     },
-    {
-        id: "websocket",
-        date: "2024",
-        title: "Projeto WebSocket",
-        type: "BACKEND",
-        link_git: "https://github.com/HenriqueCDS/Projeto-Websocket",
-        link_web: null,
-        paste: null,
-        description: "Servidor WebSocket em Node.js com arquitetura modular. Camadas separadas para banco de dados, middlewares, registro de eventos e utilitários. Comunicação em tempo real entre clientes com controle de sessões.",
-        stack: ["Node.js", "WebSocket", "JavaScript"],
-    },
-    {
+     {
         id: "python_sql",
         date: "2024",
         title: "Python + SQL Server — ETL & Dados",
@@ -49,6 +49,17 @@ const ALL_PROJECTS = [
         stack: ["Python", "SQL Server", "Pandas", "Jupyter Notebook", "Faker"],
     },
     // ── Restantes: aparecem ao clicar "Ver mais" ──────────────────────────
+    {
+        id: "websocket",
+        date: "2024",
+        title: "Projeto WebSocket",
+        type: "BACKEND",
+        link_git: "https://github.com/HenriqueCDS/Projeto-Websocket",
+        link_web: null,
+        paste: null,
+        description: "Servidor WebSocket em Node.js com arquitetura modular. Camadas separadas para banco de dados, middlewares, registro de eventos e utilitários. Comunicação em tempo real entre clientes com controle de sessões.",
+        stack: ["Node.js", "WebSocket", "JavaScript"],
+    },
     {
         id: "registration_api",
         date: "2024",
@@ -92,17 +103,6 @@ const ALL_PROJECTS = [
         paste: null,
         description: "Aplicação Java com Spring Boot desenvolvida como avaliação técnica. Estrutura padrão Maven com testes unitários, configuração de propriedades e boas práticas de projeto Spring.",
         stack: ["Java", "Spring Boot", "Maven", "JUnit"],
-    },
-    {
-        id: "cottom_films",
-        date: "2024",
-        title: "Cotton Films Website",
-        type: "WEB",
-        link_git: "https://github.com/HenriqueCDS/Cotton_Films_Website",
-        link_web: "https://cotton-films-website-usbq.vercel.app/",
-        paste: "cottom_films",
-        description: "Site institucional para produtora audiovisual. Layout responsivo, carrossel de portfólio, animações CSS e deploy automatizado via Vercel.",
-        stack: ["JavaScript", "HTML", "CSS", "Vercel"],
     },
     {
         id: "lets_see",
@@ -149,9 +149,10 @@ export default function GridProjects() {
                 </div>
 
                 <div className="Projects">
-                    {visible.map((p) => (
+                    {visible.map((p, i) => (
                         <Project
                             key={p.id}
+                            index={i}
                             date={p.date}
                             title={p.title}
                             type={p.type}
