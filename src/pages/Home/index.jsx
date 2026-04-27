@@ -8,6 +8,7 @@ import TexBanner from "../../components/TextBanner";
 import Loader from '../../components/Loader';
 import About from '../../components/About';
 import Experience from '../../components/Experience';
+import Education from '../../components/Education';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
@@ -37,6 +38,7 @@ export default function Home() {
                 <BannerName />
                 <About />
                 <Experience />
+                <Education />
 
                 <TexBanner text="REST API · ETL · Integração de Sistemas · Python · Java · Backend · Dados · Automação · REST API · ETL · Integração de Sistemas · Python · Java · Backend · Dados · Automação" />
 
