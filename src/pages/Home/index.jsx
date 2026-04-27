@@ -48,7 +48,7 @@ export default function Home() {
 
                 <GridSkills />
 
-                <TexBanner text="Aberto a oportunidades · Backend · Engenharia de Dados · SP / Campinas · Remoto · Aberto a oportunidades · Backend · Engenharia de Dados · SP / Campinas" />
+                <TexBanner text="Aberto a oportunidades · Backend · FRONT END · Engenharia de Dados · SP / Campinas · Remoto · Aberto a oportunidades · Backend ·FRONT END · Engenharia de Dados · SP / Campinas" />
 
                 <FootContacts />
             </div>

@@ -1,4 +1,5 @@
-.desktop {
+/* ── Desktop ── */
+.nav-desktop {
     padding: 1rem 2rem;
     display: flex;
     width: 100%;
@@ -12,21 +13,100 @@
     top: 0;
     left: 0;
 }
-.mobile {
-    display: none;
-    width: 100%;
-    padding: 1em;
-    justify-content: left;
-    z-index: 100000;
 
-}  
+/* ── Mobile wrapper ── */
+.nav-mobile {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100000;
+    background: rgba(13, 17, 23, 0.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+}
+
+.nav-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem 1.25rem;
+}
+
+/* ── Hamburger button ── */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+}
+
+.hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: var(--color-accent);
+    border-radius: 2px;
+    transform-origin: center;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+}
+
+/* Transforma em X quando open */
+.hamburger.open span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* ── Dropdown menu ── */
+.mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.mobile-menu.active {
+    max-height: 420px;
+}
+
+/* Animação cascade dos itens */
+.mobile-menu .nav-item {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    border-top: 1px solid var(--color-border);
+    padding: 0.85rem 1.5rem;
+    text-align: left;
+}
+
+.mobile-menu.active .nav-item:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.05s; }
+.mobile-menu.active .nav-item:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.10s; }
+.mobile-menu.active .nav-item:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
+.mobile-menu.active .nav-item:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.20s; }
+.mobile-menu.active .nav-item:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
+.mobile-menu.active .nav-item:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.30s; }
+.mobile-menu.active .nav-item:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 0.35s; }
+
+/* ── Nav item (compartilhado) ── */
 .nav-item {
     flex: 1;
     padding: 0.25em 1em;
     text-align: center;
-  
 }
-  
+
 .nav-item a {
     position: relative;
     font-size: 0.95rem;
@@ -40,57 +120,33 @@
 .nav-item a:hover {
     color: var(--color-accent);
 }
-.nav-item a:hover {
-     text-shadow: 0.1px 0px;
-}
 
-
-  
- 
-nav button {
-    background: none;
-    border: none;
-    outline: none;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    font-size: 12px;
-    padding: 0.5em 1em;
-    cursor: pointer;
-    
-}
-  
-nav button.active {
-    opacity: 0.35;
-      
-
-}
-  
-
-.nav-item  a:before {
+.nav-item a:before {
     content: "";
     position: absolute;
-    inset: calc(100% - .0625rem) 0 0 0; 
-    background: var(--color-accent); 
+    inset: calc(100% - .0625rem) 0 0 0;
+    background: var(--color-accent);
     scale: 0 1;
     transition: .3s, translate 0s .3s;
 }
 
 .nav-item:hover a:before {
-  scale: 2;
+    scale: 2;
 }
- 
 
-@media(max-width: 480px) { 
-    .nav-item {
-        padding:0em;
+/* ── Responsividade ── */
+@media (max-width: 768px) {
+    .nav-desktop {
+        display: none;
     }
+
+    .nav-mobile {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
     .nav-item a {
-        font-size: 1.125rem;
+        font-size: 1rem;
     }
-    
-    .desktop {
-        padding: 0.5em;
-        
-    }
-   
 }
