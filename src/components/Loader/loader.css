@@ -1,7 +1,7 @@
 .container-loader {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 200000;
   pointer-events: none;
 }
 

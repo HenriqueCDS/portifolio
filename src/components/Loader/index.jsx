@@ -85,7 +85,7 @@ export default function Loader({ onComplete }) {
       <div className="gl-panel gl-panel-bottom" ref={bottomPanelRef}>
         <div className="gl-content gl-content-bottom">
           <div className="gl-name" ref={nameBottomRef}>CORDEIRO ツ</div>
-          <span className="gl-label">frontEnd &amp; backend &amp; dados</span>
+          <span className="gl-label">frontend &amp; backend &amp; dados</span>
         </div>
       </div>
     </div>
