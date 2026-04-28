@@ -235,4 +235,9 @@
     .gridProjects {
         padding: 4rem 1.25rem;
     }
+
+    .filter-btn {
+        padding: 0.7rem 0.85rem;
+        min-height: 44px;
+    }
 }

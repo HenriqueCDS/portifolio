@@ -151,3 +151,13 @@
         font-size: 1.5rem;
     }
 }
+
+@media (max-width: 380px) {
+    .about-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-item:last-child {
+        grid-column: 1 / -1;
+    }
+}

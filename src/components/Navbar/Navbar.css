@@ -45,7 +45,8 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
+    padding: 12px;
+    box-sizing: content-box;
     outline: none;
 }
 

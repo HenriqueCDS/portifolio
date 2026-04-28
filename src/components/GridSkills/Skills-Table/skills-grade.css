@@ -68,3 +68,10 @@
         transform: scale(1) translateY(0);
     }
 }
+
+@media (max-width: 480px) {
+    .filter-btn {
+        padding: 0.6rem 0.85rem;
+        min-height: 44px;
+    }
+}
