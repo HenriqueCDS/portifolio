@@ -7,7 +7,6 @@ const links = [
     { href: '#experience', label: 'EXPERIÊNCIA' },
     { href: '#education', label: 'FORMAÇÃO' },
     { href: '#gridProjects', label: 'PROJETOS' },
-    { href: '#grid-skils', label: 'SKILLS' },
     { href: '#footerContainer', label: 'CONTATO' },
 ]
 

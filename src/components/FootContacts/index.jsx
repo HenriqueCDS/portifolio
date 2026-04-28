@@ -55,6 +55,15 @@ export default function FootContacts() {
                 </div>
             </div>
 
+            <div className="footer-stack">
+                <span className="footer-stack-label">// stack</span>
+                <div className="footer-stack-pills">
+                    {["Python","Java","TypeScript","JavaScript","Node.js","Express.js","Spring Boot","MongoDB","MySQL","SQL Server","Pandas","Docker","Git","AWS S3","REST API","JWT"].map(t => (
+                        <span key={t} className="footer-stack-pill">{t}</span>
+                    ))}
+                </div>
+            </div>
+
             <div className="footerBottom">
                 <p className="copyright">© 2025 Henrique Cordeiro — Desenvolvedor Backend &amp; Dados</p>
             </div>

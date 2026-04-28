@@ -88,6 +88,41 @@ footer {
     color: var(--color-add);
 }
 
+.footer-stack {
+    max-width: 1200px;
+    margin: 2rem auto 0;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.footer-stack-label {
+    font-size: 0.75rem;
+    font-family: monospace;
+    color: var(--color-muted);
+}
+
+.footer-stack-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.footer-stack-pill {
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    border: 1px solid var(--color-border);
+    padding: 0.2rem 0.6rem;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.footer-stack-pill:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
 .footerBottom {
     max-width: 1200px;
     margin: 2rem auto 0;

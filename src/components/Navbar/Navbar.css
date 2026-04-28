@@ -98,7 +98,6 @@
 .mobile-menu.active .nav-item:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.20s; }
 .mobile-menu.active .nav-item:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
 .mobile-menu.active .nav-item:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.30s; }
-.mobile-menu.active .nav-item:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 0.35s; }
 
 /* ── Nav item (compartilhado) ── */
 .nav-item {

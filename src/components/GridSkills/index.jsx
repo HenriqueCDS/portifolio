@@ -26,16 +26,16 @@ export default function GridIconSkills(prop) {
                 <div className="container-skils">
                     <Swiper
                         key={prop.paste}
-                        spaceBetween={1}
+                        spaceBetween={0}
                         slidesPerView={7}
                         loop={true}
-                        speed={800}
+                        speed={600}
                         breakpoints={{
                             300: { slidesPerView: 4 },
                             768: { slidesPerView: 5 },
                         }}
                         autoplay={{
-                            delay: 500,
+                            delay: 1800,
                             disableOnInteraction: false,
                         }}
                         modules={[Autoplay]}

@@ -1,7 +1,6 @@
 
 import BannerName from "../../components/BannerName/BannerName";
 import FootContacts from "../../components/FootContacts";
-import GridSkills from "../../components/GridSkills";
 import Navbar from "../../components/Navbar/Navbar";
 import GridProjects from "../../components/ProjectsGrid";
 import TexBanner from "../../components/TextBanner";
@@ -35,10 +34,6 @@ export default function Home() {
                 <TexBanner text="REST API · ETL · Integração de Sistemas · Python · Java · Backend · Dados · Automação · REST API · ETL · Integração de Sistemas · Python · Java · Backend · Dados · Automação" />
 
                 <GridProjects />
-
-                <TexBanner text="Node.js · Express · Spring Boot · MySQL · SQL Server · MongoDB · Docker · Git · Sequelize · JWT · Node.js · Express · Spring Boot · MySQL · SQL Server · MongoDB" />
-
-                <GridSkills />
 
                 <TexBanner text="Aberto a oportunidades · Backend · FRONT END · Engenharia de Dados · SP / Campinas · Remoto · Aberto a oportunidades · Backend ·FRONT END · Engenharia de Dados · SP / Campinas" />
 
