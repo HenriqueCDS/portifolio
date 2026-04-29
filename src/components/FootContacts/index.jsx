@@ -8,7 +8,7 @@ export default function FootContacts() {
                 <div className="footerLogo">
                     <span className="footer-tag">// contato</span>
                     <h2>Vamos conversar?</h2>
-                    <p className="footer-sub">Aberto a oportunidades em backend e engenharia de dados.</p>
+                    <p className="footer-sub">Aberto a oportunidades em froentend, backend e engenharia de dados.</p>
                 </div>
 
                 <div className="footerLinks">
@@ -65,7 +65,7 @@ export default function FootContacts() {
             </div>
 
             <div className="footerBottom">
-                <p className="copyright">© 2025 Henrique Cordeiro — Desenvolvedor Backend &amp; Dados</p>
+                <p className="copyright">© 2025 Henrique Cordeiro — Desenvolvedor</p>
             </div>
         </footer>
     )

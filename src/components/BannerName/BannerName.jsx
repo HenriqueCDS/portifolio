@@ -14,7 +14,7 @@ export default function BannerName() {
                     </p>
                     <div className="banner-actions">
                         <a
-                            href="https://www.linkedin.com/in/henrique-cordeiro-940709201/"
+                            href="https://www.linkedin.com/in/henriqucordeiro/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-primary"

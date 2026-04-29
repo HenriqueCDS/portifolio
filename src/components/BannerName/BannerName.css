@@ -207,12 +207,17 @@
 /* terminal snippet */
 .banner-terminal {
     width: 100%;
+    min-width: 0;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 10px;
     overflow-x: auto;
     font-family: 'Courier New', monospace;
     font-size: 0.82rem;
+}
+
+.terminal-code span {
+    font-size: inherit;
 }
 
 .terminal-bar {
@@ -255,36 +260,49 @@
 }
 
 @media (max-width: 900px) {
+    .banner {
+        padding: 5rem 1rem;
+    }
     .banner-photo-wrapper {
-        width: 15rem;
-        height: 15rem;
+        display:none
     }
     .banner-grid {
         grid-template-columns: 1fr;
         gap: 2.5rem;
     }
+    .banner-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .banner-tag {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
     .banner-name {
         font-size: clamp(2.5rem, 8vw, 3.5rem);
-    }
-  
-    .banner-content {
+        width: 100%;
         text-align: center;
-        align-items: center;
     }
     .banner-pitch {
+        width: 100%;
         max-width: 100%;
+        text-align: center;
+    }
+    .banner-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    .banner-socials {
+        width: 100%;
+        justify-content: center;
     }
 }
 
 @media (max-width: 480px) {
-    .banner {
-        padding: 5rem 1.25rem 3rem;
-    }
-
-    .banner-photo-wrapper {
-        width: 10rem;
-        height: 10rem;
-    }
 
     .btn-primary,
     .btn-secondary {
