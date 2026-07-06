@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchGithubRepos } from '../services/githubService';
+import { fetchStarredRepos, fetchReadmeExcerpt, GITHUB_USERNAME } from '../services/githubService';
 import { PROJECT_META, SKIP_REPOS, inferType, formatRepoName } from '../data/projectsMeta';
 
 function buildFallback() {
@@ -8,7 +8,7 @@ function buildFallback() {
         title: meta.title || formatRepoName(name),
         date: '2024',
         type: meta.type || 'BACKEND',
-        link_git: `https://github.com/HenriqueCDS/${name}`,
+        link_git: `https://github.com/${GITHUB_USERNAME}/${name}`,
         link_web: meta.link_web || null,
         paste: meta.paste || null,
         description: meta.description || '',
@@ -27,10 +27,19 @@ function mergeRepoWithMeta(repo) {
         link_git: repo.html_url,
         link_web: repo.homepage || meta.link_web || null,
         paste: meta.paste || null,
+        // fallback local — será sobrescrito pelo excerto do README quando disponível
         description: meta.description || repo.description || 'Repositório disponível no GitHub.',
         stack: meta.stack || (repo.language ? [repo.language] : []),
         featured: meta.featured || false,
     };
+}
+
+// featured primeiro, depois por data de atualização (mais recente antes)
+function sortProjects(list) {
+    return [...list].sort((a, b) => {
+        if (a.featured !== b.featured) return a.featured ? -1 : 1;
+        return parseInt(b.date) - parseInt(a.date);
+    });
 }
 
 export function useGithubProjects() {
@@ -39,26 +48,43 @@ export function useGithubProjects() {
     const [error, setError]       = useState(null);
 
     useEffect(() => {
-        fetchGithubRepos()
-            .then((repos) => {
-                const enriched = repos
-                    .filter((r) => !r.fork && !SKIP_REPOS.has(r.name))
-                    .map(mergeRepoWithMeta)
-                    // featured primeiro, depois por data de atualização
-                    .sort((a, b) => {
-                        if (a.featured !== b.featured) return a.featured ? -1 : 1;
-                        return parseInt(b.date) - parseInt(a.date);
-                    });
+        let cancelled = false;
 
-                setProjects(enriched);
+        fetchStarredRepos()
+            .then(async (repos) => {
+                // apenas meus próprios repositórios favoritados
+                const own = repos.filter(
+                    (r) => r.owner?.login === GITHUB_USERNAME && !SKIP_REPOS.has(r.name)
+                );
+
+                const base = sortProjects(own.map(mergeRepoWithMeta));
+
+                // 1º render rápido: description local (meta/repo)
+                if (!cancelled) {
+                    setProjects(base);
+                    setLoading(false);
+                }
+
+                // 2º passo: enriquece com um excerto do README de cada repo
+                const enriched = await Promise.all(
+                    base.map(async (p) => {
+                        const excerpt = await fetchReadmeExcerpt(GITHUB_USERNAME, p.id);
+                        return excerpt ? { ...p, description: excerpt } : p;
+                    })
+                );
+
+                if (!cancelled) setProjects(enriched);
             })
             .catch((err) => {
+                if (cancelled) return;
                 const isRateLimit = err.message === 'rate_limit';
                 setError(isRateLimit ? 'rate_limit' : 'api_error');
                 // fallback: dados do projectsMeta sem precisar da API
-                setProjects(buildFallback().sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)));
-            })
-            .finally(() => setLoading(false));
+                setProjects(sortProjects(buildFallback()));
+                setLoading(false);
+            });
+
+        return () => { cancelled = true; };
     }, []);
 
     return { projects, loading, error };
