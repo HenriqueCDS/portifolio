@@ -1,11 +1,32 @@
 import './footer.css'
 import { useState } from 'react';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { Phone, MapPin, Envelope, GithubLogo, LinkedinLogo, PaperPlaneTilt } from 'phosphor-react';
+import { useScrollReveal, prefersReducedMotion } from '../../hooks/useScrollReveal';
 
 const CONTACT_EMAIL = 'henriquecordeiro054@gmail.com';
 
 export default function FootContacts() {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+    const scope = useScrollReveal('.footerLogo, .footerAside', { y: 30, stagger: 0.15 });
+
+    useGSAP(() => {
+        if (prefersReducedMotion()) return;
+
+        gsap.from('.footer-stack-pill', {
+            opacity: 0,
+            y: 12,
+            duration: 0.5,
+            stagger: 0.02,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: '.footer-stack',
+                start: 'top 90%',
+                toggleActions: 'play none none reverse',
+            },
+        });
+    }, { scope });
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -23,7 +44,7 @@ export default function FootContacts() {
     }
 
     return (
-        <footer>
+        <footer ref={scope}>
             <div id="footerContainer" className="footerContainer">
                 <div className="footerLogo">
                     <span className="footer-tag">// contato</span>

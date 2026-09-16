@@ -1,10 +1,29 @@
 
 import './BannerName.css'
 import { GithubLogo, LinkedinLogo, ArrowDown } from 'phosphor-react';
+import { useRef } from 'react';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { prefersReducedMotion } from '../../hooks/useScrollReveal';
 
-export default function BannerName() {
+export default function BannerName({ ready }) {
+    const scope = useRef(null);
+
+    // dispara só quando o Loader termina — o banner já está montado (porém escondido) antes disso
+    useGSAP(() => {
+        if (!ready || prefersReducedMotion()) return;
+
+        gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.8 } })
+            .from('.banner-tag', { opacity: 0, y: 20 })
+            .from('.banner-name', { opacity: 0, y: 30 }, '-=0.5')
+            .from('.banner-pitch', { opacity: 0, y: 20 }, '-=0.5')
+            .from('.banner-actions', { opacity: 0, y: 20 }, '-=0.5')
+            .from('.banner-socials', { opacity: 0, y: 20 }, '-=0.5')
+            .from('.banner-visual', { opacity: 0, scale: 0.92 }, '-=0.7');
+    }, { scope, dependencies: [ready] });
+
     return (
-        <section id="banner" className="banner">
+        <section id="banner" className="banner" ref={scope}>
             <div className="banner-grid">
                 <div className="banner-content">
                     <span className="banner-tag">// desenvolvedor backend &amp; dados</span>

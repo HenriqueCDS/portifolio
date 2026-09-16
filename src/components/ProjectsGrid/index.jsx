@@ -1,7 +1,13 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import Project from "./Project";
 import "./GridProject.css";
 import { useGithubProjects } from '../../hooks/useGithubProjects';
+import { prefersReducedMotion } from '../../hooks/useScrollReveal';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const FILTERS = [
     { label: 'Todos',    value: null,       cls: 'f-all'     },
@@ -19,6 +25,7 @@ export default function GridProjects() {
     const { projects, loading, error } = useGithubProjects();
     const [activeFilter, setActiveFilter] = useState(null);
     const [showAll, setShowAll]           = useState(false);
+    const scope = useRef(null);
 
     const featured    = useMemo(() => projects.filter((p) => p.featured), [projects]);
     const nonFeatured = useMemo(() => projects.filter((p) => !p.featured), [projects]);
@@ -56,8 +63,32 @@ export default function GridProjects() {
         setShowAll(false);
     }
 
+    // batch: reanima só os cards que entram na viewport, funciona também após trocar filtro/"ver mais"
+    // depende do TAMANHO/identidade da lista renderizada, não do array `visible` em si — `projects` troca de
+    // referência quando o hook enriquece as descriptions via README (useGithubProjects), o que recriaria os
+    // ScrollTriggers e resetava a opacidade dos cards que já tinham acabado de aparecer.
+    useGSAP(() => {
+        if (prefersReducedMotion() || loading || !visible.length) return;
+
+        ScrollTrigger.batch('.project-card', {
+            start: 'top 85%',
+            onEnter: (batch) => gsap.from(batch, {
+                opacity: 0,
+                y: 40,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: 'power3.out',
+                overwrite: true,
+            }),
+        });
+
+        // cards que já estavam visíveis (ex.: recém-expandidos via "ver mais") podem cair numa zona
+        // ambígua do batch, que só detecta entrada por scroll — o refresh força reavaliar a posição atual
+        requestAnimationFrame(() => ScrollTrigger.refresh());
+    }, { scope, dependencies: [visible.length, activeFilter, showAll, loading] });
+
     return (
-        <section id="gridProjects" className="gridProjects">
+        <section id="gridProjects" className="gridProjects" ref={scope}>
             <div className="projects-wrapper">
 
                 {/* Header */}

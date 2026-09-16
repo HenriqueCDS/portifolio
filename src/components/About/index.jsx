@@ -1,8 +1,42 @@
 import './About.css';
+import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { useScrollReveal, prefersReducedMotion } from '../../hooks/useScrollReveal';
 
 export default function About() {
+    const scope = useScrollReveal('.about-text p, .about-stats .stat-item, .about-focus');
+
+    // contagem dos números (mantendo o sufixo, ex.: "8+")
+    useGSAP(() => {
+        if (prefersReducedMotion()) return;
+
+        gsap.utils.toArray('.stat-num', scope.current).forEach((el) => {
+            // valor-alvo vem de data-value (imutável) — não do textContent, que o próprio onUpdate
+            // sobrescreve; em StrictMode o efeito roda 2x e a segunda leitura pegaria o texto já em contagem
+            const target = parseInt(el.dataset.value, 10);
+            if (Number.isNaN(target)) return;
+
+            const suffix = el.textContent.trim().replace(/^\d+/, '');
+            const counter = { value: 0 };
+
+            gsap.to(counter, {
+                value: target,
+                duration: 1.2,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse',
+                },
+                onUpdate: () => {
+                    el.textContent = `${Math.round(counter.value)}${suffix}`;
+                },
+            });
+        });
+    }, { scope });
+
     return (
-        <section id="about" className="about">
+        <section id="about" className="about" ref={scope}>
             <div className="about-container">
                 <div className="about-header">
                     <span className="section-tag">// sobre</span>
@@ -38,15 +72,15 @@ export default function About() {
                     <div className="about-aside">
                         <div className="about-stats">
                             <div className="stat-item">
-                                <span className="stat-num">4+</span>
+                                <span className="stat-num" data-value="4">4+</span>
                                 <span className="stat-label">Projetos Backend</span>
                             </div>
                             <div className="stat-item">
-                                <span className="stat-num">3+</span>
+                                <span className="stat-num" data-value="3">3+</span>
                                 <span className="stat-label">Projetos frontend</span>
                             </div>
                             <div className="stat-item">
-                                <span className="stat-num">8+</span>
+                                <span className="stat-num" data-value="8">8+</span>
                                 <span className="stat-label">Anos codando</span>
                             </div>
                         </div>

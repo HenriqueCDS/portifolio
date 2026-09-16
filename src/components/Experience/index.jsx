@@ -1,4 +1,5 @@
 import './Experience.css';
+import { useTimelineReveal } from '../../hooks/useTimelineReveal';
 
 const experiences = [
     {
@@ -33,8 +34,10 @@ const experiences = [
 ];
 
 export default function Experience() {
+    const scope = useTimelineReveal('timeline');
+
     return (
-        <section id="experience" className="experience">
+        <section id="experience" className="experience" ref={scope}>
             <div className="experience-container">
                 <div className="experience-header">
                     <span className="section-tag">// experiência</span>

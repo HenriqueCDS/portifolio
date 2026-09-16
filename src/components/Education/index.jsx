@@ -1,4 +1,5 @@
 import './Education.css';
+import { useTimelineReveal } from '../../hooks/useTimelineReveal';
 
 const education = [
     {
@@ -43,8 +44,10 @@ const education = [
 ];
 
 export default function Education() {
+    const scope = useTimelineReveal('edu-timeline');
+
     return (
-        <section id="education" className="education">
+        <section id="education" className="education" ref={scope}>
             <div className="education-container">
                 <div className="education-header">
                     <span className="section-tag">// formação</span>
