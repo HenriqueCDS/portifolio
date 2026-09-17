@@ -9,36 +9,26 @@
     overflow: hidden;
 }
 
-/* Ken Burns — imagem de fundo com zoom + pan suave via transform (GPU) */
-.banner::before {
-    content: '';
+/* Fundo infinito em Three.js — canvas ocupa a section inteira, atrás do overlay */
+.banner-canvas {
     position: absolute;
-    inset: -10%;
-    background-image: url("../../../public/gif/windows.jpg");
-    background-size: cover;
-    background-position: center;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     z-index: 0;
-    will-change: transform;
-    animation: kenBurns 24s ease-in-out infinite alternate;
+    display: block;
 }
 
-/* Overlay escuro + toque de aurora pulsante */
+/* Overlay escuro + toque de aurora pulsante, por cima do canvas */
 .banner::after {
     content: '';
     position: absolute;
     inset: 0;
     background:
         radial-gradient(ellipse 70% 50% at 18% 65%, rgba(37, 99, 235, 0.14) 0%, transparent 65%),
-        rgba(13, 17, 23, 0.82);
+        rgba(13, 17, 23, 0.6);
     z-index: 1;
     animation: auroraGlow 10s ease-in-out infinite alternate;
-}
-
-@keyframes kenBurns {
-    0%   { transform: scale(1)    translate(0%,    0%);   }
-    33%  { transform: scale(1.07) translate(-1.5%, 1%);   }
-    66%  { transform: scale(1.04) translate(1%,   -0.8%); }
-    100% { transform: scale(1.09) translate(-0.5%, 1.5%); }
 }
 
 @keyframes auroraGlow {

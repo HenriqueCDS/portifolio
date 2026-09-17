@@ -5,9 +5,13 @@ import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { prefersReducedMotion } from '../../hooks/useScrollReveal';
+import { useBannerScene } from '../../hooks/useBannerScene';
 
 export default function BannerName({ ready }) {
     const scope = useRef(null);
+    const canvasRef = useRef(null);
+
+    useBannerScene(canvasRef, scope);
 
     // dispara só quando o Loader termina — o banner já está montado (porém escondido) antes disso
     useGSAP(() => {
@@ -24,6 +28,7 @@ export default function BannerName({ ready }) {
 
     return (
         <section id="banner" className="banner" ref={scope}>
+            <canvas className="banner-canvas" ref={canvasRef} aria-hidden="true" />
             <div className="banner-grid">
                 <div className="banner-content">
                     <span className="banner-tag">// desenvolvedor backend &amp; dados</span>
