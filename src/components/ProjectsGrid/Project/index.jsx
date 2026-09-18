@@ -1,7 +1,7 @@
 import './project.css'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { GithubLogo, LinkSimple, ArrowUpRight } from 'phosphor-react';
+import { GithubLogo, ArrowUpRight } from 'phosphor-react';
 import { useState, useEffect } from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';

@@ -40,7 +40,7 @@ export default function Experience() {
         <section id="experience" className="experience" ref={scope}>
             <div className="experience-container">
                 <div className="experience-header">
-                    <span className="section-tag">// experiência</span>
+                    <span className="section-tag">{'// experiência'}</span>
                     <h2>Experiência Profissional</h2>
                 </div>
 

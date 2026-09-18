@@ -2,36 +2,20 @@
 import './BannerName.css'
 import { GithubLogo, LinkedinLogo, ArrowDown } from 'phosphor-react';
 import { useRef } from 'react';
-import { gsap } from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { prefersReducedMotion } from '../../hooks/useScrollReveal';
 import { useBannerScene } from '../../hooks/useBannerScene';
 
-export default function BannerName({ ready }) {
+export default function BannerName() {
     const scope = useRef(null);
     const canvasRef = useRef(null);
 
     useBannerScene(canvasRef, scope);
-
-    // dispara só quando o Loader termina — o banner já está montado (porém escondido) antes disso
-    useGSAP(() => {
-        if (!ready || prefersReducedMotion()) return;
-
-        gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.8 } })
-            .from('.banner-tag', { opacity: 0, y: 20 })
-            .from('.banner-name', { opacity: 0, y: 30 }, '-=0.5')
-            .from('.banner-pitch', { opacity: 0, y: 20 }, '-=0.5')
-            .from('.banner-actions', { opacity: 0, y: 20 }, '-=0.5')
-            .from('.banner-socials', { opacity: 0, y: 20 }, '-=0.5')
-            .from('.banner-visual', { opacity: 0, scale: 0.92 }, '-=0.7');
-    }, { scope, dependencies: [ready] });
 
     return (
         <section id="banner" className="banner" ref={scope}>
             <canvas className="banner-canvas" ref={canvasRef} aria-hidden="true" />
             <div className="banner-grid">
                 <div className="banner-content">
-                    <span className="banner-tag">// desenvolvedor backend &amp; dados</span>
+                    <span className="banner-tag">{'// desenvolvedor backend & dados'}</span>
                     <h1 className="banner-name">Henrique<br />Cordeiro</h1>
                     <p className="banner-pitch">
                         Desenvolvedor de software focado em APIs, integração de sistemas e pipelines de dados, criando soluções escaláveis para ambientes educacionais..
@@ -72,13 +56,13 @@ export default function BannerName({ ready }) {
                             <span></span><span></span><span></span>
                         </div>
                         <pre className="terminal-code">
-                            <span className="t-comment">// stack principal ツ</span>{'\n'}
+                            <span className="t-comment">{'// stack principal ツ'}</span>{'\n'}
                             <span className="t-key">const</span> <span className="t-var">dev</span> = {'{'}{'\n'}
-                            {'  '}<span className="t-prop">languages</span>: [<span className="t-str">"Python"</span>, <span className="t-str">"Java"</span>],{'\n'}
-                            {'  '}<span className="t-prop">focus</span>: [<span className="t-str">"API REST"</span>, <span className="t-str">"ETL"</span>],{'\n'}
-                            {'  '}<span className="t-prop">integrations</span>: [<span className="t-str">"Canvas LMS"</span>,{'\n'}
-                            {'               '}<span className="t-str">"Lyceum"</span>],{'\n'}
-                            {'  '}<span className="t-prop">db</span>: [<span className="t-str">"MySQL"</span>, <span className="t-str">"SQL Server"</span>],{'\n'}
+                            {'  '}<span className="t-prop">languages</span>: [<span className="t-str">{'"Python"'}</span>, <span className="t-str">{'"Java"'}</span>],{'\n'}
+                            {'  '}<span className="t-prop">focus</span>: [<span className="t-str">{'"API REST"'}</span>, <span className="t-str">{'"ETL"'}</span>],{'\n'}
+                            {'  '}<span className="t-prop">integrations</span>: [<span className="t-str">{'"Canvas LMS"'}</span>,{'\n'}
+                            {'               '}<span className="t-str">{'"Lyceum"'}</span>],{'\n'}
+                            {'  '}<span className="t-prop">db</span>: [<span className="t-str">{'"MySQL"'}</span>, <span className="t-str">{'"SQL Server"'}</span>],{'\n'}
                             {'}'}<span className="t-cursor">|</span>
                         </pre>
                     </div>

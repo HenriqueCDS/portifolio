@@ -63,7 +63,7 @@ export default function GridProjects() {
                 {/* Header */}
                 <div className="projects-header">
                     <div>
-                        <span className="section-tag">// projetos</span>
+                        <span className="section-tag">{'// projetos'}</span>
                         <h2>Projetos Selecionados</h2>
                     </div>
                     <div className="header-right">

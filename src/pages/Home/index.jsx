@@ -26,7 +26,7 @@ export default function Home() {
 
             <div className={`page-content ${loading ? 'hidden' : 'visible'}`}>
                 <Navbar />
-                <BannerName ready={!loading} />
+                <BannerName />
                 <About />
                 <Experience />
                 <Education />

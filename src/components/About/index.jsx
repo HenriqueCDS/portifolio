@@ -39,7 +39,7 @@ export default function About() {
         <section id="about" className="about" ref={scope}>
             <div className="about-container">
                 <div className="about-header">
-                    <span className="section-tag">// sobre</span>
+                    <span className="section-tag">{'// sobre'}</span>
                     <h2>Sobre mim</h2>
                 </div>
 

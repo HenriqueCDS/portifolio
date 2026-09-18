@@ -17,7 +17,7 @@ export async function fetchStarredRepos() {
             const { data, ts } = JSON.parse(raw);
             if (Date.now() - ts < CACHE_TTL) return data;
         }
-    } catch (_) { /* sessionStorage indisponível */ }
+    } catch { /* sessionStorage indisponível */ }
 
     const res = await fetch(STARRED_URL, {
         headers: { Accept: 'application/vnd.github+json' },
@@ -30,7 +30,7 @@ export async function fetchStarredRepos() {
 
     try {
         sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
-    } catch (_) { /* quota esgotada */ }
+    } catch { /* quota esgotada */ }
 
     return data;
 }
@@ -48,7 +48,7 @@ export async function fetchReadmeExcerpt(owner, repo, maxLen = 240) {
             const { text, ts } = JSON.parse(raw);
             if (Date.now() - ts < CACHE_TTL) return text;
         }
-    } catch (_) { /* ignore */ }
+    } catch { /* ignore */ }
 
     let excerpt = null;
     try {
@@ -60,11 +60,11 @@ export async function fetchReadmeExcerpt(owner, repo, maxLen = 240) {
             excerpt = extractExcerpt(md, maxLen);
         }
         // 403/404/etc → mantém null e cai no fallback local
-    } catch (_) { /* rede indisponível → fallback local */ }
+    } catch { /* rede indisponível → fallback local */ }
 
     try {
         sessionStorage.setItem(cacheKey, JSON.stringify({ text: excerpt, ts: Date.now() }));
-    } catch (_) { /* ignore */ }
+    } catch { /* ignore */ }
 
     return excerpt;
 }

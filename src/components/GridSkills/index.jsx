@@ -19,7 +19,7 @@ export default function GridIconSkills(prop) {
         <section id="grid-skils" className="grid-skils">
             <div className="container">
                 <div className="skills-header">
-                    <span className="section-tag">// skills</span>
+                    <span className="section-tag">{'// skills'}</span>
                     <h2>Stack Técnica</h2>
                 </div>
 

@@ -50,7 +50,7 @@ export default function Education() {
         <section id="education" className="education" ref={scope}>
             <div className="education-container">
                 <div className="education-header">
-                    <span className="section-tag">// formação</span>
+                    <span className="section-tag">{'// formação'}</span>
                     <h2>Formação Acadêmica</h2>
                 </div>
 

@@ -72,13 +72,14 @@ export default function Loader({ onComplete }) {
     }, 300);
 
     return () => cancelAnimationFrame(frameId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- onComplete só precisa disparar uma vez, ao fim da animação de saída
   }, []);
 
   return (
     <div className="container-loader">
       <div className="gl-panel gl-panel-top" ref={topPanelRef}>
         <div className="gl-content gl-content-top">
-          <span className="gl-label">// carregando portfolio</span>
+          <span className="gl-label">{'// carregando portfolio'}</span>
           <div className="gl-name" ref={nameTopRef}>HENRIQUE</div>
         </div>
       </div>

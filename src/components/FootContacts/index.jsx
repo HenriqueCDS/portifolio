@@ -47,7 +47,7 @@ export default function FootContacts() {
         <footer ref={scope}>
             <div id="footerContainer" className="footerContainer">
                 <div className="footerLogo">
-                    <span className="footer-tag">// contato</span>
+                    <span className="footer-tag">{'// contato'}</span>
                     <h2>Vamos conversar?</h2>
                     <p className="footer-sub">Aberto a oportunidades em froentend, backend e engenharia de dados.</p>
 
@@ -145,7 +145,7 @@ export default function FootContacts() {
             </div>
 
             <div className="footer-stack">
-                <span className="footer-stack-label">// stack</span>
+                <span className="footer-stack-label">{'// stack'}</span>
                 <div className="footer-stack-pills">
                     {["Python","Java","TypeScript","JavaScript","Node.js","Express.js","Spring Boot","MongoDB","MySQL","SQL Server","Postgresql","Pandas","Docker","Git","AWS S3","REST API","MENSAGERIAS","JWT","rabbitmq"].map(t => (
                         <span key={t} className="footer-stack-pill">{t}</span>
