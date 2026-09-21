@@ -2,13 +2,13 @@
 import './BannerName.css'
 import { GithubLogo, LinkedinLogo, ArrowDown } from 'phosphor-react';
 import { useRef } from 'react';
-import { useBannerScene } from '../../hooks/useBannerScene';
+import { useBlackHoleScene } from '../../hooks/useBlackHoleScene';
 
 export default function BannerName() {
     const scope = useRef(null);
     const canvasRef = useRef(null);
 
-    useBannerScene(canvasRef, scope);
+    useBlackHoleScene(canvasRef, scope);
 
     return (
         <section id="banner" className="banner" ref={scope}>

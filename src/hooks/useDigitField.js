@@ -49,7 +49,7 @@ function createDigitPoints(THREE, texture, count) {
 
 // campo infinito (wrap no eixo Z) de dígitos "0"/"1" com leve parallax de mouse,
 // pausado fora da viewport/aba pra não gastar GPU/bateria à toa
-export function useBannerScene(canvasRef, sectionRef) {
+export function useDigitField(canvasRef, sectionRef) {
     const pointerRef = useRef({ x: 0, y: 0 });
 
     useEffect(() => {

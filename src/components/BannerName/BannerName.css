@@ -7,9 +7,17 @@
     padding: 6rem 2rem 4rem;
     position: relative;
     overflow: hidden;
+    cursor: grab;
+    /* arrastar na horizontal orbita o buraco negro; na vertical continua rolando a página */
+    touch-action: pan-y;
 }
 
-/* Fundo infinito em Three.js — canvas ocupa a section inteira, atrás do overlay */
+.banner.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+}
+
+/* Fundo em Three.js (buraco negro ASCII em tons de gelo) — canvas ocupa a section inteira, atrás do overlay */
 .banner-canvas {
     position: absolute;
     inset: 0;

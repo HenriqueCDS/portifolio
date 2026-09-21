@@ -1,15 +1,19 @@
 import './footer.css'
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { Phone, MapPin, Envelope, GithubLogo, LinkedinLogo, PaperPlaneTilt } from 'phosphor-react';
 import { useScrollReveal, prefersReducedMotion } from '../../hooks/useScrollReveal';
+import { useDigitField } from '../../hooks/useDigitField';
 
 const CONTACT_EMAIL = 'henriquecordeiro054@gmail.com';
 
 export default function FootContacts() {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const scope = useScrollReveal('.footerLogo, .footerAside', { y: 30, stagger: 0.15 });
+    const canvasRef = useRef(null);
+
+    useDigitField(canvasRef, scope);
 
     useGSAP(() => {
         if (prefersReducedMotion()) return;
@@ -45,6 +49,7 @@ export default function FootContacts() {
 
     return (
         <footer ref={scope}>
+            <canvas className="footer-canvas" ref={canvasRef} aria-hidden="true" />
             <div id="footerContainer" className="footerContainer">
                 <div className="footerLogo">
                     <span className="footer-tag">{'// contato'}</span>
