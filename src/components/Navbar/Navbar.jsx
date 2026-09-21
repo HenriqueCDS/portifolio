@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './Navbar.css'
 
 const links = [
@@ -15,8 +15,15 @@ export default function Navbar() {
 
     const close = () => setIsOpen(false)
 
+    useEffect(() => {
+        if (!isOpen) return;
+        const onKeyDown = (e) => e.key === 'Escape' && setIsOpen(false);
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [isOpen]);
+
     return (
-        <nav>
+        <nav aria-label="Principal">
             <div className="nav-desktop">
                 {links.map(({ href, label }) => (
                     <div className="nav-item" key={href}>
@@ -28,9 +35,12 @@ export default function Navbar() {
             <div className="nav-mobile">
                 <div className="nav-mobile-header">
                     <button
+                        type="button"
                         className={`hamburger ${isOpen ? 'open' : ''}`}
                         onClick={() => setIsOpen(o => !o)}
-                        aria-label="Abrir menu"
+                        aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
+                        aria-expanded={isOpen}
+                        aria-controls="mobile-menu"
                     >
                         <span />
                         <span />
@@ -38,7 +48,7 @@ export default function Navbar() {
                     </button>
                 </div>
 
-                <div className={`mobile-menu ${isOpen ? 'active' : ''}`}>
+                <div id="mobile-menu" className={`mobile-menu ${isOpen ? 'active' : ''}`}>
                     {links.map(({ href, label }) => (
                         <div className="nav-item" key={href}>
                             <a href={href} onClick={close}>{label}</a>

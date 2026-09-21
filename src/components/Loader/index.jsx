@@ -5,6 +5,10 @@ import { useEffect, useRef } from 'react';
 const CHARS = '1234567890ABCDEFSOUBOMNOLOLGHIJKLMNOPQRSTUVWXYZ!@#$%*?><';
 const NAME_TOP = 'HENRIQUE';
 const NAME_BOTTOM = 'CORDEIROツ';
+const FRAMES_PER_CHAR = 2; // a cada N frames uma letra "trava" (~60 ms)
+const START_DELAY_MS = 100;
+const HOLD_MS = 300; // pausa com o nome completo antes de abrir os painéis
+const EXIT_DURATION_S = 0.7;
 
 export default function Loader({ onComplete }) {
   const topPanelRef = useRef(null);
@@ -13,6 +17,9 @@ export default function Loader({ onComplete }) {
   const nameBottomRef = useRef(null);
 
   useEffect(() => {
+    const topPanel = topPanelRef.current;
+    const bottomPanel = bottomPanelRef.current;
+    let exitTimer;
     let frameId;
     let resolvedTop = 0;
     let resolvedBottom = 0;
@@ -35,17 +42,17 @@ export default function Loader({ onComplete }) {
       frame++;
 
       if (phase === 'top') {
-        if (frame % 4 === 0 && resolvedTop < NAME_TOP.length) resolvedTop++;
+        if (frame % FRAMES_PER_CHAR === 0 && resolvedTop < NAME_TOP.length) resolvedTop++;
         render(NAME_TOP, resolvedTop, nameTopRef);
         if (resolvedTop >= NAME_TOP.length) {
           phase = 'bottom';
           frame = 0;
         }
       } else if (phase === 'bottom') {
-        if (frame % 4 === 0 && resolvedBottom < NAME_BOTTOM.length) resolvedBottom++;
+        if (frame % FRAMES_PER_CHAR === 0 && resolvedBottom < NAME_BOTTOM.length) resolvedBottom++;
         render(NAME_BOTTOM, resolvedBottom, nameBottomRef);
         if (resolvedBottom >= NAME_BOTTOM.length) {
-          setTimeout(exit, 700);
+          exitTimer = setTimeout(exit, HOLD_MS);
           return;
         }
       }
@@ -54,24 +61,29 @@ export default function Loader({ onComplete }) {
     };
 
     const exit = () => {
-      gsap.to(topPanelRef.current, {
+      gsap.to(topPanel, {
         y: '-100%',
-        duration: 1.1,
+        duration: EXIT_DURATION_S,
         ease: 'power4.inOut',
       });
-      gsap.to(bottomPanelRef.current, {
+      gsap.to(bottomPanel, {
         y: '100%',
-        duration: 1.1,
+        duration: EXIT_DURATION_S,
         ease: 'power4.inOut',
         onComplete: () => onComplete?.(),
       });
     };
 
-    setTimeout(() => {
+    const startTimer = setTimeout(() => {
       frameId = requestAnimationFrame(tick);
-    }, 300);
+    }, START_DELAY_MS);
 
-    return () => cancelAnimationFrame(frameId);
+    return () => {
+      clearTimeout(startTimer);
+      clearTimeout(exitTimer);
+      cancelAnimationFrame(frameId);
+      gsap.killTweensOf([topPanel, bottomPanel]);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- onComplete só precisa disparar uma vez, ao fim da animação de saída
   }, []);
 

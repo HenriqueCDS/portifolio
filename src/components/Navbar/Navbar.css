@@ -47,7 +47,6 @@
     cursor: pointer;
     padding: 12px;
     box-sizing: content-box;
-    outline: none;
 }
 
 .hamburger span {
@@ -73,14 +72,18 @@
 }
 
 /* ── Dropdown menu ── */
+/* visibility esconde os links do Tab/leitor de tela enquanto fechado; só some depois da animação de fechar */
 .mobile-menu {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.35s ease;
+    visibility: hidden;
+    transition: max-height 0.35s ease, visibility 0s linear 0.35s;
 }
 
 .mobile-menu.active {
     max-height: 420px;
+    visibility: visible;
+    transition: max-height 0.35s ease, visibility 0s;
 }
 
 /* Animação cascade dos itens */

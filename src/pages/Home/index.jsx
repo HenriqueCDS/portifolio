@@ -9,9 +9,11 @@ import About from '../../components/About';
 import Experience from '../../components/Experience';
 import Education from '../../components/Education';
 import { useEffect, useState } from 'react';
+import { prefersReducedMotion } from '../../hooks/useScrollReveal';
 
 export default function Home() {
-    const [loading, setLoading] = useState(true);
+    // o loader roda a cada carregamento (inclusive F5); só é pulado com prefers-reduced-motion
+    const [loading, setLoading] = useState(() => !prefersReducedMotion());
 
     useEffect(() => {
         document.body.style.overflow = loading ? 'hidden' : 'visible';

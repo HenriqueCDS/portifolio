@@ -107,6 +107,14 @@ footer::after {
     transition: border-color 0.2s;
 }
 
+/* 16px em telas de toque evita o zoom automático do iOS ao focar o campo */
+@media (pointer: coarse) {
+    .footer-form-field input,
+    .footer-form-field textarea {
+        font-size: 1rem;
+    }
+}
+
 .footer-form-field input:focus,
 .footer-form-field textarea:focus {
     outline: none;

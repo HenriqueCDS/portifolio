@@ -2,16 +2,17 @@ import './project.css'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import { GithubLogo, ArrowUpRight } from 'phosphor-react';
-import { useState, useEffect } from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const IMAGE_GLOBS = {
-    cottom_films:     () => import.meta.glob('../../../assets/img/cottom_films/*.png'),
-    ecommerce_custom: () => import.meta.glob('../../../assets/img/ecommerce_custom/*.jpeg'),
-    rest_api:         () => import.meta.glob('../../../assets/img/rest_api/*.png'),
-    lets_see:         () => import.meta.glob('../../../assets/img/lest_see/*.png'),
+// eager + ?url: só as URLs entram no bundle (sem chunk JS por imagem) e ficam disponíveis no 1º render.
+// O Vite exige as opções como objeto literal em cada chamada (análise estática), por isso a repetição
+const IMAGES = {
+    cottom_films:     Object.values(import.meta.glob('../../../assets/img/cottom_films/*.png',     { eager: true, query: '?url', import: 'default' })),
+    ecommerce_custom: Object.values(import.meta.glob('../../../assets/img/ecommerce_custom/*.jpeg', { eager: true, query: '?url', import: 'default' })),
+    rest_api:         Object.values(import.meta.glob('../../../assets/img/rest_api/*.png',         { eager: true, query: '?url', import: 'default' })),
+    lets_see:         Object.values(import.meta.glob('../../../assets/img/lest_see/*.png',         { eager: true, query: '?url', import: 'default' })),
 };
 
 const TYPE_COLOR = {
@@ -22,19 +23,7 @@ const TYPE_COLOR = {
 };
 
 export default function Project({ date, title, type, link_git, link_web, paste, description, stack, index }) {
-    const [imgPaths, setImgPaths] = useState([]);
-
-    useEffect(() => {
-        const globFn = IMAGE_GLOBS[paste];
-        if (!globFn) return;
-        const images = globFn();
-        Promise.all(
-            Object.keys(images).map(async (path) => {
-                const mod = await images[path]();
-                return mod.default;
-            })
-        ).then(setImgPaths);
-    }, [paste]);
+    const imgPaths = IMAGES[paste] ?? [];
 
     const hasLiveLink = link_web && link_web !== link_git;
     const typeClass = TYPE_COLOR[type] || 'type-api';
@@ -61,6 +50,8 @@ export default function Project({ date, title, type, link_git, link_web, paste, 
                                     src={src}
                                     alt={`${title} — screenshot ${i + 1}`}
                                     className="card-img"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             </SwiperSlide>
                         ))}

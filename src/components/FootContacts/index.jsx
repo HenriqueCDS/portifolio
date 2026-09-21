@@ -63,6 +63,7 @@ export default function FootContacts() {
                                 id="footer-name"
                                 name="name"
                                 type="text"
+                                autoComplete="name"
                                 placeholder="Seu nome"
                                 value={formData.name}
                                 onChange={handleChange}
@@ -76,6 +77,7 @@ export default function FootContacts() {
                                 id="footer-email"
                                 name="email"
                                 type="email"
+                                autoComplete="email"
                                 placeholder="seu@email.com"
                                 value={formData.email}
                                 onChange={handleChange}
