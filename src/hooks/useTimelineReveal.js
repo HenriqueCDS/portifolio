@@ -6,20 +6,19 @@ import { prefersReducedMotion } from './useScrollReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// reveal de timeline vertical (Experience/Education): linha "desenha" com o scroll
-// e cada item entra com fade+slide. `prefix` é o namespace de classes (ex.: "timeline", "edu-timeline").
-export function useTimelineReveal(prefix) {
+// reveal do componente Timeline: a linha "desenha" com o scroll e cada item entra com fade+slide
+export function useTimelineReveal() {
     const scope = useRef(null);
 
     useGSAP(() => {
         if (prefersReducedMotion()) return;
 
-        const items = gsap.utils.toArray(`.${prefix}-item`, scope.current);
+        const items = gsap.utils.toArray('.timeline-item', scope.current);
 
         items.forEach((item) => {
-            const dot = item.querySelector(`.${prefix}-dot`);
-            const line = item.querySelector(`.${prefix}-line`);
-            const right = item.querySelector(`.${prefix}-right`);
+            const dot = item.querySelector('.timeline-dot');
+            const line = item.querySelector('.timeline-line');
+            const right = item.querySelector('.timeline-right');
 
             gsap.timeline({
                 scrollTrigger: {

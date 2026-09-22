@@ -1,11 +1,11 @@
 import './Education.css';
-import { useTimelineReveal } from '../../hooks/useTimelineReveal';
+import Timeline from '../Timeline';
 
 const education = [
     {
         period: '2025 — atual',
-        course: 'Pós-graduação em Ciência de Dados e Machine Learning',
-        institution: 'PUC-Campinas',
+        heading: 'Pós-graduação em Ciência de Dados e Machine Learning',
+        subheading: 'PUC-Campinas',
         location: 'Campinas, SP',
         bullets: [
             'Estudo de técnicas de Machine Learning para análise e previsão de dados',
@@ -17,8 +17,8 @@ const education = [
     },
     {
         period: '2022 — 2024',
-        course: 'Análise e Desenvolvimento de Sistemas',
-        institution: 'UniMetrocamp Wyden',
+        heading: 'Análise e Desenvolvimento de Sistemas',
+        subheading: 'UniMetrocamp Wyden',
         location: 'Campinas, SP',
         bullets: [
             'Formação focada em desenvolvimento de software e lógica de programação',
@@ -30,8 +30,8 @@ const education = [
     },
     {
         period: '2018 — 2021',
-        course: 'Técnico em Informática integrado ao Ensino Médio',
-        institution: 'IFSP – Campus Campinas',
+        heading: 'Técnico em Informática integrado ao Ensino Médio',
+        subheading: 'IFSP – Campus Campinas',
         location: 'Campinas, SP',
         bullets: [
             'Base sólida em lógica de programação e fundamentos de computação',
@@ -44,50 +44,15 @@ const education = [
 ];
 
 export default function Education() {
-    const scope = useTimelineReveal('edu-timeline');
-
     return (
-        <section id="education" className="education" ref={scope}>
+        <section id="education" className="education">
             <div className="education-container">
                 <div className="education-header">
                     <span className="section-tag">{'// formação'}</span>
                     <h2>Formação Acadêmica</h2>
                 </div>
 
-                <div className="edu-timeline">
-                    {education.map((edu, i) => (
-                        <div key={i} className="edu-timeline-item">
-                            <div className="edu-timeline-left">
-                                <span className="edu-timeline-period">{edu.period}</span>
-                                <span className="edu-timeline-location">{edu.location}</span>
-                            </div>
-
-                            <div className="edu-timeline-connector">
-                                <div className="edu-timeline-dot" />
-                                <div className="edu-timeline-line" />
-                            </div>
-
-                            <div className="edu-timeline-right">
-                                <div className="edu-timeline-role">
-                                    <h3>{edu.course}</h3>
-                                    <span className="edu-timeline-company">{edu.institution}</span>
-                                </div>
-
-                                <ul className="edu-timeline-bullets">
-                                    {edu.bullets.map((b, j) => (
-                                        <li key={j}>{b}</li>
-                                    ))}
-                                </ul>
-
-                                <div className="edu-timeline-stack">
-                                    {edu.stack.map((tech) => (
-                                        <span key={tech} className="stack-tag">{tech}</span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                <Timeline items={education} />
             </div>
         </section>
     );
