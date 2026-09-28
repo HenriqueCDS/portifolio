@@ -14,6 +14,7 @@ function buildFallback() {
         description: meta.description || '',
         readme: meta.readme || null,
         stack: meta.stack || [],
+        highlight: meta.highlight || null,
         featured: meta.featured || false,
     }));
 }
@@ -32,6 +33,7 @@ function mergeRepoWithMeta(repo) {
         description: meta.description || repo.description || 'Repositório disponível no GitHub.',
         readme: meta.readme || null,
         stack: meta.stack || (repo.language ? [repo.language] : []),
+        highlight: meta.highlight || null,
         featured: meta.featured || false,
     };
 }

@@ -26,7 +26,7 @@ const TYPE_COLOR = {
     'WEB':      'type-web',
 };
 
-export default function Project({ date, title, type, link_git, link_web, paste, description, readme, stack, index }) {
+export default function Project({ date, title, type, link_git, link_web, paste, description, readme, stack, highlight, index }) {
     const [showReadme, setShowReadme] = useState(false);
     const imgPaths = IMAGES[paste] ?? [];
 
@@ -90,6 +90,8 @@ export default function Project({ date, title, type, link_git, link_web, paste, 
 
                 <h3 className="card-title">{title}</h3>
 
+                {highlight && <p className="card-highlight">{highlight}</p>}
+
                 <p className="card-desc">{description}</p>
 
                 {stack?.length > 0 && (
@@ -121,7 +123,13 @@ export default function Project({ date, title, type, link_git, link_web, paste, 
             {showReadme && (
                 <ReadmeModal
                     title={title}
+                    type={type}
+                    typeClass={typeClass}
+                    date={date}
+                    stack={stack}
+                    highlight={highlight}
                     link_git={link_git}
+                    link_web={hasLiveLink ? link_web : null}
                     images={imgPaths}
                     text={readme || description}
                     onClose={() => setShowReadme(false)}

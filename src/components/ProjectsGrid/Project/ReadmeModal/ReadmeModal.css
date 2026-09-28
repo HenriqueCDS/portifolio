@@ -81,6 +81,15 @@
     overflow-y: auto;
 }
 
+/* ── Resumo: tipo, data, métrica e stack ─────── */
+.readme-modal-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
 /* ── Galeria de imagens ─────────────────────── */
 .readme-modal-swiper {
     width: 100%;
