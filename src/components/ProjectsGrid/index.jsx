@@ -116,6 +116,7 @@ export default function GridProjects() {
                                 link_web={p.link_web}
                                 paste={p.paste}
                                 description={p.description}
+                                readme={p.readme}
                                 stack={p.stack}
                             />
                         ))}

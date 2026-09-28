@@ -1,7 +1,9 @@
 import './project.css'
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { GithubLogo, ArrowUpRight } from 'phosphor-react';
+import { GithubLogo, ArrowUpRight, FileText } from 'phosphor-react';
+import ReadmeModal from './ReadmeModal';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -9,10 +11,12 @@ import 'swiper/css/pagination';
 // eager + ?url: só as URLs entram no bundle (sem chunk JS por imagem) e ficam disponíveis no 1º render.
 // O Vite exige as opções como objeto literal em cada chamada (análise estática), por isso a repetição
 const IMAGES = {
-    cottom_films:     Object.values(import.meta.glob('../../../assets/img/cottom_films/*.png',     { eager: true, query: '?url', import: 'default' })),
-    ecommerce_custom: Object.values(import.meta.glob('../../../assets/img/ecommerce_custom/*.jpeg', { eager: true, query: '?url', import: 'default' })),
-    rest_api:         Object.values(import.meta.glob('../../../assets/img/rest_api/*.png',         { eager: true, query: '?url', import: 'default' })),
-    lets_see:         Object.values(import.meta.glob('../../../assets/img/lest_see/*.png',         { eager: true, query: '?url', import: 'default' })),
+    cottom_films:        Object.values(import.meta.glob('../../../assets/img/cottom_films/*.png',        { eager: true, query: '?url', import: 'default' })),
+    ecommerce_custom:    Object.values(import.meta.glob('../../../assets/img/ecommerce_custom/*.jpeg',    { eager: true, query: '?url', import: 'default' })),
+    rest_api:            Object.values(import.meta.glob('../../../assets/img/rest_api/*.png',            { eager: true, query: '?url', import: 'default' })),
+    lets_see:            Object.values(import.meta.glob('../../../assets/img/lest_see/*.png',            { eager: true, query: '?url', import: 'default' })),
+    ia_agent_puc_digital: Object.values(import.meta.glob('../../../assets/img/ia_agent_puc_digital/*.png', { eager: true, query: '?url', import: 'default' })),
+    ufc_preditor:        Object.values(import.meta.glob('../../../assets/img/ufc_preditor/*.png',        { eager: true, query: '?url', import: 'default' })),
 };
 
 const TYPE_COLOR = {
@@ -22,7 +26,8 @@ const TYPE_COLOR = {
     'WEB':      'type-web',
 };
 
-export default function Project({ date, title, type, link_git, link_web, paste, description, stack, index }) {
+export default function Project({ date, title, type, link_git, link_web, paste, description, readme, stack, index }) {
+    const [showReadme, setShowReadme] = useState(false);
     const imgPaths = IMAGES[paste] ?? [];
 
     const hasLiveLink = link_web && link_web !== link_git;
@@ -100,6 +105,10 @@ export default function Project({ date, title, type, link_git, link_web, paste, 
                         <GithubLogo size={16} weight="bold" />
                         Código
                     </a>
+                    <button type="button" className="card-link" onClick={() => setShowReadme(true)}>
+                        <FileText size={16} weight="bold" />
+                        Leia mais
+                    </button>
                     {hasLiveLink && (
                         <a href={link_web} target="_blank" rel="noopener noreferrer" className="card-link card-link--demo">
                             <ArrowUpRight size={16} weight="bold" />
@@ -108,6 +117,16 @@ export default function Project({ date, title, type, link_git, link_web, paste, 
                     )}
                 </div>
             </div>
+
+            {showReadme && (
+                <ReadmeModal
+                    title={title}
+                    link_git={link_git}
+                    images={imgPaths}
+                    text={readme || description}
+                    onClose={() => setShowReadme(false)}
+                />
+            )}
         </article>
     );
 }

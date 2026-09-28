@@ -12,6 +12,7 @@ function buildFallback() {
         link_web: meta.link_web || null,
         paste: meta.paste || null,
         description: meta.description || '',
+        readme: meta.readme || null,
         stack: meta.stack || [],
         featured: meta.featured || false,
     }));
@@ -29,6 +30,7 @@ function mergeRepoWithMeta(repo) {
         paste: meta.paste || null,
         // fallback local — será sobrescrito pelo excerto do README quando disponível
         description: meta.description || repo.description || 'Repositório disponível no GitHub.',
+        readme: meta.readme || null,
         stack: meta.stack || (repo.language ? [repo.language] : []),
         featured: meta.featured || false,
     };

@@ -5,7 +5,10 @@
  * Campos disponíveis:
  *   title       string   — nome exibido no card (default: formatRepoName)
  *   type        string   — 'REST API' | 'BACKEND' | 'DADOS' | 'WEB'
- *   description string   — descrição exibida no card (default: repo.description da API)
+ *   description string   — descrição curta exibida no card (default: repo.description da API)
+ *   readme      string   — texto mais longo exibido no popup "Leia mais" (parágrafos
+ *                          separados por linha em branco). Se ausente, o popup usa a
+ *                          `description`. As imagens de `paste` também aparecem no popup.
  *   stack       string[] — tecnologias exibidas como pills
  *   paste       string   — pasta em assets/img/ para carregar screenshots locais
  *   link_web    string   — URL de demo/deploy (default: repo.homepage da API)
@@ -24,6 +27,9 @@ export const PROJECT_META = {
         type: 'REST API',
         description:
             'API RESTful para gerenciamento de banco de questões educacionais. Autenticação JWT, upload de arquivos via AWS S3, ORM com Sequelize + MySQL, arquitetura MVC com rotas para questões, áreas curriculares, usuários e feedbacks. Testes automatizados com Jest e Supertest.',
+        readme: `Modela um banco de questões hierarquizado por Área → Sub-área → Sub-sub-área, vinculado aos componentes curriculares da BNCC, com suporte a questões dissertativas e de múltipla escolha (cada uma com mídia própria). Cada questão passa por um fluxo de aprovação e tem controle de visibilidade (pública/privada) e grau de dificuldade, pensado para alimentar buscas filtradas e montagem de provas no site acadêmico consumidor da API.
+
+Autenticação via JWT com bcrypt para senhas, upload de imagens com Multer (local ou S3), e uma suíte de testes automatizados com Jest + Supertest cobrindo os principais controllers de consulta.`,
         stack: ['Node.js', 'Express', 'MySQL', 'Sequelize', 'JWT', 'AWS S3', 'Jest'],
         paste: 'rest_api',
         featured: true,
@@ -98,6 +104,7 @@ export const PROJECT_META = {
         type: 'WEB',
         description:
             'Site institucional para produtora audiovisual. Layout responsivo, carrossel de portfólio, animações CSS e deploy automatizado via Vercel.',
+        readme: 'Landing page institucional para a produtora audiovisual Cotton Films, construída em React 18 + Vite 5. Usa GSAP e Framer Motion para as animações principais, Lenis para smooth scroll, AOS para animações on-scroll e Swiper para o carrossel da galeria — com layout totalmente responsivo do banner de vídeo ao rodapé.',
         stack: ['JavaScript', 'HTML', 'CSS', 'Vercel'],
         paste: 'cottom_films',
         link_web: 'https://cotton-films-website-usbq.vercel.app/',
@@ -130,6 +137,40 @@ export const PROJECT_META = {
             'Interface frontend para plataforma de e-commerce customizável. Listagem de produtos, carrinho e checkout integrados à API de backend.',
         stack: ['JavaScript', 'HTML', 'CSS'],
         paste: 'ecommerce_custom',
+        featured: false,
+    },
+
+    'ia-agent-puc-digital': {
+        title: 'Agente de IA — Suporte Acadêmico',
+        type: 'DADOS',
+        description:
+            'Agente de RAG em produção para suporte acadêmico: FastAPI + PostgreSQL/pgvector, retrieval em 2 estágios, cadeia de fallback entre 4 LLMs, guardrails de segurança (OWASP LLM Top 10) e mascaramento de PII (LGPD). 602 testes rodando sem rede.',
+        readme: `Agente de RAG (Retrieval-Augmented Generation) pensado como projeto de produção, não como notebook de demonstração: pipeline de ingestão idempotente (PDF, DOCX, texto e planilhas de e-mail-modelo), retrieval por similaridade no pgvector com reranking em 2 estágios (embeddings E5 + cross-encoder), e uma API FastAPI pronta para integrar ao AVA da instituição.
+
+A chamada ao LLM passa por uma cadeia de fallback entre quatro provedores (Gemini, HuggingFace, Groq e OpenRouter) — se um estourar cota ou cair, a pergunta segue para o próximo sem o aluno perceber. Quando a base indexada não cobre a pergunta, o agente recorre a um crawler restrito a uma allowlist fechada de páginas oficiais antes de encaminhar para a secretaria.
+
+Segurança e privacidade levadas a sério: guardrail léxico calibrado contra o dataset OWASP LLM Top 10, triagem por assunto antes de qualquer chamada ao modelo, e mascaramento de PII (CPF, RA, e-mail, senha) tanto na saída para o LLM quanto na persistência — a pergunta do aluno nunca é gravada, só um hash.
+
+Observabilidade de ponta a ponta: cada resposta gera uma linha de telemetria (token, latência por etapa, origem da resposta) que alimenta um relatório de lacunas de ingestão e um dashboard de revisão manual. A suíte de 602 testes roda inteiramente sem banco, sem chave de API e sem rede, usando dublês para vector store, LLM, cache e busca externa.`,
+        stack: ['Python', 'FastAPI', 'PostgreSQL', 'pgvector', 'sentence-transformers', 'Docker'],
+        paste: 'ia_agent_puc_digital',
+        featured: false,
+    },
+
+    'ufc-preditor': {
+        title: 'UFC Preditor',
+        type: 'DADOS',
+        description:
+            'Pipeline de Machine Learning que transforma o histórico do UFC em previsões de vencedor. Scraper com Playwright, features diferenciais, 4 modelos comparados (XGBoost em produção, ~72% de acurácia) e dashboard em Next.js — do dado bruto ao deploy.',
+        readme: `Pipeline de Machine Learning que transforma o histórico público do UFC em previsões de vencedor: do scraper ao site, como um único deploy. A partir de ~8.700 lutas e ~4.600 lutadores, o modelo usa a diferença entre as estatísticas de carreira dos dois lutadores (striking, grappling, experiência) como feature — em vez dos números absolutos de cada um — para aprender quem é melhor, não quem está em qual posição. Quatro modelos foram comparados; o XGBoost em produção chega a ~72% de acurácia e AUC-ROC de 0.80 em dados nunca vistos.
+
+O pipeline tem cinco etapas isoladas: um scraper em Playwright (com Chromium real, porque o site tem anti-bot) atualiza a base de forma incremental; a preparação gera 21 features diferenciais com augmentação por espelhamento; o treino testa os modelos com busca de hiperparâmetros; uma API FastAPI serve as predições; e um frontend em Next.js exibe dashboard, predição de lutas e estatísticas.
+
+Decisões técnicas documentadas incluem augmentação por espelhamento para eliminar viés posicional, corte rigoroso contra vazamento temporal (o histórico de um lutador só conta lutas anteriores à prevista), e artefatos de modelo versionados no repositório para não treinar durante o build do deploy.
+
+Dois workflows de GitHub Actions rodam semanalmente para atualizar dados e retreinar o modelo automaticamente, com commit e deploy em cadeia — o site fica atualizado sem intervenção manual.`,
+        stack: ['Python', 'scikit-learn', 'XGBoost', 'FastAPI', 'Next.js', 'TypeScript'],
+        paste: 'ufc_preditor',
         featured: false,
     },
 };
