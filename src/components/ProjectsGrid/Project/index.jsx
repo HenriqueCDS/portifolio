@@ -1,7 +1,9 @@
 import './project.css'
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { GithubLogo, ArrowUpRight } from 'phosphor-react';
+import { GithubLogo, ArrowUpRight, FileText } from 'phosphor-react';
+import ReadmeModal from './ReadmeModal';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -22,8 +24,13 @@ const TYPE_COLOR = {
     'WEB':      'type-web',
 };
 
-export default function Project({ date, title, type, link_git, link_web, paste, description, stack, index }) {
-    const imgPaths = IMAGES[paste] ?? [];
+export default function Project({ id, date, title, type, link_git, link_web, paste, description, stack, index, screenshots }) {
+    const [showReadme, setShowReadme] = useState(false);
+
+    // repos com pasta local (paste) usam ela; os demais caem nas screenshots
+    // buscadas em docs/screenshot[s] do próprio repositório no GitHub
+    const localImgs = IMAGES[paste] ?? [];
+    const imgPaths = localImgs.length > 0 ? localImgs : (screenshots ?? []);
 
     const hasLiveLink = link_web && link_web !== link_git;
     const typeClass = TYPE_COLOR[type] || 'type-api';
@@ -35,7 +42,7 @@ export default function Project({ date, title, type, link_git, link_web, paste, 
             <div className="card-cover">
                 {imgPaths.length > 0 ? (
                     <Swiper
-                        key={paste}
+                        key={paste || id}
                         spaceBetween={0}
                         slidesPerView={1}
                         loop={imgPaths.length > 1}
@@ -100,6 +107,10 @@ export default function Project({ date, title, type, link_git, link_web, paste, 
                         <GithubLogo size={16} weight="bold" />
                         Código
                     </a>
+                    <button type="button" className="card-link" onClick={() => setShowReadme(true)}>
+                        <FileText size={16} weight="bold" />
+                        Leia mais
+                    </button>
                     {hasLiveLink && (
                         <a href={link_web} target="_blank" rel="noopener noreferrer" className="card-link card-link--demo">
                             <ArrowUpRight size={16} weight="bold" />
@@ -108,6 +119,15 @@ export default function Project({ date, title, type, link_git, link_web, paste, 
                     )}
                 </div>
             </div>
+
+            {showReadme && (
+                <ReadmeModal
+                    repo={id}
+                    title={title}
+                    link_git={link_git}
+                    onClose={() => setShowReadme(false)}
+                />
+            )}
         </article>
     );
 }
