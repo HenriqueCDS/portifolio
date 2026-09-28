@@ -109,7 +109,6 @@ export default function GridProjects() {
                             <Project
                                 key={p.id}
                                 index={i}
-                                id={p.id}
                                 date={p.date}
                                 title={p.title}
                                 type={p.type}
@@ -118,7 +117,6 @@ export default function GridProjects() {
                                 paste={p.paste}
                                 description={p.description}
                                 stack={p.stack}
-                                screenshots={p.screenshots}
                             />
                         ))}
                     </div>

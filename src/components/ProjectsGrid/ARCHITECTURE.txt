@@ -59,10 +59,7 @@ ARQUIVOS DO SISTEMA
   src/hooks/useGithubProjects.js
   └─ Responsável: orquestrar API + meta e retornar estado React
      - Retorna: { projects, loading, error }
-     - Fallback: se a API falhar, usa o último snapshot de repos estrelados
-       (localStorage, sem TTL — salvo a cada fetch bem-sucedido) filtrado do
-       mesmo jeito que o fluxo normal. Só cai no dump completo de
-       projectsMeta.js se NUNCA houve um fetch bem-sucedido no navegador.
+     - Fallback: se API falhar, usa apenas os dados de projectsMeta.js
      - Ordenação: featured primeiro → depois por ano de atualização
 
   src/components/ProjectsGrid/index.jsx
@@ -132,29 +129,6 @@ COMO ADICIONAR SCREENSHOTS LOCAIS
    paste: 'nome_da_pasta'
 4. Atualize o mapa IMAGE_GLOBS em:
    src/components/ProjectsGrid/Project/index.jsx
-
-
-SCREENSHOTS AUTOMÁTICAS (repos sem `paste`)
-------------------------------------
-Repositórios sem o campo `paste` em projectsMeta.js não usam imagem local —
-o hook busca screenshots direto no repositório do GitHub, na pasta:
-   docs/screenshot/  (ou docs/screenshots/, como fallback)
-Formatos aceitos: .png, .jpg/.jpeg, .webp, .gif
-- Busca via GitHub Contents API, cacheada 5 min em sessionStorage
-  (chave: "gh_shots_v1_<owner>_<repo>")
-- Repos que já têm `paste` NUNCA disparam essa busca (economiza requisições)
-- Se a pasta não existir, o card cai no placeholder de código (comportamento atual)
-
-
-BOTÃO "LEIA MAIS" (README completo em modal)
-------------------------------------
-Cada card tem um botão "Leia mais" que abre um modal com o README do
-repositório (texto limpo, sem markdown/badges/imagens), buscado sob demanda
-(só ao clicar, não no carregamento da grid).
-- Componente: src/components/ProjectsGrid/Project/ReadmeModal/index.jsx
-- Busca: fetchReadme() em githubService.js (mesmo cache do excerto usado
-  na descrição do card — "gh_readme_v2_<owner>_<repo>")
-- Limpeza do markdown: cleanMarkdown(), reaproveitada por extractExcerpt()
 
 
 RATE LIMITING DA API DO GITHUB

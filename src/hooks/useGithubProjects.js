@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
-import { fetchStarredRepos, fetchReadmeExcerpt, fetchRepoScreenshots, getLastKnownStarredRepos, GITHUB_USERNAME } from '../services/githubService';
+import { fetchStarredRepos, fetchReadmeExcerpt, GITHUB_USERNAME } from '../services/githubService';
 import { PROJECT_META, SKIP_REPOS, inferType, formatRepoName } from '../data/projectsMeta';
-
-// só os repositórios estrelados que são meus (ignora os da lista SKIP_REPOS)
-function filterOwnStarred(repos) {
-    return repos.filter((r) => r.owner?.login === GITHUB_USERNAME && !SKIP_REPOS.has(r.name));
-}
 
 function buildFallback() {
     return Object.entries(PROJECT_META).map(([name, meta]) => ({
@@ -57,7 +52,11 @@ export function useGithubProjects() {
 
         fetchStarredRepos()
             .then(async (repos) => {
-                const own = filterOwnStarred(repos);
+                // apenas meus próprios repositórios favoritados
+                const own = repos.filter(
+                    (r) => r.owner?.login === GITHUB_USERNAME && !SKIP_REPOS.has(r.name)
+                );
+
                 const base = sortProjects(own.map(mergeRepoWithMeta));
 
                 // 1º render rápido: description local (meta/repo)
@@ -66,19 +65,11 @@ export function useGithubProjects() {
                     setLoading(false);
                 }
 
-                // 2º passo: enriquece com um excerto do README de cada repo e,
-                // para quem não tem screenshot local (paste), busca em docs/screenshot[s]
+                // 2º passo: enriquece com um excerto do README de cada repo
                 const enriched = await Promise.all(
                     base.map(async (p) => {
-                        const [excerpt, screenshots] = await Promise.all([
-                            fetchReadmeExcerpt(GITHUB_USERNAME, p.id),
-                            p.paste ? Promise.resolve([]) : fetchRepoScreenshots(GITHUB_USERNAME, p.id),
-                        ]);
-                        return {
-                            ...p,
-                            description: excerpt || p.description,
-                            screenshots,
-                        };
+                        const excerpt = await fetchReadmeExcerpt(GITHUB_USERNAME, p.id);
+                        return excerpt ? { ...p, description: excerpt } : p;
                     })
                 );
 
@@ -88,16 +79,8 @@ export function useGithubProjects() {
                 if (cancelled) return;
                 const isRateLimit = err.message === 'rate_limit';
                 setError(isRateLimit ? 'rate_limit' : 'api_error');
-
-                // fallback: usa o último snapshot real de repos estrelados (sem TTL),
-                // para continuar mostrando só quem está de fato estrelado no GitHub.
-                // Só cai no dump completo de projectsMeta.js se nunca buscamos com sucesso.
-                const lastKnown = getLastKnownStarredRepos();
-                const fallback = lastKnown
-                    ? sortProjects(filterOwnStarred(lastKnown).map(mergeRepoWithMeta))
-                    : sortProjects(buildFallback());
-
-                setProjects(fallback);
+                // fallback: dados do projectsMeta sem precisar da API
+                setProjects(sortProjects(buildFallback()));
                 setLoading(false);
             });
 

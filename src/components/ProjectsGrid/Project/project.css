@@ -244,14 +244,11 @@
     gap: 0.35rem;
     font-size: 0.8rem;
     font-weight: 500;
-    font-family: inherit;
     color: var(--color-muted);
     text-decoration: none;
-    background: transparent;
     padding: 0.35rem 0.75rem;
     border-radius: 5px;
     border: 1px solid transparent;
-    cursor: pointer;
     transition: color 0.18s, background 0.18s, border-color 0.18s;
 }
 
