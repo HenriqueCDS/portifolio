@@ -16,18 +16,22 @@
 
 .readme-modal {
     width: 100%;
-    max-width: 680px;
-    max-height: min(85vh, 760px);
+    max-width: 1120px;
+    height: min(88vh, 820px);
+    max-height: min(88vh, 820px);
     display: flex;
     flex-direction: column;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 12px;
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+    animation: readme-modal-in 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .readme-modal-backdrop {
+    .readme-modal-backdrop,
+    .readme-modal {
         animation: none;
     }
 }
@@ -35,6 +39,17 @@
 @keyframes readme-fade-in {
     from { opacity: 0; }
     to   { opacity: 1; }
+}
+
+@keyframes readme-modal-in {
+    from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .readme-modal-header {
@@ -76,9 +91,26 @@
     background: rgba(59, 130, 246, 0.08);
 }
 
-.readme-modal-body {
+/* ── Corpo: texto à esquerda, imagem à direita ── */
+.readme-modal-content {
     flex: 1;
+    min-height: 0;
+    display: flex;
+    overflow: hidden;
+}
+
+.readme-modal-left {
+    flex: 1 1 42%;
+    min-width: 0;
     overflow-y: auto;
+}
+
+.readme-modal-right {
+    flex: 1 1 58%;
+    min-width: 0;
+    position: relative;
+    background: #0d1117;
+    border-left: 1px solid var(--color-border);
 }
 
 /* ── Resumo: tipo, data, métrica e stack ─────── */
@@ -91,18 +123,43 @@
 }
 
 /* ── Galeria de imagens ─────────────────────── */
+/* contain (não cover): mostra o screenshot inteiro, sem cortar bordas */
 .readme-modal-swiper {
     width: 100%;
-    height: 320px;
-    background: #0d1117;
-    flex-shrink: 0;
+    height: 100%;
 }
 
 .readme-modal-img {
     width: 100%;
-    height: 320px;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain;
     display: block;
+    cursor: zoom-in;
+}
+
+.readme-modal-expand {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s;
+}
+
+.readme-modal-expand:hover,
+.readme-modal-expand:focus-visible {
+    background: rgba(59, 130, 246, 0.35);
+    border-color: var(--color-add);
 }
 
 .readme-modal-swiper .swiper-button-prev,
@@ -160,6 +217,107 @@
     flex-shrink: 0;
 }
 
+/* ── Lightbox: imagem em tela cheia ──────────── */
+.lightbox-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(1, 4, 9, 0.92);
+    backdrop-filter: blur(6px);
+    animation: readme-fade-in 0.18s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lightbox-backdrop {
+        animation: none;
+    }
+}
+
+.lightbox-img {
+    max-width: 92vw;
+    max-height: 88vh;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox-close {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
+    background: rgba(59, 130, 246, 0.35);
+    border-color: var(--color-add);
+}
+
+.lightbox-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s;
+}
+
+.lightbox-nav:hover,
+.lightbox-nav:focus-visible {
+    background: rgba(59, 130, 246, 0.35);
+    border-color: var(--color-add);
+}
+
+.lightbox-nav--prev { left: 1.25rem; }
+.lightbox-nav--next { right: 1.25rem; }
+
+@media (max-width: 860px) {
+    .readme-modal {
+        max-width: 640px;
+        height: auto;
+        max-height: min(92vh, 800px);
+    }
+
+    .readme-modal-content {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .readme-modal-left {
+        overflow-y: visible;
+    }
+
+    .readme-modal-right {
+        order: -1;
+        flex: none;
+        height: min(46vh, 380px);
+        border-left: none;
+        border-bottom: 1px solid var(--color-border);
+    }
+}
+
 @media (max-width: 480px) {
     .readme-modal-backdrop {
         padding: 0;
@@ -167,12 +325,32 @@
     }
 
     .readme-modal {
-        max-height: 90vh;
+        max-height: 92vh;
         border-radius: 12px 12px 0 0;
+        animation-name: readme-modal-in-mobile;
     }
 
-    .readme-modal-swiper,
-    .readme-modal-img {
-        height: 220px;
+    .readme-modal-right {
+        height: min(38vh, 300px);
+    }
+
+    .lightbox-nav {
+        width: 38px;
+        height: 38px;
+    }
+
+    .lightbox-nav--prev { left: 0.6rem; }
+    .lightbox-nav--next { right: 0.6rem; }
+}
+
+/* mobile: sobe como bottom sheet em vez de crescer a partir do centro */
+@keyframes readme-modal-in-mobile {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
