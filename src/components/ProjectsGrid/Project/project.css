@@ -40,6 +40,12 @@
     transition: transform 0.4s ease;
 }
 
+/* Screenshots de app mobile (retrato): mostra a tela inteira em vez de cortar */
+.card-img--contain {
+    object-fit: contain;
+    background: #0d1117;
+}
+
 .project-card:hover .card-img {
     transform: scale(1.03);
 }
@@ -117,6 +123,40 @@
 .placeholder-code .t-key  { color: #ff7b72; }
 .placeholder-code .t-str  { color: #a5d6ff; }
 .placeholder-code .t-prop { color: #79c0ff; }
+
+/* Abas da galeria (ex.: Web / Mobile) */
+.gallery-tabs {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    display: flex;
+    gap: 0.3rem;
+}
+
+.gallery-tab {
+    font-size: 0.68rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: rgba(255, 255, 255, 0.75);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(6px);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+    transition: color 0.18s, background 0.18s, border-color 0.18s;
+}
+
+.gallery-tab:hover {
+    color: #fff;
+}
+
+.gallery-tab--active {
+    color: #fff;
+    background: var(--color-add);
+    border-color: var(--color-add);
+}
 
 /* Number badge */
 .card-num {

@@ -119,6 +119,7 @@ export default function GridProjects() {
                                 readme={p.readme}
                                 stack={p.stack}
                                 highlight={p.highlight}
+                                repos={p.repos}
                             />
                         ))}
                     </div>

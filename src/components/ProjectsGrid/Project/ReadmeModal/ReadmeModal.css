@@ -212,9 +212,19 @@
 
 .readme-modal-footer {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
     padding: 0.9rem 1.25rem;
     border-top: 1px solid var(--color-border);
     flex-shrink: 0;
+}
+
+/* Repo privado: mesmo espaço do link, sem interação */
+.card-link--disabled {
+    color: var(--color-muted);
+    opacity: 0.6;
+    cursor: default;
 }
 
 /* ── Lightbox: imagem em tela cheia ──────────── */

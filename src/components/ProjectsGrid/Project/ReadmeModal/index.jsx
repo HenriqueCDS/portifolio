@@ -1,19 +1,30 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { X, GithubLogo, ArrowUpRight, ArrowsOut, CaretLeft, CaretRight } from 'phosphor-react';
+import { X, GithubLogo, ArrowUpRight, ArrowsOut, CaretLeft, CaretRight, Lock } from 'phosphor-react';
 import './ReadmeModal.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export default function ReadmeModal({ title, type, typeClass, date, stack, highlight, link_git, link_web, images, text, onClose }) {
+export default function ReadmeModal({ title, type, typeClass, date, stack, highlight, link_git, link_web, repos, images, imageGroups, text, onClose }) {
     const closeBtnRef = useRef(null);
     const paragraphs = (text || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+    const hasGroups = imageGroups?.length > 0;
+    const [activeGroup, setActiveGroup] = useState(hasGroups ? imageGroups[0].key : null);
     const [activeImage, setActiveImage] = useState(0);
     const [lightboxOpen, setLightboxOpen] = useState(false);
-    const hasImages = images?.length > 0;
+    const activeImages = useMemo(
+        () => (hasGroups ? imageGroups.find((g) => g.key === activeGroup)?.images ?? [] : images ?? []),
+        [hasGroups, imageGroups, activeGroup, images]
+    );
+    const hasImages = activeImages.length > 0;
+
+    function handleSelectGroup(key) {
+        setActiveGroup(key);
+        setActiveImage(0);
+    }
 
     useEffect(() => {
         closeBtnRef.current?.focus();
@@ -24,9 +35,9 @@ export default function ReadmeModal({ title, type, typeClass, date, stack, highl
                 lightboxOpen ? setLightboxOpen(false) : onClose();
                 return;
             }
-            if (!lightboxOpen || !hasImages || images.length < 2) return;
-            if (e.key === 'ArrowRight') setActiveImage((i) => (i + 1) % images.length);
-            if (e.key === 'ArrowLeft') setActiveImage((i) => (i - 1 + images.length) % images.length);
+            if (!lightboxOpen || !hasImages || activeImages.length < 2) return;
+            if (e.key === 'ArrowRight') setActiveImage((i) => (i + 1) % activeImages.length);
+            if (e.key === 'ArrowLeft') setActiveImage((i) => (i - 1 + activeImages.length) % activeImages.length);
         }
         document.addEventListener('keydown', handleKeyDown);
 
@@ -34,7 +45,7 @@ export default function ReadmeModal({ title, type, typeClass, date, stack, highl
             document.removeEventListener('keydown', handleKeyDown);
             document.body.style.overflow = '';
         };
-    }, [onClose, lightboxOpen, hasImages, images]);
+    }, [onClose, lightboxOpen, hasImages, activeImages]);
 
     return createPortal(
         <>
@@ -85,49 +96,97 @@ export default function ReadmeModal({ title, type, typeClass, date, stack, highl
                             </div>
                         </div>
 
-                        {hasImages && (
+                        {(hasImages || hasGroups) && (
                             <div className="readme-modal-right">
-                                <Swiper
-                                    spaceBetween={0}
-                                    slidesPerView={1}
-                                    loop={images.length > 1}
-                                    modules={[Navigation, Pagination]}
-                                    navigation={images.length > 1}
-                                    pagination={images.length > 1 ? { clickable: true } : false}
-                                    onSlideChange={(swiper) => setActiveImage(swiper.realIndex)}
-                                    className="readme-modal-swiper"
-                                >
-                                    {images.map((src, i) => (
-                                        <SwiperSlide key={i}>
-                                            <img
-                                                src={src}
-                                                alt={`${title} — screenshot ${i + 1}`}
-                                                className="readme-modal-img"
-                                                loading="lazy"
-                                                decoding="async"
-                                                onClick={() => setLightboxOpen(true)}
-                                            />
-                                        </SwiperSlide>
-                                    ))}
-                                </Swiper>
+                                {hasGroups && (
+                                    <div className="gallery-tabs" role="tablist" aria-label="Galeria de telas">
+                                        {imageGroups.map((g) => (
+                                            <button
+                                                key={g.key}
+                                                type="button"
+                                                role="tab"
+                                                aria-selected={activeGroup === g.key}
+                                                className={`gallery-tab ${activeGroup === g.key ? 'gallery-tab--active' : ''}`}
+                                                onClick={() => handleSelectGroup(g.key)}
+                                            >
+                                                {g.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
 
-                                <button
-                                    type="button"
-                                    className="readme-modal-expand"
-                                    onClick={() => setLightboxOpen(true)}
-                                    aria-label="Ampliar imagem"
-                                >
-                                    <ArrowsOut size={18} weight="bold" />
-                                </button>
+                                {hasImages && (
+                                    <Swiper
+                                        key={activeGroup ?? 'single'}
+                                        spaceBetween={0}
+                                        slidesPerView={1}
+                                        loop={activeImages.length > 1}
+                                        modules={[Navigation, Pagination]}
+                                        navigation={activeImages.length > 1}
+                                        pagination={activeImages.length > 1 ? { clickable: true } : false}
+                                        onSlideChange={(swiper) => setActiveImage(swiper.realIndex)}
+                                        className="readme-modal-swiper"
+                                    >
+                                        {activeImages.map((src, i) => (
+                                            <SwiperSlide key={i}>
+                                                <img
+                                                    src={src}
+                                                    alt={`${title} — screenshot ${i + 1}`}
+                                                    className="readme-modal-img"
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                    onClick={() => setLightboxOpen(true)}
+                                                />
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
+                                )}
+
+                                {hasImages && (
+                                    <button
+                                        type="button"
+                                        className="readme-modal-expand"
+                                        onClick={() => setLightboxOpen(true)}
+                                        aria-label="Ampliar imagem"
+                                    >
+                                        <ArrowsOut size={18} weight="bold" />
+                                    </button>
+                                )}
                             </div>
                         )}
                     </div>
 
                     <footer className="readme-modal-footer">
-                        <a href={link_git} target="_blank" rel="noopener noreferrer" className="card-link">
-                            <GithubLogo size={16} weight="bold" />
-                            Ver repositório no GitHub
-                        </a>
+                        {repos?.length > 0 ? (
+                            repos.map((repo) =>
+                                repo.url ? (
+                                    <a
+                                        key={repo.label}
+                                        href={repo.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="card-link"
+                                    >
+                                        <GithubLogo size={16} weight="bold" />
+                                        {repo.label}
+                                    </a>
+                                ) : (
+                                    <span
+                                        key={repo.label}
+                                        className="card-link card-link--disabled"
+                                        title="Repositório privado"
+                                    >
+                                        <Lock size={16} weight="bold" />
+                                        {repo.label}
+                                    </span>
+                                )
+                            )
+                        ) : (
+                            <a href={link_git} target="_blank" rel="noopener noreferrer" className="card-link">
+                                <GithubLogo size={16} weight="bold" />
+                                Ver repositório no GitHub
+                            </a>
+                        )}
                         {link_web && (
                             <a href={link_web} target="_blank" rel="noopener noreferrer" className="card-link card-link--demo">
                                 <ArrowUpRight size={16} weight="bold" />
@@ -149,13 +208,13 @@ export default function ReadmeModal({ title, type, typeClass, date, stack, highl
                         <X size={22} weight="bold" />
                     </button>
 
-                    {images.length > 1 && (
+                    {activeImages.length > 1 && (
                         <button
                             type="button"
                             className="lightbox-nav lightbox-nav--prev"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                setActiveImage((i) => (i - 1 + images.length) % images.length);
+                                setActiveImage((i) => (i - 1 + activeImages.length) % activeImages.length);
                             }}
                             aria-label="Imagem anterior"
                         >
@@ -164,19 +223,19 @@ export default function ReadmeModal({ title, type, typeClass, date, stack, highl
                     )}
 
                     <img
-                        src={images[activeImage]}
+                        src={activeImages[activeImage]}
                         alt={`${title} — imagem ampliada ${activeImage + 1}`}
                         className="lightbox-img"
                         onClick={(e) => e.stopPropagation()}
                     />
 
-                    {images.length > 1 && (
+                    {activeImages.length > 1 && (
                         <button
                             type="button"
                             className="lightbox-nav lightbox-nav--next"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                setActiveImage((i) => (i + 1) % images.length);
+                                setActiveImage((i) => (i + 1) % activeImages.length);
                             }}
                             aria-label="Próxima imagem"
                         >

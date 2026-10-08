@@ -189,7 +189,46 @@ export const SKIP_REPOS = new Set([
     'wireframe',
     'CalculadoraSwing',
     'ExercJava-Carpintaria',
+    // representados manualmente em MANUAL_PROJECTS como um único projeto (HomeStock)
+    'Stockflow-API',
+    'Stockflow-mobile',
+    'Stockflow-web',
 ]);
+
+/**
+ * Projetos que não vêm da API de "starred repos" do GitHub — usados quando o projeto
+ * reúne mais de um repositório (ex.: API + mobile + web) ou quando parte dos repos é
+ * privada e não apareceria via API. Entram sempre no grid, com ou sem fallback.
+ */
+export const MANUAL_PROJECTS = [
+    {
+        id: 'homestock',
+        manual: true,
+        title: 'HomeStock',
+        date: '2025',
+        type: 'REST API',
+        link_git: 'https://github.com/HenriqueCDS/Stockflow-API',
+        link_web: null,
+        paste: 'homestock',
+        description:
+            'App de controle de estoque doméstico: lê o QR Code da nota fiscal do mercado, atualiza a despensa automaticamente e compartilha estoque e lista de compras com quem mora na mesma casa. Arquitetura com API central, app mobile e painel web.',
+        readme: `HomeStock (antigo Stockflow) é um app de controle de estoque doméstico: a pessoa lê o QR Code da NFC-e do mercado, revisa os itens e eles entram na despensa automaticamente. Quando algo é usado ou acaba, o item vai sozinho para a lista de compras, compartilhada com quem mora na mesma casa — sem precisar digitar a compra item por item.
+
+O diferencial é a despensa ser da casa, não da pessoa: convite por link, despensa compartilhada em tempo real, cada movimento mostra quem fez ("Ana usou o último leite") e a lista de compras evita que duas pessoas comprem a mesma coisa.
+
+Arquitetura em três repositórios: uma API central em Java/Spring Boot (multi-tenant via JWT, fluxo de leitura da nota em duas etapas — ler e confirmar — e PostgreSQL com migrações Flyway), um app mobile em Flutter e um painel web em React, os dois clientes conversando com a mesma API por HTTPS.
+
+Em desenvolvimento: parser de NFC-e para os portais da SEFAZ, tela de revisão dos itens antes de confirmar a entrada no estoque e testes com as primeiras casas piloto.`,
+        stack: ['Java', 'Spring Boot', 'PostgreSQL', 'Flutter', 'React', 'JWT', 'Docker'],
+        highlight: 'Arquitetura em 3 repositórios: API + app mobile + painel web',
+        featured: true,
+        repos: [
+            { label: 'API (Spring Boot)', url: 'https://github.com/HenriqueCDS/Stockflow-API' },
+            { label: 'App mobile (Flutter)', url: null },
+            { label: 'Painel web (React)', url: null },
+        ],
+    },
+];
 
 /**
  * Infere o tipo do projeto a partir dos dados brutos da API do GitHub.
