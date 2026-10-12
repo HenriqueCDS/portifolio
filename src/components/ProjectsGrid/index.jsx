@@ -63,7 +63,7 @@ export default function GridProjects() {
                 {/* Header */}
                 <div className="projects-header">
                     <div>
-                        <span className="section-tag">// projetos</span>
+                        <span className="section-tag">{'// projetos'}</span>
                         <h2>Projetos Selecionados</h2>
                     </div>
                     <div className="header-right">
@@ -116,7 +116,10 @@ export default function GridProjects() {
                                 link_web={p.link_web}
                                 paste={p.paste}
                                 description={p.description}
+                                readme={p.readme}
                                 stack={p.stack}
+                                highlight={p.highlight}
+                                repos={p.repos}
                             />
                         ))}
                     </div>

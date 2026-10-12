@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Gargantua ASCII</title>
+<style>
+  :root {
+    --bg: #000;
+    --ink: #ffb27a;
+    --dim: rgba(255, 178, 122, .55);
+    --accent: #ff7a2e;
+    --line: rgba(255, 122, 46, .28);
+    --panel: rgba(12, 6, 3, .62);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; height: 100%; background: var(--bg); color: var(--ink);
+    font: 12px/1.45 "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+    overflow: hidden; -webkit-user-select: none; user-select: none;
+  }
+  canvas#gl {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    display: block; cursor: grab; touch-action: none;
+  }
+  canvas#gl.dragging { cursor: grabbing; }
+
+  .hud { position: fixed; pointer-events: none; transition: opacity .35s; }
+  body.ui-off .hud, body.ui-off .panel { opacity: 0; pointer-events: none; }
+
+  .title { top: 18px; left: 20px; }
+  .title h1 { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; }
+  .title p  { margin: 4px 0 0; color: var(--dim); font-size: 11px; }
+
+  .readout { top: 18px; right: 20px; text-align: right; color: var(--dim); font-size: 11px; white-space: pre; }
+  .readout b { color: var(--ink); font-weight: 600; }
+
+  .hint { bottom: 18px; right: 20px; text-align: right; color: var(--dim); font-size: 11px; max-width: 34ch; }
+  .hint kbd {
+    font: inherit; color: var(--ink); border: 1px solid var(--line);
+    border-radius: 4px; padding: 0 5px; margin: 0 1px;
+  }
+
+  .panel {
+    position: fixed; left: 20px; bottom: 18px; width: min(300px, calc(100vw - 40px));
+    padding: 14px 14px 12px; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    transition: opacity .35s;
+  }
+  .row { display: grid; grid-template-columns: 78px 1fr 34px; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .row label { color: var(--dim); }
+  .row output { text-align: right; color: var(--ink); }
+  input[type=range] { width: 100%; accent-color: var(--accent); margin: 0; }
+  .btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+  button {
+    font: inherit; color: var(--ink); background: rgba(255, 122, 46, .06);
+    border: 1px solid var(--line); border-radius: 7px; padding: 6px 4px; cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  button:hover { background: rgba(255, 122, 46, .16); border-color: var(--accent); }
+  button[aria-pressed="true"] { background: rgba(255, 122, 46, .22); border-color: var(--accent); color: #fff; }
+  button:focus-visible, input:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
+  #fatal {
+    position: fixed; inset: 0; display: none; place-items: center; text-align: center;
+    padding: 24px; color: var(--ink);
+  }
+
+  @media (max-width: 720px) {
+    .hint { display: none; }
+    .panel { left: 12px; bottom: 12px; width: calc(100vw - 24px); }
+    .title { left: 14px; top: 14px; } .readout { right: 14px; top: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="gl" aria-label="Buraco negro em ASCII. Arraste para orbitar, role para dar zoom, clique para emitir um pulso."></canvas>
+
+<div class="hud title">
+  <h1>Gargantua</h1>
+  <p>ray-marching relativístico &rarr; ASCII &middot; Three.js</p>
+</div>
+<div class="hud readout" id="readout"></div>
+<div class="hud hint">
+  <kbd>arrastar</kbd> orbita &middot; <kbd>scroll</kbd> zoom &middot; <kbd>clique</kbd> pulso<br>
+  <kbd>espaço</kbd> pausa &middot; <kbd>C</kbd> cor &middot; <kbd>S</kbd> estrelas &middot; <kbd>H</kbd> esconde UI
+</div>
+
+<div class="panel" id="panel">
+  <div class="row">
+    <label for="size">tamanho</label>
+    <input id="size" type="range" min="7" max="24" step="1" value="12">
+    <output id="sizeOut">12</output>
+  </div>
+  <div class="row">
+    <label for="speed">rotação</label>
+    <input id="speed" type="range" min="0" max="4" step="0.05" value="1">
+    <output id="speedOut">1.0</output>
+  </div>
+  <div class="btns">
+    <button id="bColor" type="button">cor: brasa</button>
+    <button id="bStars" type="button" aria-pressed="true">estrelas</button>
+    <button id="bAuto"  type="button" aria-pressed="true">auto-órbita</button>
+    <button id="bPause" type="button" aria-pressed="false">pausar</button>
+    <button id="bPulse" type="button">pulso</button>
+    <button id="bReset" type="button">reset</button>
+  </div>
+</div>
+
+<div id="fatal"><div>WebGL2 não está disponível neste navegador.<br>Tente Chrome, Edge ou Firefox atualizados.</div></div>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+/* ------------------------------------------------------------------ *
+ *  Configuração
+ * ------------------------------------------------------------------ */
+const RAMP = ' .:-=+*xX#%@';          // do vazio ao mais brilhante
+const CELL_ASPECT = 0.55;             // largura / altura de cada caractere
+const FONT = '"Cascadia Mono", Consolas, "SF Mono", Menlo, "Courier New", monospace';
+const MODES = ['brasa', 'matrix', 'gelo', 'mono'];
+
+const DEFAULTS = { az: 0, el: 0.06, dist: 19, cell: 12, speed: 1 };
+const state = {
+  ...DEFAULTS, distT: DEFAULTS.dist,
+  mode: 0, stars: true, auto: true, paused: false,
+};
+
+/* ------------------------------------------------------------------ *
+ *  Renderer
+ * ------------------------------------------------------------------ */
+const canvas = document.getElementById('gl');
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
+} catch (err) {
+  document.getElementById('fatal').style.display = 'grid';
+  throw err;
+}
+renderer.setPixelRatio(1);            // controlamos o DPR manualmente
+renderer.setClearColor(0x000000, 1);
+
+const quadGeo = new THREE.PlaneGeometry(2, 2);
+const quadCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+/* ------------------------------------------------------------------ *
+ *  Passo 1 — buraco negro (geodésicas de Schwarzschild, ray-marching)
+ *
+ *  Unidades: raio de Schwarzschild rs = 1.
+ *  Um fóton com momento angular h = p × v obedece a
+ *      a = -1.5 · h² · p / |p|⁵
+ *  o que reproduz exatamente a curvatura da luz de Schwarzschild.
+ *  A cada vez que o raio cruza o plano y = 0 dentro do disco, somamos
+ *  a emissão (temperatura, Doppler, redshift gravitacional). As imagens
+ *  secundárias (o arco de baixo e o anel de fótons) surgem sozinhas.
+ * ------------------------------------------------------------------ */
+const sceneVS = /* glsl */`
+  varying vec2 vUv;
+  void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }
+`;
+
+const sceneFS = /* glsl */`
+  precision highp float;
+  varying vec2 vUv;
+
+  uniform float uAspect, uTanHalf, uTime, uPulse, uStars;
+  uniform vec3  uCamPos, uCamRight, uCamUp, uCamFwd;
+
+  #define R_IN      2.7
+  #define R_OUT     12.0
+  #define MAX_STEPS 380
+
+  float hash13(vec3 p) {
+    p = fract(p * 0.1031);
+    p += dot(p, p.zyx + 31.32);
+    return fract((p.x + p.y) * p.z);
+  }
+
+  float vnoise(vec3 p) {
+    vec3 i = floor(p), f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    return mix(
+      mix(mix(hash13(i),                 hash13(i + vec3(1,0,0)), f.x),
+          mix(hash13(i + vec3(0,1,0)),   hash13(i + vec3(1,1,0)), f.x), f.y),
+      mix(mix(hash13(i + vec3(0,0,1)),   hash13(i + vec3(1,0,1)), f.x),
+          mix(hash13(i + vec3(0,1,1)),   hash13(i + vec3(1,1,1)), f.x), f.y),
+      f.z);
+  }
+
+  // temperatura normalizada (0..1+) -> cor de corpo negro estilizada
+  vec3 blackbody(float T) {
+    T = clamp(T, 0.0, 1.3);
+    float T2 = T * T;
+    return vec3(1.0, T2 * 1.05, T2 * T2 * 0.9);
+  }
+
+  vec3 starfield(vec3 d) {
+    vec3 q  = d * 34.0;
+    vec3 id = floor(q), f = fract(q);
+    float h = hash13(id);
+    if (h < 0.93) return vec3(0.0);
+    vec3 c = vec3(hash13(id + 1.7), hash13(id + 5.3), hash13(id + 9.1)) * 0.5 + 0.25;
+    float s = smoothstep(0.17, 0.0, length(f - c));
+    float mag = 0.4 + 0.6 * fract(h * 97.0);
+    return vec3(0.8, 0.88, 1.0) * s * s * mag * 2.6;
+  }
+
+  // emissão do disco de acreção no ponto ip, visto por um raio com direção rdir
+  vec4 diskSample(vec3 ip, vec3 rdir) {
+    float r   = length(ip.xz);
+    float ang = atan(ip.z, ip.x);
+
+    // rotação diferencial kepleriana: o miolo gira mais rápido
+    float a  = ang + 3.0 * pow(r, -1.5) * uTime;
+    vec2  cs = vec2(cos(a), sin(a));
+
+    // ruído esticado ao longo do ângulo => filamentos concêntricos
+    float n1 = vnoise(vec3(cs * 1.6, r * 3.0));
+    float n2 = vnoise(vec3(cs * 3.6, r * 11.0 + 7.0));
+    float n3 = vnoise(vec3(cs * 8.0, r * 30.0 + 13.0));
+    float d  = smoothstep(0.12, 0.85, 0.45 * n1 + 0.33 * n2 + 0.22 * n3);
+    float band = 0.70 + 0.30 * sin(r * 21.0 + n1 * 6.0);
+
+    float edge = smoothstep(R_IN, R_IN + 0.3, r) * (1.0 - smoothstep(R_OUT - 4.0, R_OUT, r));
+    float dens = (0.40 + 0.60 * d) * edge;                  // gás denso: quase opaco, com filamentos
+
+    // Doppler + redshift gravitacional
+    vec3  vdir = normalize(vec3(ip.z, 0.0, -ip.x));
+    float vm   = sqrt(0.5 / r);
+    float D    = sqrt(1.0 - vm * vm) / (1.0 - vm * dot(vdir, -rdir));
+    float g    = sqrt(max(1.0 - 1.0 / r, 0.02));
+    float shift = D * g;
+
+    float T = pow(R_IN / r, 0.75);
+    float I = 3.6 * pow(R_IN / r, 0.95) * band * (0.35 + 1.0 * d) * pow(shift, 2.0);
+
+    // pulso emitido por clique: onda de choque que corre pelo disco
+    if (uPulse < 4.0) {
+      float front = R_IN + uPulse * 5.0;
+      float w = (r - front) / 0.9;
+      float k = exp(-w * w) * (1.0 - uPulse / 4.0);
+      I *= 1.0 + 3.0 * k;
+      T += 0.25 * k;
+    }
+
+    return vec4(blackbody(T * shift) * I, dens);
+  }
+
+  void main() {
+    vec2 uv = vUv * 2.0 - 1.0;
+    uv.x *= uAspect;
+    vec3 rd = normalize(uCamFwd + (uCamRight * uv.x + uCamUp * uv.y) * uTanHalf);
+
+    vec3 p = uCamPos;
+    vec3 v = rd;
+    vec3 hv = cross(p, v);
+    float h2 = dot(hv, hv);
+
+    vec3  col = vec3(0.0);
+    float trans = 1.0;
+    bool  escaped = false;
+
+    for (int i = 0; i < MAX_STEPS; i++) {
+      float r2 = dot(p, p);
+      float r  = sqrt(r2);
+
+      if (r < 1.0) break;                                  // horizonte de eventos
+      if (r > 90.0 && dot(p, v) > 0.0) { escaped = true; break; }
+
+      float dt = 0.08 * clamp(r - 0.6, 0.3, 8.0);
+
+      if (r < 3.2) {                                       // anel de fótons
+        float w = (r - 1.5) / 0.25;
+        col += trans * dt * 0.16 * exp(-w * w) * vec3(1.0, 0.72, 0.42);
+      }
+
+      vec3 acc = -1.5 * h2 * p / (r2 * r2 * r);
+      v += acc * dt;
+      vec3 np = p + v * dt;
+
+      if (p.y * np.y < 0.0) {                              // cruzou o plano do disco
+        float t  = p.y / (p.y - np.y);
+        vec3  ip = mix(p, np, t);
+        float ir = length(ip.xz);
+        if (ir > R_IN && ir < R_OUT) {
+          vec4 s = diskSample(ip, normalize(v));
+          col   += trans * s.rgb * s.a;
+          trans *= 1.0 - s.a * 0.85;
+        }
+      }
+      p = np;
+    }
+
+    if (escaped) col += trans * starfield(normalize(v)) * uStars;
+
+    col = 1.0 - exp(-col * 1.25);                          // tone mapping
+    gl_FragColor = vec4(col, 1.0);
+  }
+`;
+
+/* ------------------------------------------------------------------ *
+ *  Passo 2 — conversão para ASCII (atlas de glifos amostrado na GPU)
+ * ------------------------------------------------------------------ */
+const asciiFS = /* glsl */`
+  precision highp float;
+  uniform sampler2D uScene, uAtlas;
+  uniform vec2  uCell, uGrid, uOrigin, uScreen;
+  uniform float uCount;
+  uniform int   uMode;
+
+  vec3 tint(float L, vec3 hue) {
+    if (uMode == 0) return hue;
+    if (uMode == 1) return mix(vec3(0.05, 0.45, 0.15), vec3(0.65, 1.00, 0.75), L);
+    if (uMode == 2) return mix(vec3(0.15, 0.35, 0.90), vec3(0.85, 0.95, 1.00), L);
+    return vec3(0.92);
+  }
+
+  void main() {
+    // coordenadas em px contando a partir do canto superior esquerdo da grade
+    vec2 px   = vec2(gl_FragCoord.x, uScreen.y - gl_FragCoord.y) - uOrigin;
+    vec2 cell = floor(px / uCell);
+    if (cell.x < 0.0 || cell.y < 0.0 || cell.x >= uGrid.x || cell.y >= uGrid.y) {
+      gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+      return;
+    }
+    vec2 f = fract(px / uCell);
+
+    // o alvo tem 2x2 amostras por célula: o filtro linear já faz a média
+    vec2 suv = vec2((cell.x + 0.5) / uGrid.x, 1.0 - (cell.y + 0.5) / uGrid.y);
+    vec3 scn = texture2D(uScene, suv).rgb;
+
+    float L   = clamp(dot(scn, vec3(0.55, 0.35, 0.10)) * 1.35, 0.0, 1.0);
+    L = clamp((L - 0.10) / 0.90, 0.0, 1.0);                 // limiar: mantém a sombra realmente preta
+    float idx = floor(clamp(pow(L, 0.85), 0.0, 0.999) * uCount);
+    float m   = texture2D(uAtlas, vec2((idx + clamp(f.x, 0.001, 0.999)) / uCount, 1.0 - f.y)).r;
+
+    vec3 hue = scn / max(max(scn.r, scn.g), max(scn.b, 0.001));
+    vec3 tn  = tint(L, hue);
+    vec3 col = tn * (0.42 + 0.58 * L) * m;
+    col += tn * L * 0.07;                                   // brilho difuso atrás dos glifos
+
+    gl_FragColor = vec4(col, 1.0);
+  }
+`;
+
+/* ------------------------------------------------------------------ *
+ *  Materiais / cenas
+ * ------------------------------------------------------------------ */
+const cam = { pos: new THREE.Vector3(), right: new THREE.Vector3(), up: new THREE.Vector3(), fwd: new THREE.Vector3() };
+
+const sceneMat = new THREE.ShaderMaterial({
+  vertexShader: sceneVS, fragmentShader: sceneFS, depthTest: false, depthWrite: false,
+  uniforms: {
+    uAspect: { value: 2 }, uTanHalf: { value: 0.364 }, uTime: { value: 0 },
+    uPulse: { value: 999 }, uStars: { value: 1 },
+    uCamPos: { value: cam.pos }, uCamRight: { value: cam.right },
+    uCamUp: { value: cam.up }, uCamFwd: { value: cam.fwd },
+  },
+});
+const asciiMat = new THREE.ShaderMaterial({
+  vertexShader: sceneVS, fragmentShader: asciiFS, depthTest: false, depthWrite: false,
+  uniforms: {
+    uScene: { value: null }, uAtlas: { value: null },
+    uCell: { value: new THREE.Vector2() }, uGrid: { value: new THREE.Vector2() },
+    uOrigin: { value: new THREE.Vector2() }, uScreen: { value: new THREE.Vector2() },
+    uCount: { value: RAMP.length }, uMode: { value: 0 },
+  },
+});
+
+const sceneA = new THREE.Scene(); sceneA.add(new THREE.Mesh(quadGeo, sceneMat));
+const sceneB = new THREE.Scene(); sceneB.add(new THREE.Mesh(quadGeo, asciiMat));
+
+let rt = null;
+let atlas = null;
+let supersample = 2;
+
+/* ------------------------------------------------------------------ *
+ *  Layout: grade de caracteres, atlas e alvo de renderização
+ * ------------------------------------------------------------------ */
+function buildAtlas(cw, ch) {
+  const c = document.createElement('canvas');
+  c.width = cw * RAMP.length; c.height = ch;
+  const g = c.getContext('2d');
+  g.fillStyle = '#000'; g.fillRect(0, 0, c.width, c.height);
+  g.fillStyle = '#fff';
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+
+  let fs = ch * 0.9;
+  g.font = `700 ${fs}px ${FONT}`;
+  fs *= (cw / g.measureText('M').width) * 0.98;          // encaixa o glifo na largura da célula
+  g.font = `700 ${fs}px ${FONT}`;
+
+  for (let i = 1; i < RAMP.length; i++) g.fillText(RAMP[i], i * cw + cw / 2, ch * 0.54);
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.minFilter = tex.magFilter = THREE.NearestFilter;
+  tex.generateMipmaps = false;
+  return tex;
+}
+
+function layout() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const W = Math.max(1, Math.floor(innerWidth * dpr));
+  const H = Math.max(1, Math.floor(innerHeight * dpr));
+  renderer.setSize(W, H, false);
+
+  const ch = Math.max(6, Math.round(state.cell * dpr));
+  const cw = Math.max(4, Math.round(ch * CELL_ASPECT));
+  const cols = Math.ceil(W / cw), rows = Math.ceil(H / ch);
+
+  if (rt) rt.dispose();
+  rt = new THREE.WebGLRenderTarget(cols * supersample, rows * supersample, {
+    minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter,
+    depthBuffer: false, stencilBuffer: false,
+  });
+
+  if (atlas) atlas.dispose();
+  atlas = buildAtlas(cw, ch);
+
+  const u = asciiMat.uniforms;
+  u.uScene.value = rt.texture;
+  u.uAtlas.value = atlas;
+  u.uCell.value.set(cw, ch);
+  u.uGrid.value.set(cols, rows);
+  u.uScreen.value.set(W, H);
+  u.uOrigin.value.set(Math.floor((W - cols * cw) / 2), Math.floor((H - rows * ch) / 2));
+
+  const aspect = (cols * cw) / (rows * ch);
+  sceneMat.uniforms.uAspect.value = aspect;
+  // em telas estreitas abre o FOV para o disco continuar cabendo
+  sceneMat.uniforms.uTanHalf.value = 0.364 * Math.max(1, 1.6 / aspect);
+}
+
+/* ------------------------------------------------------------------ *
+ *  Câmera orbital com inércia
+ * ------------------------------------------------------------------ */
+const orbit = { vAz: 0, vEl: 0, autoAmt: 1, lastTouch: -1e9 };
+const EL_MAX = 1.45, DIST_MIN = 6, DIST_MAX = 60;
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+
+function updateCamera(az, el, dist) {
+  cam.pos.set(dist * Math.cos(el) * Math.sin(az), dist * Math.sin(el), dist * Math.cos(el) * Math.cos(az));
+  cam.fwd.copy(cam.pos).negate().normalize();
+  cam.right.crossVectors(cam.fwd, new THREE.Vector3(0, 1, 0)).normalize();
+  cam.up.crossVectors(cam.right, cam.fwd).normalize();
+}
+
+/* ------------------------------------------------------------------ *
+ *  Interação: arrastar, pinça, scroll, clique (pulso), teclado
+ * ------------------------------------------------------------------ */
+const pointers = new Map();
+let pinchDist = 0, downAt = 0, moved = 0, simT = 0, pulseAt = -1e9, lastMoveT = 0;
+
+const touch = () => { orbit.lastTouch = performance.now(); };
+function pulse() { pulseAt = simT; }
+
+canvas.addEventListener('pointerdown', e => {
+  canvas.setPointerCapture(e.pointerId);
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  canvas.classList.add('dragging');
+  downAt = performance.now(); moved = 0; lastMoveT = downAt;
+  orbit.vAz = orbit.vEl = 0;
+  if (pointers.size === 2) pinchDist = pointerSpread();
+  touch();
+});
+
+canvas.addEventListener('pointermove', e => {
+  const p = pointers.get(e.pointerId);
+  if (!p) return;
+  const dx = e.clientX - p.x, dy = e.clientY - p.y;
+  p.x = e.clientX; p.y = e.clientY;
+  moved += Math.abs(dx) + Math.abs(dy);
+  touch();
+
+  if (pointers.size === 1) {
+    const now = performance.now(), dt = Math.max(0.004, (now - lastMoveT) / 1000); lastMoveT = now;
+    const dAz = -dx * 0.0055, dEl = dy * 0.0055;
+    state.az += dAz;
+    state.el = clamp(state.el + dEl, -EL_MAX, EL_MAX);
+    orbit.vAz += (dAz / dt - orbit.vAz) * 0.4;           // velocidade suavizada para a inércia
+    orbit.vEl += (dEl / dt - orbit.vEl) * 0.4;
+  } else if (pointers.size === 2) {
+    const s = pointerSpread();
+    if (pinchDist > 0) state.distT = clamp(state.distT * (pinchDist / s), DIST_MIN, DIST_MAX);
+    pinchDist = s;
+  }
+});
+
+function pointerSpread() {
+  const [a, b] = [...pointers.values()];
+  return Math.hypot(a.x - b.x, a.y - b.y) || 1;
+}
+
+function endPointer(e) {
+  if (!pointers.has(e.pointerId)) return;
+  pointers.delete(e.pointerId);
+  if (!pointers.size) canvas.classList.remove('dragging');
+  if (e.type === 'pointerup' && moved < 6 && performance.now() - downAt < 350) { pulse(); orbit.vAz = orbit.vEl = 0; }
+  if (performance.now() - lastMoveT > 90) orbit.vAz = orbit.vEl = 0;   // soltou parado: sem inércia
+  touch();
+}
+canvas.addEventListener('pointerup', endPointer);
+canvas.addEventListener('pointercancel', endPointer);
+
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  state.distT = clamp(state.distT * Math.exp(e.deltaY * 0.0011), DIST_MIN, DIST_MAX);
+  touch();
+}, { passive: false });
+
+/* ------------------------------------------------------------------ *
+ *  Painel
+ * ------------------------------------------------------------------ */
+const $ = id => document.getElementById(id);
+const el = { size: $('size'), sizeOut: $('sizeOut'), speed: $('speed'), speedOut: $('speedOut'),
+  bColor: $('bColor'), bStars: $('bStars'), bAuto: $('bAuto'), bPause: $('bPause'),
+  bPulse: $('bPulse'), bReset: $('bReset'), readout: $('readout') };
+
+function syncUI() {
+  el.size.value = state.cell;   el.sizeOut.textContent = state.cell;
+  el.speed.value = state.speed; el.speedOut.textContent = state.speed.toFixed(1);
+  el.bColor.textContent = 'cor: ' + MODES[state.mode];
+  el.bStars.setAttribute('aria-pressed', state.stars);
+  el.bAuto.setAttribute('aria-pressed', state.auto);
+  el.bPause.setAttribute('aria-pressed', state.paused);
+  el.bPause.textContent = state.paused ? 'continuar' : 'pausar';
+}
+
+const cycleColor = () => { state.mode = (state.mode + 1) % MODES.length; syncUI(); };
+const toggle = key => { state[key] = !state[key]; touch(); syncUI(); };
+function reset() {
+  Object.assign(state, { az: DEFAULTS.az, el: DEFAULTS.el, distT: DEFAULTS.dist, speed: DEFAULTS.speed });
+  orbit.vAz = orbit.vEl = 0;
+  const cellChanged = state.cell !== DEFAULTS.cell;
+  state.cell = DEFAULTS.cell;
+  syncUI(); touch();
+  if (cellChanged) layout();
+}
+
+el.size.addEventListener('input', () => { state.cell = +el.size.value; syncUI(); layout(); });
+el.speed.addEventListener('input', () => { state.speed = +el.speed.value; syncUI(); });
+el.bColor.addEventListener('click', cycleColor);
+el.bStars.addEventListener('click', () => toggle('stars'));
+el.bAuto.addEventListener('click', () => toggle('auto'));
+el.bPause.addEventListener('click', () => toggle('paused'));
+el.bPulse.addEventListener('click', pulse);
+el.bReset.addEventListener('click', reset);
+// solta o foco após clicar, para que atalhos (espaço, C, S…) continuem valendo
+document.querySelectorAll('button').forEach(b => b.addEventListener('click', () => b.blur()));
+
+addEventListener('keydown', e => {
+  if (e.target instanceof HTMLInputElement) return;
+  const k = e.key.toLowerCase();
+  if (k === ' ')  { e.preventDefault(); toggle('paused'); }
+  else if (k === 'c') cycleColor();
+  else if (k === 's') toggle('stars');
+  else if (k === 'a') toggle('auto');
+  else if (k === 'r') reset();
+  else if (k === 'p') pulse();
+  else if (k === 'h') document.body.classList.toggle('ui-off');
+  else if (k === '+' || k === '=') { state.cell = clamp(state.cell - 1, 7, 24); syncUI(); layout(); }
+  else if (k === '-' || k === '_') { state.cell = clamp(state.cell + 1, 7, 24); syncUI(); layout(); }
+  else if (k === 'arrowleft')  { orbit.vAz += 0.6; touch(); }
+  else if (k === 'arrowright') { orbit.vAz -= 0.6; touch(); }
+  else if (k === 'arrowup')    { orbit.vEl -= 0.6; touch(); }
+  else if (k === 'arrowdown')  { orbit.vEl += 0.6; touch(); }
+});
+
+let resizeTimer = 0;
+addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(layout, 60); });
+
+/* ------------------------------------------------------------------ *
+ *  Loop
+ * ------------------------------------------------------------------ */
+let last = performance.now(), clock = 0, fpsAcc = 0, fpsFrames = 0, fps = 60, lowFpsFor = 0, readoutT = 0;
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  const dt = Math.min(0.05, (now - last) / 1000);
+  last = now; clock += dt;
+  if (!state.paused) simT += dt * state.speed;
+
+  // inércia (só quando ninguém está arrastando)
+  if (!pointers.size) {
+    state.az += orbit.vAz * dt;
+    state.el = clamp(state.el + orbit.vEl * dt, -EL_MAX, EL_MAX);
+    const damp = Math.exp(-dt * 3.5);
+    orbit.vAz *= damp; orbit.vEl *= damp;
+  }
+  state.dist += (state.distT - state.dist) * (1 - Math.exp(-dt * 8));
+
+  // auto-órbita: após 2,5 s parado, a câmera balança suavemente em torno da pose escolhida
+  const idle = (now - orbit.lastTouch) > 2500 && !pointers.size;
+  orbit.autoAmt += ((state.auto && idle ? 1 : 0) - orbit.autoAmt) * (1 - Math.exp(-dt * 1.2));
+  const azOff = 0.42 * Math.sin(clock * 0.13) * orbit.autoAmt;
+  const elOff = 0.035 * Math.sin(clock * 0.21 + 1.0) * orbit.autoAmt;
+
+  updateCamera(state.az + azOff, clamp(state.el + elOff, -EL_MAX, EL_MAX), state.dist);
+
+  const su = sceneMat.uniforms;
+  su.uTime.value = simT;
+  su.uPulse.value = simT - pulseAt;
+  su.uStars.value = state.stars ? 1 : 0;
+  asciiMat.uniforms.uMode.value = state.mode;
+
+  renderer.setRenderTarget(rt);
+  renderer.render(sceneA, quadCam);
+  renderer.setRenderTarget(null);
+  renderer.render(sceneB, quadCam);
+
+  // FPS + degradação automática da qualidade em GPUs fracas
+  fpsAcc += dt; fpsFrames++;
+  if (fpsAcc >= 0.5) {
+    fps = fpsFrames / fpsAcc; fpsAcc = 0; fpsFrames = 0;
+    lowFpsFor = fps < 28 ? lowFpsFor + 0.5 : 0;
+    if (lowFpsFor >= 3 && supersample > 1) { supersample = 1; lowFpsFor = 0; layout(); }
+  }
+  if (now - readoutT > 250) {
+    readoutT = now;
+    const incl = Math.round(90 - THREE.MathUtils.radToDeg(Math.asin(cam.pos.y / state.dist)));
+    el.readout.innerHTML =
+      `dist <b>${state.dist.toFixed(1)}</b> rs\nincl <b>${incl}°</b>\n<b>${Math.round(fps)}</b> fps · ${supersample}x`;
+  }
+}
+
+syncUI();
+layout();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

@@ -52,7 +52,8 @@
 /* ——— Text ——— */
 .gl-name {
   font-family: 'Satoshi', sans-serif;
-  font-size: clamp(3rem, 9vw, 8.5rem);
+  font-size: clamp(4.5rem, 13.5vw, 12.75rem);
+  white-space: nowrap; /* com a fonte ainda em fallback (mais larga) o nome não pode quebrar em 2 linhas */
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -77,8 +78,9 @@
 
 /* ——— Mobile ——— */
 @media (max-width: 480px) {
+  /* "CORDEIROツ" ocupa ~5,9em: 14vw mantém o nome numa linha só em qualquer largura ≤ 480px */
   .gl-name {
-    font-size: clamp(2.2rem, 11vw, 4rem);
+    font-size: clamp(2.6rem, 14vw, 5rem);
   }
 
   .gl-content {

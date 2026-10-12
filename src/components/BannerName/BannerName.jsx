@@ -1,20 +1,28 @@
 
 import './BannerName.css'
 import { GithubLogo, LinkedinLogo, ArrowDown } from 'phosphor-react';
+import { useRef } from 'react';
+import { useBlackHoleScene } from '../../hooks/useBlackHoleScene';
 
 export default function BannerName() {
+    const scope = useRef(null);
+    const canvasRef = useRef(null);
+
+    useBlackHoleScene(canvasRef, scope);
+
     return (
-        <section id="banner" className="banner">
+        <section id="banner" className="banner" ref={scope}>
+            <canvas className="banner-canvas" ref={canvasRef} aria-hidden="true" />
             <div className="banner-grid">
                 <div className="banner-content">
-                    <span className="banner-tag">// desenvolvedor backend &amp; dados</span>
+                    <span className="banner-tag">{'// desenvolvedor backend & dados'}</span>
                     <h1 className="banner-name">Henrique<br />Cordeiro</h1>
                     <p className="banner-pitch">
                         Desenvolvedor de software focado em APIs, integração de sistemas e pipelines de dados, criando soluções escaláveis para ambientes educacionais..
                     </p>
                     <div className="banner-actions">
                         <a
-                            href="https://www.linkedin.com/in/henrique-cordeiro-940709201/"
+                            href="https://www.linkedin.com/in/henriqucordeiro/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn-primary"
@@ -48,13 +56,13 @@ export default function BannerName() {
                             <span></span><span></span><span></span>
                         </div>
                         <pre className="terminal-code">
-                            <span className="t-comment">// stack principal ツ</span>{'\n'}
+                            <span className="t-comment">{'// stack principal ツ'}</span>{'\n'}
                             <span className="t-key">const</span> <span className="t-var">dev</span> = {'{'}{'\n'}
-                            {'  '}<span className="t-prop">languages</span>: [<span className="t-str">"Python"</span>, <span className="t-str">"Java"</span>],{'\n'}
-                            {'  '}<span className="t-prop">focus</span>: [<span className="t-str">"API REST"</span>, <span className="t-str">"ETL"</span>],{'\n'}
-                            {'  '}<span className="t-prop">integrations</span>: [<span className="t-str">"Canvas LMS"</span>,{'\n'}
-                            {'               '}<span className="t-str">"Lyceum"</span>],{'\n'}
-                            {'  '}<span className="t-prop">db</span>: [<span className="t-str">"MySQL"</span>, <span className="t-str">"SQL Server"</span>],{'\n'}
+                            {'  '}<span className="t-prop">languages</span>: [<span className="t-str">{'"Python"'}</span>, <span className="t-str">{'"Java"'}</span>],{'\n'}
+                            {'  '}<span className="t-prop">focus</span>: [<span className="t-str">{'"API REST"'}</span>, <span className="t-str">{'"ETL"'}</span>],{'\n'}
+                            {'  '}<span className="t-prop">integrations</span>: [<span className="t-str">{'"Canvas LMS"'}</span>,{'\n'}
+                            {'               '}<span className="t-str">{'"Lyceum"'}</span>],{'\n'}
+                            {'  '}<span className="t-prop">db</span>: [<span className="t-str">{'"MySQL"'}</span>, <span className="t-str">{'"SQL Server"'}</span>],{'\n'}
                             {'}'}<span className="t-cursor">|</span>
                         </pre>
                     </div>

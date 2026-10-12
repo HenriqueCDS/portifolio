@@ -28,8 +28,7 @@
 
 .projects-header h2,
 .about-header h2,
-.experience-header h2,
-.skills-header h2 {
+.experience-header h2 {
     font-size: clamp(1.75rem, 3vw, 2.5rem);
     font-weight: 700;
     color: var(--color-accent);

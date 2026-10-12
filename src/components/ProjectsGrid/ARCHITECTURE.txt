@@ -123,12 +123,23 @@ COMO ADICIONAR UM NOVO REPOSITÓRIO
 
 COMO ADICIONAR SCREENSHOTS LOCAIS
 ------------------------------------
-1. Crie pasta em src/assets/img/<nome_da_pasta>/
+1. Crie pasta em src/assets/img/<nome_da_pasta>/ (snake_case)
 2. Coloque as imagens (.png ou .jpeg)
 3. Adicione o campo paste na entry do projectsMeta.js:
    paste: 'nome_da_pasta'
-4. Atualize o mapa IMAGE_GLOBS em:
+4. Atualize o mapa IMAGES em:
    src/components/ProjectsGrid/Project/index.jsx
+
+
+BOTÃO "LEIA MAIS" (popup com imagens + texto longo)
+------------------------------------
+Cada card tem um botão "Leia mais" que abre um popup com a galeria de
+imagens de `paste` (se houver) e um texto mais longo sobre o projeto.
+- Componente: src/components/ProjectsGrid/Project/ReadmeModal/index.jsx
+- Texto: vem do campo `readme` em projectsMeta.js (parágrafos separados por
+  linha em branco). Se `readme` não for definido, usa a `description` curta.
+- Não busca nada da API do GitHub — é 100% baseado nos dados locais, então
+  não sofre com rate limit.
 
 
 RATE LIMITING DA API DO GITHUB
