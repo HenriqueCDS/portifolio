@@ -112,6 +112,7 @@
 
 .nav-item a {
     position: relative;
+    display: inline-block;
     font-size: 0.95rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -124,17 +125,14 @@
     color: var(--color-accent);
 }
 
-.nav-item a:before {
-    content: "";
-    position: absolute;
-    inset: calc(100% - .0625rem) 0 0 0;
-    background: var(--color-accent);
-    scale: 0 1;
-    transition: .3s, translate 0s .3s;
+/* ── Efeito scramble no hover (igual ao loader) ── */
+.nav-item a:hover,
+.nav-item a:focus-visible {
+    color: var(--color-accent);
 }
 
-.nav-item:hover a:before {
-    scale: 2;
+.nav-item a .gl-scramble {
+    color: #3b82f6;
 }
 
 /* ── Responsividade ── */
